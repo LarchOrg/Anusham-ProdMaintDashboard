@@ -19,26 +19,9 @@ export const fetchProductionKPIs = () => {
   };
 };
 
-export const fetchMachineStatus = () => {
-  const machines = [];
-  for (let i = 1; i <= 10; i++) {
-    const statusRand = Math.random();
-    let status = 'Running';
-    if (statusRand > 0.9) status = 'Breakdown';
-    else if (statusRand > 0.8) status = 'Stop';
-
-    machines.push({
-      id: `MC-${i.toString().padStart(2, '0')}`,
-      name: `ASSY-${i.toString().padStart(2, '0')}`,
-      status: status,
-      currentOrder: `WO-2025-${1000 + i}`,
-      operator: `OP-${getRandomInt(100, 199)}`,
-      produced: getRandomInt(100, 500),
-      target: 550,
-      rejects: getRandomInt(0, 5),
-    });
-  }
-  return machines;
+export const fetchMachineStatus = async () => {
+  const res = await axios.get("/api/dashboard/production");
+  return res.data;
 };
 
 export const fetchHourlyProduction = () => {

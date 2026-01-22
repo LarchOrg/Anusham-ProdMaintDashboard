@@ -9,6 +9,9 @@ import { format } from 'date-fns';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSettings } from '../context/SettingsContext';
+import logo from "../assets/Larch_logo.jpeg";
+
+
 
 // Mock Notifications
 const MOCK_NOTIFICATIONS = [
@@ -138,23 +141,30 @@ export default function Layout({ children }) {
           "fixed inset-y-0 left-0 z-50 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 shadow-2xl lg:shadow-none transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] flex flex-col",
           isMobileOpen ? "translate-x-0" : "-translate-x-full",
           "lg:translate-x-0 lg:relative",
-          isCollapsed ? "w-20" : "w-64"
+          isCollapsed ? "w-20" : "w-67"
         )}
       >
         {/* Sidebar Header */}
         <div className={clsx("h-16 flex items-center border-b border-gray-100 dark:border-gray-800 transition-all", isCollapsed ? "justify-center px-0" : "px-6")}>
-          <div className="w-9 h-9 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center shrink-0 shadow-lg shadow-primary-500/20 text-white">
-            <span className="font-bold text-lg">F</span>
+         <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+
+           <img
+  src={logo}
+  alt="FactoryOps Logo"
+  className="w-6 h-6 object-contain"
+/>
+
           </div>
           
           <AnimatePresence>
             {!isCollapsed && (
               <motion.div 
                 initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
-                className="ml-3 overflow-hidden"
+                className="ml-3 whitespace-nowrap"
+
               >
                 <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-                  Factory<span className="text-primary-600">Ops</span>
+                  LARCH{" "}<span className="text-primary-600">OPS</span>
                 </span>
               </motion.div>
             )}
