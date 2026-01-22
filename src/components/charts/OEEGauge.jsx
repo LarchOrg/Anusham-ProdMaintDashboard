@@ -59,7 +59,7 @@ export default function OEEGauge({ value, title, color = '#3b82f6', isDark }) {
         
         {/* Absolute Centered Percentage */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className={clsx("text-xl font-black leading-none flex items-baseline", isDark ? "text-white" : "text-gray-800")}>
+          <div className={clsx("text-xs font-black leading-none flex items-baseline", isDark ? "text-white" : "text-gray-800")}>
             {value}
             <span className="text-xs font-medium text-gray-400 ml-0.5">%</span>
           </div>

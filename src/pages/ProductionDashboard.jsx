@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { AlertTriangle, CheckCircle, XCircle, Activity, Sparkles, TrendingUp } from 'lucide-react';
 import OEEGauge from '../components/charts/OEEGauge';
 import HourlyProductionChart from '../components/charts/HourlyProductionChart';
-import * as mockAPI from '../services/mockData';
+// import * as mockAPI from '../services/mockData';
+// import * as mockAPI from '../services/mockData';
+import * as dashboardAPI from '../services/dashboardApi';
+
 import { useSettings } from '../context/SettingsContext';
 import { Card, CardHeader } from '../components/ui/Card';
 import { StatCard } from '../components/dashboard/StatCard';
@@ -26,17 +29,30 @@ export default function ProductionDashboard() {
     return () => observer.disconnect();
   }, []);
 
-  const fetchData = () => {
-    // Simulate network delay only on first load
-    const delay = loading ? 800 : 0;
-    setTimeout(() => {
-      setKpiData(mockAPI.fetchProductionKPIs());
-      setMachineData(mockAPI.fetchMachineStatus());
-      setHourlyData(mockAPI.fetchHourlyProduction());
-      setBottlenecks(mockAPI.fetchBottlenecks());
-      setLoading(false);
-    }, delay);
-  };
+const fetchData = async () => {
+  try {
+    setLoading(true);
+
+    // Fetch both machines and KPI from the API
+  const [{ machines, kpi }, bottlenecksData] = await Promise.all([
+      dashboardAPI.fetchMachineStatus(),
+      dashboardAPI.fetchBottlenecks()
+    ]);
+
+    // Update state
+    setMachineData(machines);
+    setKpiData(kpi);
+    setBottlenecks(bottlenecksData);
+
+  } catch (err) {
+    console.error("Error fetching machine status:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
 
   useEffect(() => {
     fetchData();
@@ -45,8 +61,9 @@ export default function ProductionDashboard() {
   }, [settings.refreshRate]);
 
   const exportToCSV = () => {
-    const headers = ["Machine", "Status", "Order", "Produced", "Target", "Rejects"];
-    const rows = machineData.map(m => [m.name, m.status, m.currentOrder, m.produced, m.target, m.rejects]);
+    const headers = ["Machine", "Status", "Order", "Produced", "Targets", "Rejects"];
+    const rows = machineData.map(m => [m.name, m.status, m.currentOrder, m.produced, m.targets, m.rejects]);
+
     const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -84,7 +101,7 @@ export default function ProductionDashboard() {
         />
         <StatCard 
           title="Active Machines" 
-          value={machineData.filter(m => m.status === 'Running').length} 
+          value={machineData.filter(m => m.status === 'A').length} 
           subtext={`Total: ${machineData.length}`} 
           icon={Activity} 
           colorClass={{ text: "text-gray-800 dark:text-white", bg: "bg-green-50 dark:bg-green-900/30", icon: "text-green-600 dark:text-green-400" }}
@@ -105,12 +122,13 @@ export default function ProductionDashboard() {
         
         {/* Left Column: Machine Status (Expanded) */}
         <Card className="lg:col-span-2 flex flex-col min-h-0 p-0 shadow-lg border-0" noPadding>
-          <MachineTable 
-            data={machineData} 
-            loading={loading} 
-            onExport={exportToCSV} 
-            refreshRate={settings.refreshRate} 
-          />
+     <MachineTable 
+data={machineData}
+  loading={loading} 
+  onExport={exportToCSV} 
+  refreshRate={settings.refreshRate} 
+/>
+
         </Card>
 
         {/* Right Column: OEE & Charts */}
@@ -133,15 +151,16 @@ export default function ProductionDashboard() {
           </Card>
 
           {/* Hourly Chart */}
-          <Card className="flex-1 min-h-0 flex flex-col shadow-md">
+          {/* <Card className="flex-1 min-h-0 flex flex-col shadow-md">
             <CardHeader title="Hourly Production" className="px-4 pt-3" />
             <div className="flex-1 min-h-0 w-full px-2 pb-2">
               {loading ? <Skeleton className="w-full h-full" /> : <HourlyProductionChart data={hourlyData} isDark={isDark} />}
             </div>
-          </Card>
+          </Card> */}
 
           {/* Bottlenecks & AI Insights */}
-          <Card className="h-1/3 shrink-0 flex flex-col shadow-md" noPadding>
+          <Card className="flex-1 shrink-0 flex flex-col shadow-md" noPadding>
+
              <div className="p-3 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center shrink-0 bg-gray-50/50 dark:bg-gray-800/50">
                <h2 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1.5">
                 <AlertTriangle size={14} /> Bottlenecks
@@ -166,7 +185,7 @@ export default function ProductionDashboard() {
                     <p className="text-[10px] text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">High vibration pattern detected on ASSY-04 motor. Recommended inspection within 4 hours.</p>
                   </div>
 
-                  {bottlenecks.map((item, idx) => (
+                 {bottlenecks.slice(0, 10).map((item, idx) => (
                     <div key={idx} className="flex items-center justify-between p-2.5 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
                       <div className="min-w-0">
                         <p className="font-bold text-gray-800 dark:text-gray-200 text-xs truncate">{item.machine}</p>

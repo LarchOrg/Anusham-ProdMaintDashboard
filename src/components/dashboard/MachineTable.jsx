@@ -95,7 +95,9 @@ export function MachineTable({ data, loading, onExport, refreshRate }) {
             ) : (
               data.map((machine) => (
                 <tr 
-                  key={machine.id} 
+                  
+                  key={`${machine.id}-${machine.currentOrder}`}
+
                   className="bg-gray-50/50 dark:bg-gray-800/40 hover:bg-white dark:hover:bg-gray-700 hover:shadow-md hover:scale-[1.005] transition-all duration-200 group rounded-lg"
                 >
                   <td className="px-4 py-3 rounded-l-lg border-l-4 border-transparent hover:border-primary-500">
