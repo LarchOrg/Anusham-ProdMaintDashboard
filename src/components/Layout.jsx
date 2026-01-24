@@ -3,13 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, Wrench, Menu, X, Bell, User, Clock, 
   ChevronLeft, ChevronRight, Settings as SettingsIcon, LogOut, 
-  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor
+  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory
 } from 'lucide-react';
 import { format } from 'date-fns';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSettings } from '../context/SettingsContext';
-import logo from "../assets/Larch_logo.jpeg";
+import logo from "../assets/favicon.ico";
+
 
 
 
@@ -145,13 +146,14 @@ export default function Layout({ children }) {
         )}
       >
         {/* Sidebar Header */}
-        <div className={clsx("h-16 flex items-center border-b border-gray-100 dark:border-gray-800 transition-all", isCollapsed ? "justify-center px-0" : "px-6")}>
-         <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+        <div className={clsx("h-20 flex items-center border-b border-gray-100 dark:border-gray-800 transition-all", isCollapsed ? "justify-center px-0" : "px-6")}>
+         
+         <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0">
 
            <img
   src={logo}
   alt="FactoryOps Logo"
-  className="w-6 h-6 object-contain"
+  className="w-10 h-20 object-contain"
 />
 
           </div>
@@ -163,9 +165,15 @@ export default function Layout({ children }) {
                 className="ml-3 whitespace-nowrap"
 
               >
+                  <div className="flex flex-col leading-tight">
                 <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-                  LARCH{" "}<span className="text-primary-600">OPS</span>
+                  LARCH{" "}<span className="text-primary-600">Analytics</span>
                 </span>
+                {/* Description */}
+          <span className="text-xs text-gray-500 dark:text-gray-400">
+            Data Scienece AI Tools
+          </span>
+          </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -182,12 +190,14 @@ export default function Layout({ children }) {
         <nav className="flex-1 p-3 mt-2 overflow-y-auto custom-scrollbar">
           {!isCollapsed && (
             <div className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-3">
-              Modules
+              {/* Modules */}
             </div>
           )}
           
-          <SidebarItem to="/" icon={LayoutDashboard} label="Production" active={location.pathname === '/'} collapsed={isCollapsed} />
+          <SidebarItem to="/" icon={LayoutDashboard} label="Real Time Monitoring" active={location.pathname === '/'} collapsed={isCollapsed} />
+          <SidebarItem to="/analytics" icon={Factory} label="Production Analytics" active={location.pathname === '/analytics'} collapsed={isCollapsed} />
           <SidebarItem to="/maintenance" icon={Wrench} label="Maintenance" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
+          
           <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
         </nav>
 
@@ -230,8 +240,10 @@ export default function Layout({ children }) {
               <Menu size={24} />
             </button>
             <h1 className="text-lg font-bold text-gray-800 dark:text-white hidden sm:block">
-              {location.pathname === '/' ? 'Production Overview' : 
-               location.pathname === '/maintenance' ? 'Maintenance Control' : 'System Settings'}
+              {location.pathname === '/' ? 'Real Time Monitoring' : 
+               location.pathname === '/maintenance' ? 'Maintenance Control' 
+               : location.pathname === '/analytics' ? 'Production Analytics'
+               : 'System Settings'}
             </h1>
             <span className="lg:hidden font-bold text-gray-800 dark:text-white">FactoryOps</span>
           </div>
