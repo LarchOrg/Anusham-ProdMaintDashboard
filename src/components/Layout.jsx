@@ -167,7 +167,7 @@ export default function Layout({ children }) {
               >
                   <div className="flex flex-col leading-tight">
                 <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-                  LARCH{" "}<span className="text-primary-600">Analytics</span>
+                  Larch{""}<span className="text-primary-600">Analytics</span>
                 </span>
                 {/* Description */}
           <span className="text-xs text-gray-500 dark:text-gray-400">
