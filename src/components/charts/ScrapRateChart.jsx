@@ -9,7 +9,7 @@ import {
   CartesianGrid
 } from "recharts";
 
-/* ✅ Month + Year tick */
+/* ✅ Month + Year tick (theme-aware) */
 const MonthYearTick = ({ x, y, payload }) => {
   const [month, year] = payload.value.split("-"); // "Feb-25"
 
@@ -21,7 +21,7 @@ const MonthYearTick = ({ x, y, payload }) => {
         dy={10}
         textAnchor="middle"
         fontSize={12}
-        fill="#374151"
+        className="fill-gray-700 dark:fill-gray-300"
       >
         {month}
       </text>
@@ -31,7 +31,7 @@ const MonthYearTick = ({ x, y, payload }) => {
         dy={26}
         textAnchor="middle"
         fontSize={10}
-        fill="#9ca3af"
+        className="fill-gray-600 dark:fill-gray-400"
       >
         {year}
       </text>
@@ -40,6 +40,8 @@ const MonthYearTick = ({ x, y, payload }) => {
 };
 
 export default function ScrapRateChart({ data = [] }) {
+  const axisTickColor = "currentColor"; // light/dark via parent
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
@@ -59,10 +61,11 @@ export default function ScrapRateChart({ data = [] }) {
         />
 
         <YAxis
-          tick={{ fontSize: 12 }}
+          tick={{ fontSize: 12, fill: axisTickColor }}
           width={30}
           axisLine={false}
           tickLine={false}
+          className="text-gray-700 dark:text-gray-300"
         />
 
         <Tooltip
@@ -70,7 +73,7 @@ export default function ScrapRateChart({ data = [] }) {
           labelStyle={{ fontWeight: 600 }}
         />
 
-        {/* 🔵 Changed color (blue-teal, not red/orange) */}
+        {/* 🔵 Line unchanged */}
         <Line
           type="monotone"
           dataKey="value"

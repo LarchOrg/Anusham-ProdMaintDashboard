@@ -151,3 +151,142 @@ export const fetchCustomerComplaintsChart = async () => {
     return [];
   }
 };
+
+// Completed vs Scheduled Maintenance
+export const fetchCompletedVsScheduled = async () => {
+  try {
+    const res = await api.get("/Breakdown/CompletedvsScheduled");
+
+    const item = res.data?.[0];
+    if (!item) return null;
+
+    return {
+      totalPlans: Number(item.totalPMPlans),
+      chartData: [
+        { name: "Completed", value: Number(item.completed) },
+        { name: "Pending", value: Number(item.pending) },
+        { name: "Initiated", value: Number(item.initiated) }
+      ]
+    };
+  } catch (err) {
+    console.error("❌ fetchCompletedVsScheduled failed:", err);
+    return null;
+  }
+};
+
+// 🔷 Maintenance Cost
+export const fetchMaintenanceCost = async () => {
+  try {
+    const res = await api.get("/Breakdown/MaintenanceCost");
+
+    return res.data.map((item) => {
+      const [month, year] = item.monthYear.split("-");
+
+      return {
+        month,                 // Feb
+        year,                  // 25 / 26
+        maintenanceCost: Number(item.percentage),
+        budgetCost: 250000,
+      };
+    });
+  } catch (err) {
+    console.error("❌ Maintenance cost API failed:", err);
+    return [];
+  }
+};
+
+// Fetch PM vs BM Manhour Chart
+export const fetchPMBMChart = async () => {
+  try {
+    const res = await api.get("/Breakdown/PMandBMChart");
+
+    // Map API response to chart-friendly format
+    return (res.data || []).map((item) => {
+      const [month, year] = item.monthYear.split("-");
+      return {
+        month,           // "Feb"
+        year,            // "25"
+        pmHours: Number(item.pmValue),
+        bmHours: Number(item.bmValue),
+      };
+    });
+  } catch (err) {
+    console.error("❌ fetchPMBMChart failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Power Cost Chart
+export const fetchPowerCostChart = async () => {
+  try {
+    const res = await api.get("/Breakdown/PowerCost");
+
+    return (res.data || []).map((item) => {
+      const [month, year] = item.monthYear.split("-");
+
+      return {
+        month,                 // Feb
+        year,                  // 25
+        powerCost: Number(item.percentage) // 245000
+      };
+    });
+  } catch (err) {
+    console.error("❌ fetchPowerCostChart failed:", err);
+    return [];
+  }
+};
+// 🔵 Downtime Contribution (Pie Chart)
+export const fetchDowntimeContribution = async () => {
+  try {
+    const res = await api.get("/Breakdown/DowntimeContribution");
+
+    return (res.data || []).map(item => ({
+      name: item.breakdownType,
+      value: Number(item.contributionPercent.replace("%", "")),
+    }));
+  } catch (err) {
+    console.error("❌ fetchDowntimeContribution failed:", err);
+    return [];
+  }
+};
+
+// 🔴 Failure Status (Bar Chart)
+export const fetchFailureStatus = async () => {
+  try {
+    const res = await api.get("/Breakdown/FailureStatus");
+
+    return (res.data || []).map(item => {
+      const [month, year] = item.monthYear.split("-");
+
+      return {
+        month,                 // "Feb"
+        // year: `20${year}`,     // "2025"
+        year,
+        count: Number(item.percentage),
+      };
+    });
+  } catch (err) {
+    console.error("❌ fetchFailureStatus failed:", err);
+    return [];
+  }
+};
+
+// Completed vs Scheduled Maintenance Chart
+export const fetchCompletedVsScheduledBar = async () => {
+  try {
+    const res = await api.get("/Breakdown/CompletedStatus"); // your endpoint
+
+    // API returns an array of { pmFreq, scheduled, completed }
+    if (!Array.isArray(res.data)) return [];
+
+    return res.data.map(item => ({
+      pmFreq: item.pmFreq,
+      scheduled: Number(item.scheduled),
+      completed: Number(item.completed),
+    }));
+  } catch (err) {
+    console.error("❌ fetchCompletedVsScheduledBar failed:", err);
+    return [];
+  }
+};
+
