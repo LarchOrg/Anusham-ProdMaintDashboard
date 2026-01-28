@@ -85,20 +85,30 @@ const fetchData = async () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
         <StatCard 
           title="Total Output" 
-          value={kpiData?.totalProduced} 
-          subtext={`Target: ${kpiData?.target}`} 
+          value={Number(kpiData?.totalProduced) || 0}
+  subtext={`Target: ${Number(kpiData?.target) || 0}`}
+
           icon={CheckCircle} 
           colorClass={{ text: "text-gray-800 dark:text-white", bg: "bg-primary-50 dark:bg-primary-900/30", icon: "text-primary-600 dark:text-primary-400" }}
           loading={loading}
         />
-        <StatCard 
-          title="Rejects (NG)" 
-          value={kpiData?.totalRejects} 
-          subtext={`Rate: ${kpiData ? ((kpiData.totalRejects / kpiData.totalProduced) * 100).toFixed(2) : 0}%`} 
-          icon={XCircle} 
-          colorClass={{ text: "text-red-600 dark:text-red-400", bg: "bg-red-50 dark:bg-red-900/30", icon: "text-red-600 dark:text-red-400" }}
-          loading={loading}
-        />
+<StatCard 
+  title="Rejects (NG)" 
+  value={Number(kpiData?.totalRejects) || 0}
+  subtext={`Rate: ${
+    kpiData?.totalProduced > 0
+      ? ((Number(kpiData.totalRejects) || 0) / Number(kpiData.totalProduced) * 100).toFixed(2)
+      : 0
+  }%`}
+  icon={XCircle} 
+  colorClass={{
+    text: "text-red-600 dark:text-red-400",
+    bg: "bg-red-50 dark:bg-red-900/30",
+    icon: "text-red-600 dark:text-red-400"
+  }}
+  loading={loading}
+/>
+
         <StatCard 
           title="Active Machines" 
           value={machineData.filter(m => m.status === 'A').length} 

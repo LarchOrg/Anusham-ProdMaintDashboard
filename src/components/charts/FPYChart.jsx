@@ -9,9 +9,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-/* ✅ Month + Year tick (same as OEE & Production) */
+/* Month + Year tick — matches Customer Complaints style */
 const MonthYearTick = ({ x, y, payload }) => {
-  const [month, year] = payload.value.split("-"); // "Feb-25"
+  const [month, year] = payload.value.split("-"); // e.g., "Feb-25"
 
   return (
     <g transform={`translate(${x},${y})`}>
@@ -20,18 +20,19 @@ const MonthYearTick = ({ x, y, payload }) => {
         y={0}
         dy={10}
         textAnchor="middle"
-        fontSize={12}
-        fill="#374151"
+        fontSize={11} // match Customer Complaints
+        fill="currentColor"
       >
         {month}
       </text>
       <text
         x={0}
         y={0}
-        dy={26}
+        dy={24} // match Customer Complaints
         textAnchor="middle"
-        fontSize={10}
-        fill="#9ca3af"
+        fontSize={10} // match Customer Complaints
+        fill="currentColor"
+        opacity={0.7}
       >
         {year}
       </text>
@@ -41,44 +42,47 @@ const MonthYearTick = ({ x, y, payload }) => {
 
 export default function FPYChart({ data = [] }) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        data={data}
-        margin={{ top: 20, right: 20, left: 0, bottom: 10 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
+    <div style={{ width: "100%", height: "100%" }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          data={data}
+          margin={{ top: 8, right: 8, left: 0, bottom: 12 }} // same as Customer Complaints
+        >
+          <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
 
-        {/* ✅ Month + Year X-axis */}
-        <XAxis
-          dataKey="month"
-          axisLine={false}
-          tickLine={false}
-          interval={0}
-          height={40}
-          tick={<MonthYearTick />}
-        />
+          <XAxis
+            dataKey="month"
+            axisLine={false}
+            tickLine={false}
+            interval={0}
+            height={40} // same as Customer Complaints
+            tick={<MonthYearTick />}
+          />
 
-        <YAxis
-          domain={[0, 100]}
-          tick={{ fontSize: 12 }}
-          axisLine={false}
-          tickLine={false}
-        />
+          <YAxis
+            domain={[0, 100]}
+            tick={{ fontSize: 10, fill: "currentColor" }} // match Customer Complaints
+            width={30}
+            axisLine={false}
+            tickLine={false}
+          />
 
-        <Tooltip
-          formatter={(value) => [`${value}%`, "FPY"]}
-          labelStyle={{ fontWeight: 600 }}
-        />
+          <Tooltip
+            formatter={(value) => [`${value}%`, "FPY"]}
+            labelStyle={{ fontWeight: 600 }}
+          />
 
-        <Line
-          type="monotone"
-          dataKey="value"
-          stroke="#f97316"
-          strokeWidth={3}
-          dot={{ r: 4 }}
-          activeDot={{ r: 6 }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke="#f97316"
+            strokeWidth={2.5} // match Customer Complaints
+            dot={{ r: 3 }}
+            activeDot={{ r: 4 }}
+            isAnimationActive={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 }

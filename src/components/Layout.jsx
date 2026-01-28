@@ -3,13 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, Wrench, Menu, X, Bell, User, Clock, 
   ChevronLeft, ChevronRight, Settings as SettingsIcon, LogOut, 
-  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory
+  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity
 } from 'lucide-react';
 import { format } from 'date-fns';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSettings } from '../context/SettingsContext';
 import logo from "../assets/favicon.ico";
+import logoDark from "../assets/Erpicon_white.png"
 
 
 
@@ -49,6 +50,15 @@ const SidebarItem = ({ to, icon: Icon, label, active, collapsed }) => (
 
 export default function Layout({ children }) {
   const { settings, updateSettings } = useSettings();
+
+  //logo switching
+  const isDarkTheme =
+  settings.theme === "dark" ||
+  (settings.theme === "system" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+const currentLogo = isDarkTheme ? logoDark : logo;
+
   
   // Sidebar States
   const [isMobileOpen, setMobileOpen] = useState(false);
@@ -150,11 +160,12 @@ export default function Layout({ children }) {
          
          <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0">
 
-           <img
-  src={logo}
+<img
+  src={currentLogo}
   alt="FactoryOps Logo"
-  className="w-10 h-20 object-contain"
+  className="w-10 h-20 object-contain transition-all duration-300"
 />
+
 
           </div>
           
@@ -171,7 +182,7 @@ export default function Layout({ children }) {
                 </span>
                 {/* Description */}
           <span className="text-xs text-gray-500 dark:text-gray-400">
-            Data Scienece AI Tools
+            An Automotive Software
           </span>
           </div>
               </motion.div>
@@ -196,6 +207,7 @@ export default function Layout({ children }) {
           
           <SidebarItem to="/" icon={LayoutDashboard} label="Real Time Monitoring" active={location.pathname === '/'} collapsed={isCollapsed} />
           <SidebarItem to="/analytics" icon={Factory} label="Production Analytics" active={location.pathname === '/analytics'} collapsed={isCollapsed} />
+           <SidebarItem to="/analytics2" icon={Activity} label="Maintenance Analytics" active={location.pathname === '/analytics2'} collapsed={isCollapsed} />
           <SidebarItem to="/maintenance" icon={Wrench} label="Maintenance" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
           
           <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
@@ -243,6 +255,7 @@ export default function Layout({ children }) {
               {location.pathname === '/' ? 'Real Time Monitoring' : 
                location.pathname === '/maintenance' ? 'Maintenance Control' 
                : location.pathname === '/analytics' ? 'Production Analytics'
+               : location.pathname === '/analytics2' ? 'Maintenance Analytics'
                : 'System Settings'}
             </h1>
             <span className="lg:hidden font-bold text-gray-800 dark:text-white">FactoryOps</span>
