@@ -29,7 +29,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "../context/SettingsContext";
 import logo from "../assets/favicon.ico";
-import logoDark from "../assets/ERPICON_White.png";
+import logoDark from "../assets/ERPIcon_White.png";
 
 // Mock Notifications
 const MOCK_NOTIFICATIONS = [
