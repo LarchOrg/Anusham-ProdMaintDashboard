@@ -42,6 +42,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/prodmaintfrontend:latest
-            docker stop prodmaintfrontend || true
-            docker rm prodmaintfrontend || true
+            docker stop anushamdash || true
+            docker rm anushamdash || true
             docker run -d -p 127.0.0.1:8085:80 --name anushamdash ${{ secrets.DOCKER_USERNAME }}/prodmaintfrontend:latest
