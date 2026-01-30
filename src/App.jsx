@@ -5,6 +5,8 @@ import ProductionDashboard from './pages/ProductionDashboard';
 import MaintenanceDashboard from './pages/MaintenanceDashboard';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AnalyticsDashboard2 from './pages/AnalyticsDashboard2';
+import BreakdownAnalytics from './pages/BreakdownAnalytics';
+import SalesAnalytics from './pages/SalesAnalytics';
 import Settings from './pages/Settings';
 import { SettingsProvider } from './context/SettingsContext';
 
@@ -17,7 +19,9 @@ function App() {
             <Route path="/" element={<ProductionDashboard />} />
             <Route path="/maintenance" element={<MaintenanceDashboard />} />
             <Route path="/analytics" element={<AnalyticsDashboard />} />
-            <Route path="/analytics2" element={<AnalyticsDashboard2 />} />
+            <Route path="/maintenanceanalytics" element={<AnalyticsDashboard2 />} />
+            <Route path="/Breakdownanalytics" element={<BreakdownAnalytics />} />
+            <Route path="/Salesanalytics" element={<SalesAnalytics />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </Layout>

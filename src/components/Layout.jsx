@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, Wrench, Menu, X, Bell, User, Clock, 
   ChevronLeft, ChevronRight, Settings as SettingsIcon, LogOut, 
-  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity
+  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity,BarChart3,TrendingUp
 } from 'lucide-react';
 import { format } from 'date-fns';
 import clsx from 'clsx';
@@ -207,7 +207,9 @@ const currentLogo = isDarkTheme ? logoDark : logo;
           
           <SidebarItem to="/" icon={LayoutDashboard} label="Real Time Monitoring" active={location.pathname === '/'} collapsed={isCollapsed} />
           <SidebarItem to="/analytics" icon={Factory} label="Production Analytics" active={location.pathname === '/analytics'} collapsed={isCollapsed} />
-           <SidebarItem to="/analytics2" icon={Activity} label="Maintenance Analytics" active={location.pathname === '/analytics2'} collapsed={isCollapsed} />
+           <SidebarItem to="/maintenanceanalytics" icon={Activity} label="Maintenance Analytics" active={location.pathname === '/maintenanceanalytics'} collapsed={isCollapsed} />
+           <SidebarItem to="/Breakdownanalytics" icon={BarChart3 } label="Breakdown Analytics" active={location.pathname === '/Breakdownanalytics'} collapsed={isCollapsed} />
+           <SidebarItem to="/Salesanalytics" icon={TrendingUp } label="Sales Analytics" active={location.pathname === '/Salesanalytics'} collapsed={isCollapsed} />
           <SidebarItem to="/maintenance" icon={Wrench} label="Maintenance" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
           
           <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
