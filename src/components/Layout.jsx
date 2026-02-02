@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, Wrench, Menu, X, Bell, User, Clock, 
   ChevronLeft, ChevronRight, Settings as SettingsIcon, LogOut, 
-  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity,BarChart3,TrendingUp
+  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity,BarChart3,TrendingUp,Boxes,Gauge,Timer,ClipboardCheck,LineChart,Truck,Cog 
 } from 'lucide-react';
 import { format } from 'date-fns';
 import clsx from 'clsx';
@@ -206,11 +206,17 @@ const currentLogo = isDarkTheme ? logoDark : logo;
           )}
           
           <SidebarItem to="/" icon={LayoutDashboard} label="Real Time Monitoring" active={location.pathname === '/'} collapsed={isCollapsed} />
+           <SidebarItem to="/5sInventoryKpi  " icon={Boxes} label="5S Inventory KPI" active={location.pathname === '/5sInventoryKpi'} collapsed={isCollapsed} />
           <SidebarItem to="/analytics" icon={Factory} label="Production Analytics" active={location.pathname === '/analytics'} collapsed={isCollapsed} />
-           <SidebarItem to="/maintenanceanalytics" icon={Activity} label="Maintenance Analytics" active={location.pathname === '/maintenanceanalytics'} collapsed={isCollapsed} />
+           <SidebarItem to="/maintenanceanalytics" icon={Gauge} label="Maintenance Analytics" active={location.pathname === '/maintenanceanalytics'} collapsed={isCollapsed} />
+            <SidebarItem to="/mttrmtbf" icon={Timer} label="MTTR & MTBF" active={location.pathname === '/mttrmtbf'} collapsed={isCollapsed} />
            <SidebarItem to="/Breakdownanalytics" icon={BarChart3 } label="Breakdown Analytics" active={location.pathname === '/Breakdownanalytics'} collapsed={isCollapsed} />
+            <SidebarItem to="/Qualitykpi" icon={ClipboardCheck} label="Quality KPI Data" active={location.pathname === '/Qualitykpi'} collapsed={isCollapsed} />
+            <SidebarItem to="/SPCAnalysis" icon={LineChart} label="SPC Analysis" active={location.pathname === '/SPCAnalysis'} collapsed={isCollapsed} />
+            <SidebarItem to="/ToolLifeAnalysis" icon={Cog } label="Tool Life Analysis" active={location.pathname === '/ToolLifeAnalysis'} collapsed={isCollapsed} />
+            <SidebarItem to="/inventory" icon={Truck} label="Supplier KPI" active={location.pathname === '/inventory'} collapsed={isCollapsed} />
            <SidebarItem to="/Salesanalytics" icon={TrendingUp } label="Sales Analytics" active={location.pathname === '/Salesanalytics'} collapsed={isCollapsed} />
-          <SidebarItem to="/maintenance" icon={Wrench} label="Maintenance" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
+          <SidebarItem to="/maintenance" icon={Wrench} label="Overall Trend Analysis" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
           
           <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
         </nav>
@@ -258,6 +264,15 @@ const currentLogo = isDarkTheme ? logoDark : logo;
                location.pathname === '/maintenance' ? 'Maintenance Control' 
                : location.pathname === '/analytics' ? 'Production Analytics'
                : location.pathname === '/analytics2' ? 'Maintenance Analytics'
+                : location.pathname === '/Breakdownanalytics' ? 'Breakdown Analytics'
+                : location.pathname === '/maintenanceanalytics' ? 'Maintenance Analytics'
+                : location.pathname === '/Qualitykpi' ? 'Quality KPI Data'
+                : location.pathname === '/SPCAnalysis' ? 'SPC Analysis'
+                : location.pathname === '/ToolLifeAnalysis' ? 'Tool Life Analysis'
+                : location.pathname === '/mttrmtbf' ? 'MTTR & MTBF'
+                : location.pathname === '/5sInventoryKpi' ? '5S Inventory KPI'
+                : location.pathname === '/inventory' ? 'Supplier KPI'
+                : location.pathname === '/Salesanalytics' ? 'Sales Analytics'
                : 'System Settings'}
             </h1>
             <span className="lg:hidden font-bold text-gray-800 dark:text-white">FactoryOps</span>
