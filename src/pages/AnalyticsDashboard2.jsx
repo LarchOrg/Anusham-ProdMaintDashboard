@@ -151,21 +151,7 @@ export default function AnalyticsDashboard2() {
     </div>
   </Card>
 
-  {/* Actual MTTR */}
-  <Card className="flex flex-col">
-    <CardHeader title="Actual MTTR (Hrs)" />
-    <div className="flex-1 min-h-0">
-      <ActualMTTRChart />
-    </div>
-  </Card>
 
-  {/* Actual MTBF */}
-  <Card className="flex flex-col">
-    <CardHeader title="Actual MTBF (Hrs)" />
-    <div className="flex-1 min-h-0">
-      <ActualMTBFChart />
-    </div>
-  </Card>
 
 </div>
 

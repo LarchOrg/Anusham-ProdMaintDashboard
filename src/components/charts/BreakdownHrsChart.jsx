@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -10,44 +10,42 @@ import {
   LabelList,
 } from "recharts";
 
-const dummyData = [
-  { month: "Jan-25", breakdownHrs: 6 },
-  { month: "Feb-25", breakdownHrs: 5 },
-  { month: "Mar-25", breakdownHrs: 2 },
-  { month: "Apr-25", breakdownHrs: 3 },
-  { month: "May-25", breakdownHrs: 4 },
-  { month: "Jun-25", breakdownHrs: 4 },
-  { month: "Jul-25", breakdownHrs: 1 },
-  { month: "Aug-25", breakdownHrs: 2 },
-  { month: "Sep-25", breakdownHrs: 3 },
-  { month: "Oct-25", breakdownHrs: 2 },
-  { month: "Nov-25", breakdownHrs: 1 },
-  { month: "Dec-25", breakdownHrs: 2 },
-];
+export default function BreakdownHrsChart({ data = [] }) {
+  // 🔹 Track dark mode dynamically
+  const [isDark, setIsDark] = useState(
+    document.documentElement.classList.contains("dark")
+  );
 
-export default function BreakdownHrsChart() {
-  // 🔥 Detect dark mode
-  const isDark = document.documentElement.classList.contains("dark");
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
 
-  // ✅ Explicit axis colors
-  const axisColor = isDark ? "#ffffff" : "#000000";
-  const gridColor = isDark ? "#444444" : "#cccccc";
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  // 🔹 Colors
+  const axisColor = isDark ? "#E5E7EB" : "#111827";
+  const gridColor = isDark ? "#374151" : "#E5E7EB";
+  const barColor = "#dc2626"; // Red, stays the same
+
+  // 🔹 Keep API order
+  const chartData = [...data];
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      key={isDark ? "dark" : "light"} // forces remount on theme change
+    >
       <BarChart
-        data={dummyData}
+        data={chartData}
         layout="vertical"
         margin={{ top: 10, right: 40, left: 0, bottom: 10 }}
       >
-        {/* Grid */}
-        <CartesianGrid
-          strokeDasharray="3 3"
-          stroke={gridColor}
-          opacity={0.4}
-        />
+        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} opacity={0.4} />
 
-        {/* X Axis – Breakdown Hours */}
         <XAxis
           type="number"
           domain={[0, "dataMax + 1"]}
@@ -56,7 +54,6 @@ export default function BreakdownHrsChart() {
           tickLine={{ stroke: axisColor }}
         />
 
-        {/* Y Axis – Month */}
         <YAxis
           type="category"
           dataKey="month"
@@ -67,7 +64,6 @@ export default function BreakdownHrsChart() {
           width={90}
         />
 
-        {/* Tooltip */}
         <Tooltip
           formatter={(v) => `${v} hrs`}
           contentStyle={{
@@ -77,13 +73,7 @@ export default function BreakdownHrsChart() {
           }}
         />
 
-        {/* Bar */}
-        <Bar
-          dataKey="breakdownHrs"
-          fill="#dc2626"            // 🔴 RED (unchanged)
-          barSize={18}
-          radius={[0, 6, 6, 0]}
-        >
+        <Bar dataKey="breakdownHrs" fill={barColor} barSize={18} radius={[0, 6, 6, 0]}>
           <LabelList
             dataKey="breakdownHrs"
             position="right"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -10,44 +10,43 @@ import {
   LabelList,
 } from "recharts";
 
-const dummyData = [
-  { month: "Jan-25", actualMTTR: 0.60 },
-  { month: "Feb-25", actualMTTR: 0.63 },
-  { month: "Mar-25", actualMTTR: 0.67 },
-  { month: "Apr-25", actualMTTR: 0.60 },
-  { month: "May-25", actualMTTR: 0.44 },
-  { month: "Jun-25", actualMTTR: 0.57 },
-  { month: "Jul-25", actualMTTR: 0.17 },
-  { month: "Aug-25", actualMTTR: 0.67 },
-  { month: "Sep-25", actualMTTR: 0.38 },
-  { month: "Oct-25", actualMTTR: 0.40 },
-  { month: "Nov-25", actualMTTR: 0.33 },
-  { month: "Dec-25", actualMTTR: 1.00 },
-];
+export default function ActualMTTRChart({ data = [] }) {
+  // 🔹 Track dark mode dynamically
+  const [isDark, setIsDark] = useState(
+    document.documentElement.classList.contains("dark")
+  );
 
-export default function ActualMTTRChart() {
-  // 🔥 Detect dark mode
-  const isDark = document.documentElement.classList.contains("dark");
+  useEffect(() => {
+    // 🔹 Watch for class changes on <html>
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
 
-  // ✅ Explicit axis colors
-  const axisColor = isDark ? "#ffffff" : "#000000";
-  const gridColor = isDark ? "#444444" : "#cccccc";
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  // 🔹 Colors
+  const axisColor = isDark ? "#E5E7EB" : "#111827";
+  const gridColor = isDark ? "#374151" : "#E5E7EB";
+  const barColor = isDark ? "#60A5FA" : "#1f77b4";
+
+  // 🔹 Keep API order
+  const chartData = [...data];
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      key={isDark ? "dark" : "light"} // 🔹 forces remount on theme change
+    >
       <BarChart
-        data={dummyData}
+        data={chartData}
         layout="vertical"
         margin={{ top: 10, right: 40, left: 0, bottom: 10 }}
       >
-        {/* Grid */}
-        <CartesianGrid
-          strokeDasharray="3 3"
-          stroke={gridColor}
-          opacity={0.4}
-        />
+        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} opacity={0.4} />
 
-        {/* X Axis – Hours */}
         <XAxis
           type="number"
           domain={[0, "dataMax + 0.2"]}
@@ -56,19 +55,18 @@ export default function ActualMTTRChart() {
           tickLine={{ stroke: axisColor }}
         />
 
-        {/* Y Axis – Month */}
         <YAxis
           type="category"
           dataKey="month"
-          interval={0}                 // show all months
+          interval={0}
           tick={{ fontSize: 12, fill: axisColor }}
           axisLine={{ stroke: axisColor }}
           tickLine={{ stroke: axisColor }}
           width={90}
         />
 
-        {/* Tooltip */}
         <Tooltip
+          formatter={(v) => `${v} hrs`}
           contentStyle={{
             backgroundColor: isDark ? "#1f2937" : "#ffffff",
             color: axisColor,
@@ -76,13 +74,7 @@ export default function ActualMTTRChart() {
           }}
         />
 
-        {/* Bar */}
-        <Bar
-          dataKey="actualMTTR"
-          fill="#1f77b4"
-          barSize={18}
-          radius={[0, 6, 6, 0]}
-        >
+        <Bar dataKey="actualMTTR" fill={barColor} barSize={18} radius={[0, 6, 6, 0]}>
           <LabelList
             dataKey="actualMTTR"
             position="right"

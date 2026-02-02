@@ -290,3 +290,64 @@ export const fetchCompletedVsScheduledBar = async () => {
   }
 };
 
+// 🔷 Breakdown Monthly MTTR / MTBF Table
+export const fetchMttrMtbfTable = async () => {
+  try {
+    const res = await api.get("/Breakdown/MttrMtbf");
+
+    // API returns array directly
+    return Array.isArray(res.data) ? res.data : [];
+
+  } catch (err) {
+    console.error("❌ fetchMttrMtbfTable failed:", err);
+    return [];
+  }
+};
+
+// 🔴 Breakdown Hours Chart
+export const fetchBreakdownHrsChart = async () => {
+  try {
+    const res = await api.get("/Breakdown/BreakDownHrs");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,
+      breakdownHrs: Number(item.percentage)
+    }));
+
+  } catch (err) {
+    console.error("❌ fetchBreakdownHrsChart failed:", err);
+    return [];
+  }
+};
+
+// 🔵 Actual MTTR Chart
+export const fetchActualMTTRChart = async () => {
+  try {
+    const res = await api.get("/Breakdown/ActualMttrHrs");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,                 // "Jan-25"
+      actualMTTR: Number(item.percentage),   // 0.65
+    }));
+  } catch (err) {
+    console.error("❌ fetchActualMTTRChart failed:", err);
+    return [];
+  }
+};
+
+// 🟢 Actual MTBF Chart
+export const fetchActualMTBFChart = async () => {
+  try {
+    const res = await api.get("/Breakdown/ActualMtbfHrs");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,
+      actualMTBF: Number(item.percentage),
+    }));
+  } catch (err) {
+    console.error("❌ fetchActualMTBFChart failed:", err);
+    return [];
+  }
+};
+
+

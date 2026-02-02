@@ -7,6 +7,12 @@ import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AnalyticsDashboard2 from './pages/AnalyticsDashboard2';
 import BreakdownAnalytics from './pages/BreakdownAnalytics';
 import SalesAnalytics from './pages/SalesAnalytics';
+import InvenotryAnalytics  from './pages/InvenotryAnalytics';
+import sInventoryKpi  from './pages/5sInventoryKpi';
+import MTTRMTBF from './pages/MTTR&MTBF'; 
+import QualityKpi from './pages/QualityKpi';
+import SPCAnalysis from './pages/SPCAnalysis';
+import ToolLifeAnalysis from './pages/ToolAnalysis';
 import Settings from './pages/Settings';
 import { SettingsProvider } from './context/SettingsContext';
 
@@ -22,6 +28,12 @@ function App() {
             <Route path="/maintenanceanalytics" element={<AnalyticsDashboard2 />} />
             <Route path="/Breakdownanalytics" element={<BreakdownAnalytics />} />
             <Route path="/Salesanalytics" element={<SalesAnalytics />} />
+            <Route path="/inventory" element={<InvenotryAnalytics  />} />
+            <Route path="/5sInventoryKpi" element={<sInventoryKpi  />} />
+            <Route path="/mttrmtbf" element={<MTTRMTBF />} />
+            <Route path="/Qualitykpi" element={<QualityKpi />} />
+            <Route path="/SPCAnalysis" element={<SPCAnalysis />} />
+            <Route path="/ToolLifeAnalysis" element={<ToolLifeAnalysis />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </Layout>
