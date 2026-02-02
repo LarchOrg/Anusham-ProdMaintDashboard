@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -10,57 +10,76 @@ import {
   LabelList,
 } from "recharts";
 
-const dummyData = [
-  { month: "Jan-25", actualMTBF: 1367.1 },
-  { month: "Feb-25", actualMTBF: 1543.5 },
-  { month: "Mar-25", actualMTBF: 4557 },
-  { month: "Apr-25", actualMTBF: 2646 },
-  { month: "May-25", actualMTBF: 1519 },
-  { month: "Jun-25", actualMTBF: 1890 },
-  { month: "Jul-25", actualMTBF: 2278.5 },
-  { month: "Aug-25", actualMTBF: 4557 },
-  { month: "Sep-25", actualMTBF: 1653.75 },
-  { month: "Oct-25", actualMTBF: 2734.2 },
-  { month: "Nov-25", actualMTBF: 4410 },
-  { month: "Dec-25", actualMTBF: 6835.5 },
-];
+export default function ActualMTBFChart({ data = [] }) {
+  // 🔹 Track dark mode dynamically
+  const [isDark, setIsDark] = useState(
+    document.documentElement.classList.contains("dark")
+  );
 
-export default function ActualMTBFChart() {
+  useEffect(() => {
+    // 🔹 Watch for class changes on <html>
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  // 🔹 Colors
+  const axisColor = isDark ? "#E5E7EB" : "#111827"; // ticks
+  const gridColor = isDark ? "#374151" : "#E5E7EB"; // grid
+  const barColor = isDark ? "#84CC16" : "#7CB342";  // bar fill
+
+  // 🔹 Keep same order as API
+  const chartData = [...data];
+
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      key={isDark ? "dark" : "light"} // 🔹 forces remount on theme change
+    >
       <BarChart
-        data={dummyData}
+        data={chartData}
         layout="vertical"
         margin={{ top: 10, right: 40, left: 0, bottom: 10 }}
       >
-        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} opacity={0.3} />
 
         <XAxis
           type="number"
           domain={[0, "dataMax + 500"]}
-          tick={{ fontSize: 12 }}
+          tick={{ fontSize: 12, fill: axisColor }}
+          axisLine={{ stroke: axisColor }}
+          tickLine={{ stroke: axisColor }}
         />
 
         <YAxis
           type="category"
           dataKey="month"
-          tick={{ fontSize: 12 }}
-          width={70}
+          interval={0}
+          tick={{ fontSize: 12, fill: axisColor }}
+          axisLine={{ stroke: axisColor }}
+          tickLine={{ stroke: axisColor }}
+          width={90}
         />
 
-        <Tooltip />
+        <Tooltip
+          formatter={(v) => `${Math.round(v)} hrs`}
+          contentStyle={{
+            backgroundColor: isDark ? "#1f2937" : "#ffffff",
+            color: axisColor,
+            border: "none",
+          }}
+        />
 
-        <Bar
-          dataKey="actualMTBF"
-          fill="#7CB342"
-          barSize={18}
-          radius={[0, 6, 6, 0]}
-        >
+        <Bar dataKey="actualMTBF" fill={barColor} barSize={18} radius={[0, 6, 6, 0]}>
           <LabelList
             dataKey="actualMTBF"
             position="right"
             formatter={(v) => Math.round(v)}
-            style={{ fill: "#000", fontSize: 12 }}
+            style={{ fill: axisColor, fontSize: 12 }}
           />
         </Bar>
       </BarChart>
