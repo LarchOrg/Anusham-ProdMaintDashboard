@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   ComposedChart,
   Bar,
@@ -17,31 +18,56 @@ const data = [
 ];
 
 export default function DowntimeOEEComposed() {
+  const [isDark, setIsDark] = useState(false);
+
+  /* Detect theme (same pattern as your dashboard) */
+  useEffect(() => {
+    const checkTheme = () =>
+      setIsDark(document.documentElement.classList.contains("dark"));
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  /* Axis colors (matches your other charts) */
+  const axisColor = isDark ? "#9ca3af" : "#6b7280"; // gray-400 / gray-500
+  const gridColor = isDark ? "#374151" : "#e5e7eb"; // gray-700 / gray-200
+
   return (
     <ResponsiveContainer width="100%" height={220}>
       <ComposedChart
         data={data}
         margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
       >
-        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+        <CartesianGrid
+          strokeDasharray="3 3"
+          stroke={gridColor}
+          opacity={0.6}
+        />
 
         <XAxis
           dataKey="machine"
-          axisLine={false}
+          axisLine={{ stroke: axisColor }}
           tickLine={false}
-          tick={{ fontSize: 11 }}
+          tick={{ fontSize: 11, fill: axisColor }}
         />
 
         <YAxis
           yAxisId="left"
-          axisLine={false}
+          axisLine={{ stroke: axisColor }}
           tickLine={false}
-          tick={{ fontSize: 11 }}
+          tick={{ fontSize: 11, fill: axisColor }}
           label={{
-            value: "Downtime (min)",
             angle: -90,
             position: "insideLeft",
             fontSize: 11,
+            fill: axisColor,
           }}
         />
 
@@ -49,14 +75,14 @@ export default function DowntimeOEEComposed() {
           yAxisId="right"
           orientation="right"
           domain={[0, 100]}
-          axisLine={false}
+          axisLine={{ stroke: axisColor }}
           tickLine={false}
-          tick={{ fontSize: 11 }}
+          tick={{ fontSize: 11, fill: axisColor }}
           label={{
-            value: "OEE (%)",
             angle: -90,
             position: "insideRight",
             fontSize: 11,
+            fill: axisColor,
           }}
         />
 

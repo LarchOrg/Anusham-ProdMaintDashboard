@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -27,8 +27,8 @@ const data = [
   { month: "Dec-25", sales: 5.9, profit: 2.2 },
 ];
 
-/* ===== CUSTOM X AXIS TICK (Month ↑ Year ↓) ===== */
-const MonthYearTick = ({ x, y, payload }) => {
+/* ===== CUSTOM X AXIS (Month ↑ Year ↓) ===== */
+const MonthYearTick = ({ x, y, payload, fill }) => {
   const [month, year] = payload.value.split("-");
   return (
     <g transform={`translate(${x},${y})`}>
@@ -38,7 +38,7 @@ const MonthYearTick = ({ x, y, payload }) => {
         dy={14}
         textAnchor="middle"
         fontSize={12}
-        fill="currentColor"
+        fill={fill}
       >
         {month}
       </text>
@@ -49,7 +49,7 @@ const MonthYearTick = ({ x, y, payload }) => {
         textAnchor="middle"
         fontSize={10}
         opacity={0.7}
-        fill="currentColor"
+        fill={fill}
       >
         {year}
       </text>
@@ -58,41 +58,61 @@ const MonthYearTick = ({ x, y, payload }) => {
 };
 
 export default function MonthlyPerformance() {
-  const isDark = document.documentElement.classList.contains("dark");
-  const axisColor = isDark ? "#ffffff" : "#000000";
-  const gridColor = isDark ? "#444444" : "#cccccc";
+  /* 🔹 Dark mode tracking (same as BreakdownHrsChart) */
+  const [isDark, setIsDark] = useState(
+    document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  /* 🔹 Colors */
+  const axisColor = isDark ? "#E5E7EB" : "#111827";
+  const gridColor = isDark ? "#374151" : "#E5E7EB";
 
   const totalProfit = data.reduce((sum, d) => sum + d.profit, 0);
   const totalSales = data.reduce((sum, d) => sum + d.sales, 0);
   const profitPct = ((totalProfit / totalSales) * 100).toFixed(1);
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      key={isDark ? "dark" : "light"}
+    >
       <ComposedChart
         data={data}
-        margin={{ top: 30, right: 30, left: 0, bottom: 30 }}
+        margin={{ top: 30, right: 30, left: 0, bottom: 36 }}
       >
         {/* GRID */}
         <CartesianGrid
           strokeDasharray="3 3"
           stroke={gridColor}
-          opacity={0.3}
+          opacity={0.4}
         />
 
-        {/* X AXIS */}
+        {/* X AXIS (TEXT COLOR ONLY) */}
         <XAxis
           dataKey="month"
-          tick={<MonthYearTick />}
-          interval={0}             // SHOW ALL MONTHS
+          interval={0}
           axisLine={false}
           tickLine={false}
+          tick={(props) => (
+            <MonthYearTick {...props} fill={axisColor} />
+          )}
         />
 
-        {/* Y AXIS */}
+        {/* Y AXIS (TEXT COLOR ONLY) */}
         <YAxis
-          tick={{ fontSize: 12, fill: axisColor }}
           axisLine={false}
           tickLine={false}
+          tick={{ fontSize: 12, fill: axisColor }}
         />
 
         {/* TOOLTIP */}
@@ -107,7 +127,7 @@ export default function MonthlyPerformance() {
         {/* SALES BAR */}
         <Bar
           dataKey="sales"
-          fill="#f97316"           // ORANGE (matches breakdown theme)
+          fill="#f97316"
           barSize={18}
           radius={[6, 6, 0, 0]}
         />
@@ -116,13 +136,13 @@ export default function MonthlyPerformance() {
         <Line
           type="monotone"
           dataKey="profit"
-          stroke="#22c55e"         // GREEN
+          stroke="#22c55e"
           strokeWidth={2}
           dot={{ r: 3 }}
           activeDot={{ r: 5 }}
         />
 
-        {/* PROFIT % LABEL (TOP RIGHT) */}
+        {/* PROFIT % LABEL */}
         <Label
           position="top"
           content={() => (

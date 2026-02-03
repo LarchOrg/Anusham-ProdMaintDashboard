@@ -260,56 +260,7 @@ export default function Layout({ children }) {
           
           <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
 
-          <SidebarItem
-            to="/"
-            icon={LayoutDashboard}
-            label="Real Time Monitoring"
-            active={location.pathname === "/"}
-            collapsed={isCollapsed}
-          />
-          <SidebarItem
-            to="/analytics"
-            icon={Factory}
-            label="Production Analytics"
-            active={location.pathname === "/analytics"}
-            collapsed={isCollapsed}
-          />
-          <SidebarItem
-            to="/maintenanceanalytics"
-            icon={Activity}
-            label="Maintenance Analytics"
-            active={location.pathname === "/maintenanceanalytics"}
-            collapsed={isCollapsed}
-          />
-          <SidebarItem
-            to="/Breakdownanalytics"
-            icon={BarChart3}
-            label="Breakdown Analytics"
-            active={location.pathname === "/Breakdownanalytics"}
-            collapsed={isCollapsed}
-          />
-          <SidebarItem
-            to="/Salesanalytics"
-            icon={TrendingUp}
-            label="Sales Analytics"
-            active={location.pathname === "/Salesanalytics"}
-            collapsed={isCollapsed}
-          />
-          <SidebarItem
-            to="/maintenance"
-            icon={Wrench}
-            label="Maintenance"
-            active={location.pathname === "/maintenance"}
-            collapsed={isCollapsed}
-          />
-
-          <SidebarItem
-            to="/settings"
-            icon={SettingsIcon}
-            label="Settings"
-            active={location.pathname === "/settings"}
-            collapsed={isCollapsed}
-          />
+  
         </nav>
 
         {/* Collapse Toggle */}
@@ -378,15 +329,7 @@ export default function Layout({ children }) {
                 : location.pathname === '/inventory' ? 'Supplier KPI'
                 : location.pathname === '/Salesanalytics' ? 'Sales Analytics'
                : 'System Settings'}
-              {location.pathname === "/"
-                ? "Real Time Monitoring"
-                : location.pathname === "/maintenance"
-                  ? "Maintenance Control"
-                  : location.pathname === "/analytics"
-                    ? "Production Analytics"
-                    : location.pathname === "/analytics2"
-                      ? "Maintenance Analytics"
-                      : "System Settings"}
+            
             </h1>
             <span className="lg:hidden font-bold text-gray-800 dark:text-white">
               FactoryOps

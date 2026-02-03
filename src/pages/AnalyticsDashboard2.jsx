@@ -7,8 +7,6 @@ import PowerCostChart from "../components/charts/PowerCostChart";
 import DowntimeContributionChart from "../components/charts/DowntimeContributionChart";
 import FailureStatusChart from "../components/charts/FailureStatusChart";
 import CompletedVsScheduledBarChart from "../components/charts/CompletedVsScheduledBarChart";
-import ActualMTTRChart from "../components/charts/ActualMTTRChart";
-import ActualMTBFChart  from "../components/charts/ActualMTBFChart";
 
 import { Card, CardHeader } from "../components/ui/Card";
 import {
@@ -29,12 +27,9 @@ export default function AnalyticsDashboard2() {
   const [downtimeContribution, setDowntimeContribution] = useState([]);
   const [failureStatus, setFailureStatus] = useState([]);
   const [completedVsScheduledBar, setCompletedVsScheduledBar] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let intervalId;
-
     const loadDashboard = async () => {
       try {
         setLoading(true);
@@ -64,37 +59,35 @@ export default function AnalyticsDashboard2() {
         setDowntimeContribution(downtime);
         setFailureStatus(failure);
         setCompletedVsScheduledBar(completedBar);
-      } catch (error) {
-        console.error("Dashboard load failed:", error);
+      } catch (err) {
+        console.error("Dashboard load failed:", err);
       } finally {
         setLoading(false);
       }
     };
 
     loadDashboard();
-    intervalId = setInterval(loadDashboard, 60000);
-
-    return () => clearInterval(intervalId);
+    const interval = setInterval(loadDashboard, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="h-screen p-2 overflow-y-auto grid auto-rows-[43%] gap-2">
-      
+    /* ✅ Zoom-proof scroll container */
+    <div className="h-full w-full overflow-y-auto p-2 space-y-2">
+
       {/* ===== ROW 1 ===== */}
-      <div className="grid grid-cols-3 gap-2 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         <Card className="flex flex-col">
           <CardHeader title="Maintenance Cost" />
-          <div className="flex-1 min-h-0">
-            {loading ? <span>Loading...</span> : <MaintenanceCostChart data={maintenanceCost} />}
+          <div className="flex-1 min-h-[250px]">
+            {loading ? "Loading..." : <MaintenanceCostChart data={maintenanceCost} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Completed vs Scheduled Maintenance (Summary)" />
-          <div className="flex-1 min-h-0">
-            {loading ? (
-              <span>Loading...</span>
-            ) : (
+          <div className="flex-1 min-h-[220px]">
+            {loading ? "Loading..." : (
               <CompletedVsScheduledChart
                 data={completedVsScheduled?.chartData || []}
                 totalPlans={completedVsScheduled?.totalPlans || 0}
@@ -105,59 +98,51 @@ export default function AnalyticsDashboard2() {
 
         <Card className="flex flex-col">
           <CardHeader title="PM & BM Manhour Monthly Trend" />
-          <div className="flex-1 min-h-0">
-            {loading ? <span>Loading...</span> : <PMBMManhourChart data={pmBmData} />}
+          <div className="flex-1 min-h-[220px]">
+            {loading ? "Loading..." : <PMBMManhourChart data={pmBmData} />}
           </div>
         </Card>
       </div>
 
       {/* ===== ROW 2 ===== */}
-      <div className="grid grid-cols-3 gap-2 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         <Card className="flex flex-col">
           <CardHeader title="Power Cost" />
-          <div className="flex-1 min-h-0">
-            {loading ? <span>Loading...</span> : <PowerCostChart data={powerCost} />}
+          <div className="flex-1 min-h-[250px]">
+            {loading ? "Loading..." : <PowerCostChart data={powerCost} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Downtime Contribution" />
-          <div className="flex-1 min-h-0">
-            {loading ? <span>Loading...</span> : <DowntimeContributionChart data={downtimeContribution} />}
+          <div className="flex-1 min-h-[220px]">
+            {loading ? "Loading..." : <DowntimeContributionChart data={downtimeContribution} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Failure Status" />
-          <div className="flex-1 min-h-0">
-            {loading ? <span>Loading...</span> : <FailureStatusChart data={failureStatus} />}
+          <div className="flex-1 min-h-[220px]">
+            {loading ? "Loading..." : <FailureStatusChart data={failureStatus} />}
           </div>
         </Card>
       </div>
 
       {/* ===== ROW 3 ===== */}
-{/* ===== ROW 3 ===== */}
-<div className="grid grid-cols-3 gap-2 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <Card className="flex flex-col">
+          <CardHeader title="Completed vs Scheduled Maintenance (Detailed)" />
+          <div className="flex-1 min-h-[250px]">
+            {loading ? "Loading..." : (
+              <CompletedVsScheduledBarChart data={completedVsScheduledBar} />
+            )}
+          </div>
+        </Card>
 
-  {/* Completed vs Scheduled (keep as-is) */}
-  <Card className="flex flex-col">
-    <CardHeader title="Completed vs Scheduled Maintenance (Detailed)" />
-    <div className="flex-1 min-h-0">
-      {loading ? (
-        <span>Loading...</span>
-      ) : (
-        <CompletedVsScheduledBarChart data={completedVsScheduledBar} />
-      )}
-    </div>
-  </Card>
+        <div />
+        <div />
+      </div>
 
-
-
-</div>
-
-
-      {/* 🔴 SCROLL SPACER — DO NOT REMOVE */}
-      <div className="h-24"></div>
     </div>
   );
 }
