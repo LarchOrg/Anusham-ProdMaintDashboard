@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -20,20 +20,36 @@ const data = [
 ];
 
 export default function TopCustomersChart() {
-  // 🌙 Dark mode detection
-  const isDark = document.documentElement.classList.contains("dark");
+  /* 🔹 Dark mode tracking (same as other charts) */
+  const [isDark, setIsDark] = useState(
+    document.documentElement.classList.contains("dark")
+  );
 
-  const axisColor = isDark ? "#e5e7eb" : "#374151";
-  const gridColor = isDark ? "#374151" : "#e5e7eb";
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  /* 🔹 Colors */
+  const axisColor = isDark ? "#E5E7EB" : "#111827";
+  const gridColor = isDark ? "#374151" : "#E5E7EB";
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      key={isDark ? "dark" : "light"}
+    >
       <BarChart
         data={data}
         layout="vertical"
         margin={{ top: 8, right: 24, left: 16, bottom: 8 }}
       >
-        {/* GRID – same as TopItems */}
+        {/* GRID */}
         <CartesianGrid
           strokeDasharray="3 3"
           horizontal={false}
@@ -41,32 +57,33 @@ export default function TopCustomersChart() {
           opacity={0.4}
         />
 
-        {/* X AXIS */}
+        {/* X AXIS (TEXT COLOR ONLY) */}
         <XAxis
           type="number"
           domain={[0, "dataMax + 0.3"]}
-          tick={{ fontSize: 11, fill: axisColor }}
           axisLine={false}
           tickLine={false}
+          tick={{ fontSize: 11, fill: axisColor }}
         />
 
-        {/* Y AXIS */}
+        {/* Y AXIS (TEXT COLOR ONLY) */}
         <YAxis
           type="category"
           dataKey="name"
-          tick={{ fontSize: 11, fill: axisColor }}
           axisLine={false}
           tickLine={false}
+          tick={{ fontSize: 11, fill: axisColor }}
           width={140}
         />
 
-        {/* TOOLTIP – consistent */}
+        {/* TOOLTIP */}
         <Tooltip
-          cursor={{ fill: "rgba(0,0,0,0.04)" }}
+          cursor={{ fill: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}
           contentStyle={{
             backgroundColor: isDark ? "#1f2937" : "#ffffff",
             border: "none",
-            fontSize: 18,
+            color: axisColor,
+            fontSize: 12,
           }}
           formatter={(value) => [`${value}`, "Sales"]}
         />

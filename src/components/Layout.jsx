@@ -11,17 +11,18 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSettings } from '../context/SettingsContext';
 import logo from "../assets/favicon.ico";
-import logoDark from "../assets/ERPIcon_White.png"
+import logoDark from "../assets/ErpIcon_White.png"
 
 
 
 
-// Mock Notifications
+// Mock Notificationsn
 const MOCK_NOTIFICATIONS = [
   { id: 1, title: 'Machine Breakdown', message: 'ASSY-09 reported hydraulic leak.', time: '10m ago', type: 'critical' },
   { id: 2, title: 'Stock Alert', message: 'Servo Motor 5kW below min level.', time: '1h ago', type: 'warning' },
   { id: 3, title: 'Shift Report', message: 'Shift A production summary available.', time: '2h ago', type: 'info' },
 ];
+
 
 const SidebarItem = ({ to, icon: Icon, label, active, collapsed }) => (
   <Link
@@ -220,6 +221,7 @@ const currentLogo = isDarkTheme ? logoDark : logo;
           <SidebarItem to="/maintenance" icon={Wrench} label="Overall Trend Analysis" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
           
           <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
+
         </nav>
 
         {/* Collapse Toggle */}
@@ -275,6 +277,7 @@ const currentLogo = isDarkTheme ? logoDark : logo;
                 : location.pathname === '/inventory' ? 'Supplier KPI'
                 : location.pathname === '/Salesanalytics' ? 'Sales Analytics'
                : 'System Settings'}
+
             </h1>
             <span className="lg:hidden font-bold text-gray-800 dark:text-white">FactoryOps</span>
           </div>

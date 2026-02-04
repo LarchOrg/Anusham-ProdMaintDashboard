@@ -89,7 +89,7 @@ export default function PMBMManhourChart({ data = [] }) {
           dataKey="pmHours"
           stackId="a"
           fill="#10b981" // green
-          radius={[6, 6, 0, 0]}
+          radius={[0, 0, 0, 0]}
           name="PM Hours"
         />
         <Bar

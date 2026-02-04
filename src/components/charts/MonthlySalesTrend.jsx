@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -26,7 +26,7 @@ const data = [
 ];
 
 /* ===== CUSTOM X AXIS (Month ↑ Year ↓) ===== */
-const MonthYearTick = ({ x, y, payload }) => {
+const MonthYearTick = ({ x, y, payload, fill }) => {
   const [month, year] = payload.value.split("-");
   return (
     <g transform={`translate(${x},${y})`}>
@@ -36,7 +36,7 @@ const MonthYearTick = ({ x, y, payload }) => {
         dy={14}
         textAnchor="middle"
         fontSize={12}
-        fill="currentColor"
+        fill={fill}
       >
         {month}
       </text>
@@ -47,7 +47,7 @@ const MonthYearTick = ({ x, y, payload }) => {
         textAnchor="middle"
         fontSize={10}
         opacity={0.7}
-        fill="currentColor"
+        fill={fill}
       >
         {year}
       </text>
@@ -56,52 +56,73 @@ const MonthYearTick = ({ x, y, payload }) => {
 };
 
 export default function MonthlySalesTrend() {
-  const isDark = document.documentElement.classList.contains("dark");
-  const axisColor = isDark ? "#ffffff" : "#000000";
-  const gridColor = isDark ? "#444444" : "#cccccc";
+  /* 🔹 Track dark mode (same logic as your working chart) */
+  const [isDark, setIsDark] = useState(
+    document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  /* 🔹 Colors */
+  const axisColor = isDark ? "#E5E7EB" : "#111827";
+  const gridColor = isDark ? "#374151" : "#E5E7EB";
+  const barColor = "#dc2626";
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      key={isDark ? "dark" : "light"}
+    >
       <BarChart
         data={data}
-        margin={{ top: 20, right: 20, left: 0, bottom: 30 }} // ⬅️ extra bottom space
+        margin={{ top: 20, right: 20, left: 0, bottom: 36 }}
       >
         {/* GRID */}
         <CartesianGrid
           strokeDasharray="3 3"
           stroke={gridColor}
-          opacity={0.3}
+          opacity={0.4}
         />
 
-        {/* X AXIS */}
+        {/* X AXIS (text color only) */}
         <XAxis
           dataKey="month"
-          tick={<MonthYearTick />}
-          interval={0}        // SHOW ALL MONTHS
+          interval={0}
           axisLine={false}
           tickLine={false}
+          tick={(props) => (
+            <MonthYearTick {...props} fill={axisColor} />
+          )}
         />
 
-        {/* Y AXIS */}
+        {/* Y AXIS (text color only) */}
         <YAxis
-          tick={{ fontSize: 12, fill: axisColor }}
           axisLine={false}
           tickLine={false}
+          tick={{ fontSize: 12, fill: axisColor }}
         />
 
         {/* TOOLTIP */}
         <Tooltip
           contentStyle={{
             backgroundColor: isDark ? "#1f2937" : "#ffffff",
-            border: "none",
             color: axisColor,
+            border: "none",
           }}
         />
 
         {/* BAR */}
         <Bar
           dataKey="sales"
-          fill="#dc2626"       // red (consistent with breakdown theme)
+          fill={barColor}
           barSize={18}
           radius={[6, 6, 0, 0]}
         />
