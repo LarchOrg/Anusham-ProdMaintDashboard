@@ -350,4 +350,220 @@ export const fetchActualMTBFChart = async () => {
   }
 };
 
+// 🔷 Monthly Sales Trend
+export const fetchMonthlySales = async () => {
+  try {
+    const res = await api.get("/Sales/MonthlySales");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,          // "Jan-25"
+      sales: Number(item.percentage), // "3.2" → 3.2
+    }));
+  } catch (err) {
+    console.error("❌ fetchMonthlySales failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Monthly Performance (Sales + Profit)
+export const fetchMonthlyPerformance = async () => {
+  try {
+    const res = await api.get("/Sales/MonthlyPerformance");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,             // "Jan-25"
+      sales: Number(item.sales),          // "4.2" → 4.2
+      profit: Number(item.profit),        // "1.1" → 1.1
+      overallProfit: Number(item.overallProfit) // 19.8
+    }));
+  } catch (err) {
+    console.error("❌ fetchMonthlyPerformance failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Top Customers Chart
+export const fetchTopCustomers = async () => {
+  try {
+    const res = await api.get("/Sales/TopCustomer");
+
+    return (res.data || []).map(item => ({
+      name: item.companyName,       // Y-axis
+      value: Number(item.sales),    // Bar value
+    }));
+
+  } catch (err) {
+    console.error("❌ fetchTopCustomers failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Top Salespersons Chart
+export const fetchTopSalespersons = async () => {
+  try {
+    const res = await api.get("/Sales/TopSalesPerson");
+
+    return (res.data || []).map(item => ({
+      name: item.salesPersonName,
+      value: Number(item.sales),
+    }));
+  } catch (err) {
+    console.error("❌ fetchTopSalespersons failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Top Items by Sales
+export const fetchTopItems = async () => {
+  try {
+    const res = await api.get("/Sales/TopItemName");
+
+    return (res.data || []).map(item => ({
+      name: item.itemName,
+      value: Number(item.sales),
+    }));
+  } catch (err) {
+    console.error("❌ fetchTopItems failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Defect Rate Chart
+export const fetchDefectRateChart = async () => {
+  try {
+    const res = await api.get("/Quality/DefectRate");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,           // "Apr-25"
+      value: Number(item.percentage),  // "5" → 5
+    }));
+  } catch (err) {
+    console.error("❌ fetchDefectRateChart failed:", err);
+    return [];
+  }
+};
+
+// Scrap Rate Chart
+export const fetchScrapRateChart = async () => {
+  try{
+  const res = await api.get("/Quality/ScrapRate");
+
+  return (res.data || []).map(item => ({
+    month: item.monthYear,                 // "Apr-25"
+    value: Number(item.percentage),         // "3" → 3
+  }));
+}catch(err){
+  console.error("❌ fetchScrapRateChart failed:", err);
+    return [];
+}
+};
+
+// Rework Rate Chart
+export const fetchReworkRateChart = async () => {
+    try{
+  const res = await api.get("/Quality/ReworkRate");
+
+  return (res.data || []).map(item => ({
+    month: item.monthYear,          // "Apr-25"
+    value: Number(item.percentage), // "2" → 2
+  }));
+}catch(err){
+  console.error("❌ fetchReworkRateChart failed:", err);
+    return [];
+}
+};
+
+export const fetchCustomerComplaintCharts = async () => {
+  try{
+  const res = await api.get("/Quality/customercomplaint");
+
+  return (res.data || []).map(item => ({
+    month: item.monthYear,
+    value: Number(item.percentage),
+  }));
+}catch(err){
+  console.error("❌ fetchCustomerComplaintChart failed:", err);
+    return [];
+}
+};
+
+export const fetchCustomerReturnChart = async () => {
+  try {
+    const res = await api.get("/Quality/customerreturns");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,          // "Apr-25"
+      value: Number(item.percentage), // "7" → 7
+    }));
+  } catch (err) {
+    console.error("❌ fetchCustomerReturnChart failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Yield Rate Chart
+export const fetchYieldRateChart = async () => {
+  try {
+    const res = await api.get("/quality/YieldRate");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,          // "Apr-25"
+      value: Number(item.percentage), // "84" → 84
+    }));
+  } catch (err) {
+    console.error("❌ fetchYieldRateChart failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Product Audit Closure Chart
+export const fetchProductAuditChart = async () => {
+  try {
+    const res = await api.get("/quality/ProductAudit");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,          
+      value: Number(item.percentage), 
+    }));
+  } catch (err) {
+    console.error("❌ fetchProductAuditChart failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Process Audit Chart
+export const fetchProcessAuditChart = async () => {
+  try {
+    const res = await api.get("/quality/ProcessAudit");
+
+    return (res.data || []).map(item => ({
+      month: item.monthYear,          
+      value: Number(item.percentage), 
+    }));
+  } catch (err) {
+    console.error("❌ fetchProcessAuditClosureChart failed:", err);
+    return [];
+  }
+};
+
+// 🔷 Quality KPI Cards
+export const fetchQualityKPIs = async () => {
+  try {
+    const res = await api.get("/quality/FPY");
+
+    const item = res.data?.[0];
+    if (!item) return null;
+
+    return {
+      fpyMar: Number(item.fpyMar),
+      fpyYtd: Number(item.fpyYtd),
+      productAudit: Number(item.productAudit),
+      processAudit: Number(item.processAudit),
+    };
+  } catch (err) {
+    console.error("❌ fetchQualityKPIs failed:", err);
+    return null;
+  }
+};
+
 

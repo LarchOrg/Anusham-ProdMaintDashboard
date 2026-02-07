@@ -26,11 +26,11 @@ function App() {
             <Route path="/maintenance" element={<MaintenanceDashboard />} />
             <Route path="/analytics" element={<AnalyticsDashboard />} />
             <Route path="/maintenanceanalytics" element={<AnalyticsDashboard2 />} />
-            <Route path="/Breakdownanalytics" element={<BreakdownAnalytics />} />
+            <Route path="/mttrmtbf" element={<BreakdownAnalytics />} />
             <Route path="/Salesanalytics" element={<SalesAnalytics />} />
             <Route path="/inventory" element={<InvenotryAnalytics  />} />
             <Route path="/5sInventoryKpi" element={<sInventoryKpi  />} />
-            <Route path="/mttrmtbf" element={<MTTRMTBF />} />
+            <Route path="/Breakdownanalytics" element={<MTTRMTBF />} />
             <Route path="/Qualitykpi" element={<QualityKpi />} />
             <Route path="/SPCAnalysis" element={<SPCAnalysis />} />
             <Route path="/ToolLifeAnalysis" element={<ToolLifeAnalysis />} />
