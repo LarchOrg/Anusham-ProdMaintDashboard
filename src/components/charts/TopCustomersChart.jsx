@@ -10,17 +10,8 @@ import {
   LabelList,
 } from "recharts";
 
-/* ===== DATA ===== */
-const data = [
-  { name: "Meersen Meubelen", value: 1.8 },
-  { name: "Voltive Systems", value: 1.65 },
-  { name: "Top Action Sports", value: 1.5 },
-  { name: "Dicon Industries", value: 1.21 },
-  { name: "Dantons", value: 1.2 },
-];
-
-export default function TopCustomersChart() {
-  /* 🔹 Dark mode tracking (same as other charts) */
+export default function TopCustomersChart({ data = [] }) {
+  /* 🔹 Dark mode tracking */
   const [isDark, setIsDark] = useState(
     document.documentElement.classList.contains("dark")
   );
@@ -38,6 +29,15 @@ export default function TopCustomersChart() {
   const axisColor = isDark ? "#E5E7EB" : "#111827";
   const gridColor = isDark ? "#374151" : "#E5E7EB";
 
+  /* 🔹 Empty state */
+  if (!data.length) {
+    return (
+      <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+        No customer data available
+      </div>
+    );
+  }
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -47,7 +47,7 @@ export default function TopCustomersChart() {
       <BarChart
         data={data}
         layout="vertical"
-        margin={{ top: 8, right: 24, left: 16, bottom: 8 }}
+        margin={{ top: 8, right: 10, left: 0, bottom: 8 }}
       >
         {/* GRID */}
         <CartesianGrid
@@ -57,7 +57,7 @@ export default function TopCustomersChart() {
           opacity={0.4}
         />
 
-        {/* X AXIS (TEXT COLOR ONLY) */}
+        {/* X AXIS */}
         <XAxis
           type="number"
           domain={[0, "dataMax + 0.3"]}
@@ -66,19 +66,23 @@ export default function TopCustomersChart() {
           tick={{ fontSize: 11, fill: axisColor }}
         />
 
-        {/* Y AXIS (TEXT COLOR ONLY) */}
+        {/* Y AXIS */}
         <YAxis
           type="category"
           dataKey="name"
           axisLine={false}
           tickLine={false}
           tick={{ fontSize: 11, fill: axisColor }}
-          width={140}
+          width={180}
         />
 
         {/* TOOLTIP */}
         <Tooltip
-          cursor={{ fill: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}
+          cursor={{
+            fill: isDark
+              ? "rgba(255,255,255,0.04)"
+              : "rgba(0,0,0,0.04)",
+          }}
           contentStyle={{
             backgroundColor: isDark ? "#1f2937" : "#ffffff",
             border: "none",

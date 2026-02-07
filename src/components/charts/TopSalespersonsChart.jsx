@@ -7,18 +7,17 @@ import {
   Legend,
 } from "recharts";
 
-const data = [
-  { name: "Peter Sadow", value: 10 },
-  { name: "Annette Hill", value: 9 },
-  { name: "Linda Martin", value: 7 },
-  { name: "Bart Duncan", value: 5 },
-  { name: "Roberto Her", value: 5 },
-];
-
 const COLORS = ["#2563eb", "#22c55e", "#facc15", "#fb7185", "#c084fc"];
 
 // percentage label inside slice
-const renderLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+const renderLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+}) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -39,7 +38,15 @@ const renderLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) =>
   );
 };
 
-export default function TopSalespersonsChart() {
+export default function TopSalespersonsChart({ data = [] }) {
+  if (!data.length) {
+    return (
+      <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+        No salesperson data available
+      </div>
+    );
+  }
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart>
@@ -57,9 +64,7 @@ export default function TopSalespersonsChart() {
           ))}
         </Pie>
 
-        <Tooltip
-          formatter={(value, name) => [`${value}`, name]}
-        />
+        <Tooltip formatter={(value, name) => [`${value}`, name]} />
 
         <Legend
           verticalAlign="bottom"

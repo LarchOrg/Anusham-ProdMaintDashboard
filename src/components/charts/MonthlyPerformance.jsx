@@ -11,35 +11,12 @@ import {
   Label,
 } from "recharts";
 
-/* ===== DATA ===== */
-const data = [
-  { month: "Jan-25", sales: 4.2, profit: 1.1 },
-  { month: "Feb-25", sales: 4.5, profit: 1.3 },
-  { month: "Mar-25", sales: 4.8, profit: 1.4 },
-  { month: "Apr-25", sales: 5.0, profit: 1.6 },
-  { month: "May-25", sales: 5.4, profit: 1.8 },
-  { month: "Jun-25", sales: 5.8, profit: 2.0 },
-  { month: "Jul-25", sales: 4.9, profit: 1.5 },
-  { month: "Aug-25", sales: 4.7, profit: 1.4 },
-  { month: "Sep-25", sales: 4.9, profit: 1.6 },
-  { month: "Oct-25", sales: 5.3, profit: 1.9 },
-  { month: "Nov-25", sales: 5.6, profit: 2.1 },
-  { month: "Dec-25", sales: 5.9, profit: 2.2 },
-];
-
-/* ===== CUSTOM X AXIS (Month ↑ Year ↓) ===== */
+/* ===== CUSTOM X AXIS ===== */
 const MonthYearTick = ({ x, y, payload, fill }) => {
   const [month, year] = payload.value.split("-");
   return (
     <g transform={`translate(${x},${y})`}>
-      <text
-        x={0}
-        y={0}
-        dy={14}
-        textAnchor="middle"
-        fontSize={12}
-        fill={fill}
-      >
+      <text x={0} y={0} dy={14} textAnchor="middle" fontSize={12} fill={fill}>
         {month}
       </text>
       <text
@@ -57,8 +34,8 @@ const MonthYearTick = ({ x, y, payload, fill }) => {
   );
 };
 
-export default function MonthlyPerformance() {
-  /* 🔹 Dark mode tracking (same as BreakdownHrsChart) */
+export default function MonthlyPerformance({ data = [] }) {
+  /* 🔹 Dark mode tracking */
   const [isDark, setIsDark] = useState(
     document.documentElement.classList.contains("dark")
   );
@@ -76,28 +53,27 @@ export default function MonthlyPerformance() {
   const axisColor = isDark ? "#E5E7EB" : "#111827";
   const gridColor = isDark ? "#374151" : "#E5E7EB";
 
-  const totalProfit = data.reduce((sum, d) => sum + d.profit, 0);
-  const totalSales = data.reduce((sum, d) => sum + d.sales, 0);
-  const profitPct = ((totalProfit / totalSales) * 100).toFixed(1);
+  /* 🔹 Overall Profit % from API */
+  const profitPct = data.length
+    ? data[0].overallProfit.toFixed(1)
+    : "0.0";
+
+  if (!data.length) {
+    return (
+      <div className="h-full flex items-center justify-center text-sm opacity-60">
+        No data available
+      </div>
+    );
+  }
 
   return (
-    <ResponsiveContainer
-      width="100%"
-      height="100%"
-      key={isDark ? "dark" : "light"}
-    >
+    <ResponsiveContainer width="100%" height="100%">
       <ComposedChart
         data={data}
-        margin={{ top: 30, right: 30, left: 0, bottom: 36 }}
+        margin={{ top: 30, right: 30, left: 0, bottom: 25 }}
       >
-        {/* GRID */}
-        <CartesianGrid
-          strokeDasharray="3 3"
-          stroke={gridColor}
-          opacity={0.4}
-        />
+        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} opacity={0.4} />
 
-        {/* X AXIS (TEXT COLOR ONLY) */}
         <XAxis
           dataKey="month"
           interval={0}
@@ -108,14 +84,12 @@ export default function MonthlyPerformance() {
           )}
         />
 
-        {/* Y AXIS (TEXT COLOR ONLY) */}
         <YAxis
           axisLine={false}
           tickLine={false}
           tick={{ fontSize: 12, fill: axisColor }}
         />
 
-        {/* TOOLTIP */}
         <Tooltip
           contentStyle={{
             backgroundColor: isDark ? "#1f2937" : "#ffffff",
@@ -124,7 +98,7 @@ export default function MonthlyPerformance() {
           }}
         />
 
-        {/* SALES BAR */}
+        {/* SALES */}
         <Bar
           dataKey="sales"
           fill="#f97316"
@@ -132,7 +106,7 @@ export default function MonthlyPerformance() {
           radius={[6, 6, 0, 0]}
         />
 
-        {/* PROFIT LINE */}
+        {/* PROFIT */}
         <Line
           type="monotone"
           dataKey="profit"

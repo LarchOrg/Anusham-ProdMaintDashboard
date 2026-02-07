@@ -9,24 +9,10 @@ import {
   Tooltip,
 } from "recharts";
 
-/* ===== DATA ===== */
-const data = [
-  { month: "Jan-25", sales: 3.2 },
-  { month: "Feb-25", sales: 3.6 },
-  { month: "Mar-25", sales: 3.9 },
-  { month: "Apr-25", sales: 4.5 },
-  { month: "May-25", sales: 4.8 },
-  { month: "Jun-25", sales: 5.2 },
-  { month: "Jul-25", sales: 4.1 },
-  { month: "Aug-25", sales: 3.8 },
-  { month: "Sep-25", sales: 4.0 },
-  { month: "Oct-25", sales: 4.6 },
-  { month: "Nov-25", sales: 4.9 },
-  { month: "Dec-25", sales: 5.0 },
-];
-
 /* ===== CUSTOM X AXIS (Month ↑ Year ↓) ===== */
 const MonthYearTick = ({ x, y, payload, fill }) => {
+  if (!payload?.value) return null;
+
   const [month, year] = payload.value.split("-");
   return (
     <g transform={`translate(${x},${y})`}>
@@ -55,8 +41,8 @@ const MonthYearTick = ({ x, y, payload, fill }) => {
   );
 };
 
-export default function MonthlySalesTrend() {
-  /* 🔹 Track dark mode (same logic as your working chart) */
+export default function MonthlySalesTrend({ data = [] }) {
+  /* 🔹 Track dark mode */
   const [isDark, setIsDark] = useState(
     document.documentElement.classList.contains("dark")
   );
@@ -83,16 +69,14 @@ export default function MonthlySalesTrend() {
     >
       <BarChart
         data={data}
-        margin={{ top: 20, right: 20, left: 0, bottom: 36 }}
+        margin={{ top: 20, right: 20, left: 0, bottom: 25 }}
       >
-        {/* GRID */}
         <CartesianGrid
           strokeDasharray="3 3"
           stroke={gridColor}
           opacity={0.4}
         />
 
-        {/* X AXIS (text color only) */}
         <XAxis
           dataKey="month"
           interval={0}
@@ -103,14 +87,12 @@ export default function MonthlySalesTrend() {
           )}
         />
 
-        {/* Y AXIS (text color only) */}
         <YAxis
           axisLine={false}
           tickLine={false}
           tick={{ fontSize: 12, fill: axisColor }}
         />
 
-        {/* TOOLTIP */}
         <Tooltip
           contentStyle={{
             backgroundColor: isDark ? "#1f2937" : "#ffffff",
@@ -119,7 +101,6 @@ export default function MonthlySalesTrend() {
           }}
         />
 
-        {/* BAR */}
         <Bar
           dataKey="sales"
           fill={barColor}
