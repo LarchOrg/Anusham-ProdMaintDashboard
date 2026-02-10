@@ -1,3 +1,172 @@
-export default function sInventoryKpi() {
-  return <div>Inventory Analytics</div>;
+import React, { useState } from "react";
+import { Card, CardHeader } from "../components/ui/Card";
+import { StatCard } from "../components/dashboard/StatCard";
+
+import { DollarSign, Boxes } from "lucide-react";
+
+import InventoryValueTrendChart from "../components/charts/InventoryValueTrendChart";
+import TurnoverDaysChart from "../components/charts/TurnoverDaysChart";
+import TopItemsValueChart from "../components/charts/TopItemsValueChart";
+import TopItemsQuantityChart from "../components/charts/TopItemsQuantityChart";
+import InventoryMovementChart from "../components/charts/InventoryMovementChart";
+import InventorySalesChart from "../components/charts/InventorySalesChart";
+import RatioGauge from "../components/charts/RatioGauge";
+
+export default function InventoryKpi() {
+  const [loading, setLoading] = useState(false);
+  const [topItemView, setTopItemView] = useState("value"); // 👈 NEW
+
+  return (
+    <div className="h-full overflow-y-auto flex flex-col gap-4 p-4">
+
+     {/* ================= KPI CARDS ================= */}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+
+  <Card className="h-28">
+  <StatCard
+    title="Inventory Value"
+    value="20,068,577"
+    subtext="Change: +1,076,296"
+    icon={DollarSign}
+    loading={loading}
+    colorClass={{
+      bg: "bg-emerald-100 dark:bg-emerald-900/30",
+      text: "text-emerald-700 dark:text-emerald-400",
+      icon: "text-emerald-700"
+    }}
+  />
+</Card>
+
+
+ <Card className="h-28">
+  <StatCard
+    title="Stock Available"
+    value="3,790,813"
+    subtext="Change: +58,778"
+    icon={Boxes}
+    loading={loading}
+    colorClass={{
+      bg: "bg-indigo-100 dark:bg-indigo-900/30",
+      text: "text-indigo-700 dark:text-indigo-400",
+      icon: "text-indigo-700"
+    }}
+  />
+</Card>
+
+
+<Card className="h-28 flex items-center justify-center">
+  <RatioGauge
+    title="Turnover Ratio"
+    value={9.13}
+    max={50}
+    color="#22c55e"   // green – good turnover
+  />
+</Card>
+
+<Card className="h-28 flex items-center justify-center">
+  <RatioGauge
+    title="Inventory to Sales Ratio"
+    value={0.44}
+    max={5}
+    color="#3b82f6"   // blue – neutral ratio
+  />
+</Card>
+
+<Card className="h-28 flex items-center justify-center">
+  <RatioGauge
+    title="Avg Inventory Days"
+    value={39.98}
+    max={90}
+    color="#f59e0b"   // amber – warning-style metric
+  />
+</Card>
+
+
+</div>
+
+
+      {/* ================= MAIN CHART GRID ================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+        {/* ===== LEFT COLUMN ===== */}
+        <div className="flex flex-col gap-4">
+          <Card>
+            <CardHeader title="Inventory Value Over Time" />
+            <InventoryValueTrendChart />
+          </Card>
+
+          <Card>
+            <CardHeader title="Inventory Movement" />
+            <InventoryMovementChart />
+          </Card>
+        </div>
+
+        {/* ===== MIDDLE COLUMN ===== */}
+        <div className="flex flex-col gap-4">
+          <Card>
+            <CardHeader title="Turnover (Days) by Month" />
+            <TurnoverDaysChart />
+          </Card>
+
+          <Card>
+            <CardHeader title="Inventory to Sales Analysis" />
+            <InventorySalesChart />
+          </Card>
+        </div>
+
+        {/* ===== RIGHT COLUMN ===== */}
+        {/* ===== RIGHT COLUMN ===== */}
+<Card className="h-full flex flex-col">
+  <CardHeader
+    title={
+      topItemView === "value"
+        ? "Top 10 Items Based on Value"
+        : "Top 10 Items Based on Quantity"
+    }
+  />
+
+  {/* Chart */}
+  <div className="flex-1 px-4">
+    {/* 👇 slightly reduced height */}
+    <div className="h-[450px]">
+      {topItemView === "value" ? (
+        <TopItemsValueChart />
+      ) : (
+        <TopItemsQuantityChart />
+      )}
+    </div>
+  </div>
+
+  {/* Buttons */}
+  <div className="flex justify-center gap-4 pb-4">
+    <button
+      onClick={() => setTopItemView("value")}
+      className={`px-5 py-2 text-sm font-medium rounded-lg transition
+        ${
+          topItemView === "value"
+            ? "bg-green-500 text-white shadow"
+            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+        }`}
+    >
+      Value
+    </button>
+
+    <button
+      onClick={() => setTopItemView("quantity")}
+      className={`px-5 py-2 text-sm font-medium rounded-lg transition
+        ${
+          topItemView === "quantity"
+            ? "bg-green-500 text-white shadow"
+            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+        }`}
+    >
+      Quantity
+    </button>
+  </div>
+</Card>
+
+
+      </div>
+    </div>
+  );
 }

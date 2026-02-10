@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Wrench, Menu, X, Bell, User, Clock, 
   ChevronLeft, ChevronRight, Settings as SettingsIcon, LogOut, 
-  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity,BarChart3,TrendingUp,Boxes,Gauge,Timer,ClipboardCheck,LineChart,Truck,Cog 
+  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity,BarChart3,TrendingUp,Boxes,Gauge,Timer,ClipboardCheck,LineChart,Truck,Cog,Play, Pause
 } from 'lucide-react';
 import { format } from 'date-fns';
 import clsx from 'clsx';
@@ -77,6 +77,41 @@ const currentLogo = isDarkTheme ? logoDark : logo;
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const location = useLocation();
+    const [isAutoRotate, setIsAutoRotate] = useState(true); // ▶️ default ON
+  const autoRotateRoutes = [
+  '/',
+  '/5sInventoryKpi',
+  '/analytics',
+  '/maintenanceanalytics',
+  '/mttrmtbf',
+  '/Breakdownanalytics',
+  '/Qualitykpi',
+  '/SPCAnalysis',
+  '/ToolLifeAnalysis',
+  '/inventory',
+  '/Salesanalytics',
+  '/maintenance',
+];
+const navigate = useNavigate();
+useEffect(() => {
+  // ⛔ Skip auto-rotation if paused or on settings page
+  if (!isAutoRotate || location.pathname === '/settings') return;
+
+  const interval = setInterval(() => {
+    const currentIndex = autoRotateRoutes.indexOf(location.pathname);
+
+    const nextIndex =
+      currentIndex === -1 || currentIndex === autoRotateRoutes.length - 1
+        ? 0
+        : currentIndex + 1;
+
+    navigate(autoRotateRoutes[nextIndex]);
+  }, 20000); // 20 seconds
+
+  return () => clearInterval(interval);
+}, [location.pathname, navigate, isAutoRotate]);
+
+
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -111,6 +146,8 @@ const currentLogo = isDarkTheme ? logoDark : logo;
       setTimeout(() => setFullscreenError(false), 3000);
     }
   };
+
+
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -283,6 +320,19 @@ const currentLogo = isDarkTheme ? logoDark : logo;
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
+              {/* ▶️ Auto Rotate Play / Pause */}
+  <button
+    onClick={() => setIsAutoRotate(prev => !prev)}
+    className={clsx(
+      "p-2 rounded-full transition-colors           ",
+      isAutoRotate
+        ? "bg-green-100 text-green-600 dark:bg-green-900/30"
+        : "bg-gray-100 text-gray-500 dark:bg-gray-800"
+    )}
+    title={isAutoRotate ? "Pause Auto Rotate" : "Play Auto Rotate"}
+  >
+    {isAutoRotate ? <Pause size={18} /> : <Play size={18} />}
+  </button>
             {/* Fullscreen */}
             <div className="relative hidden sm:block">
               <button onClick={toggleFullscreen} className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">

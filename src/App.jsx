@@ -8,7 +8,7 @@ import AnalyticsDashboard2 from './pages/AnalyticsDashboard2';
 import BreakdownAnalytics from './pages/BreakdownAnalytics';
 import SalesAnalytics from './pages/SalesAnalytics';
 import InvenotryAnalytics  from './pages/InvenotryAnalytics';
-import sInventoryKpi  from './pages/5sInventoryKpi';
+import InventoryKpi  from './pages/5sInventoryKpi';
 import MTTRMTBF from './pages/MTTR&MTBF'; 
 import QualityKpi from './pages/QualityKpi';
 import SPCAnalysis from './pages/SPCAnalysis';
@@ -29,7 +29,7 @@ function App() {
             <Route path="/mttrmtbf" element={<BreakdownAnalytics />} />
             <Route path="/Salesanalytics" element={<SalesAnalytics />} />
             <Route path="/inventory" element={<InvenotryAnalytics  />} />
-            <Route path="/5sInventoryKpi" element={<sInventoryKpi  />} />
+            <Route path="/5sInventoryKpi" element={<InventoryKpi  />} />
             <Route path="/Breakdownanalytics" element={<MTTRMTBF />} />
             <Route path="/Qualitykpi" element={<QualityKpi />} />
             <Route path="/SPCAnalysis" element={<SPCAnalysis />} />
