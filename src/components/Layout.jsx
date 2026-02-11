@@ -84,18 +84,31 @@ const currentLogo = isDarkTheme ? logoDark : logo;
   '/analytics',
   '/maintenanceanalytics',
   '/mttrmtbf',
-  '/Breakdownanalytics',
+  // '/Breakdownanalytics',
   '/Qualitykpi',
-  '/SPCAnalysis',
-  '/ToolLifeAnalysis',
-  '/inventory',
+  // '/SPCAnalysis',
+  // '/ToolLifeAnalysis',
+  // '/inventory',
   '/Salesanalytics',
   '/maintenance',
 ];
+const skipAutoRotateRoutes = [
+  '/settings',
+  '/Breakdownanalytics',
+   '/SPCAnalysis',
+   '/ToolLifeAnalysis',
+    '/inventory',
+];
+
 const navigate = useNavigate();
 useEffect(() => {
-  // ⛔ Skip auto-rotation if paused or on settings page
-  if (!isAutoRotate || location.pathname === '/settings') return;
+  // ⛔ Skip auto-rotation if paused or route is excluded
+  if (
+    !isAutoRotate ||
+    skipAutoRotateRoutes.includes(location.pathname)
+  ) {
+    return;
+  }
 
   const interval = setInterval(() => {
     const currentIndex = autoRotateRoutes.indexOf(location.pathname);
@@ -110,6 +123,7 @@ useEffect(() => {
 
   return () => clearInterval(interval);
 }, [location.pathname, navigate, isAutoRotate]);
+
 
 
 
@@ -316,7 +330,7 @@ useEffect(() => {
                : 'System Settings'}
 
             </h1>
-            <span className="lg:hidden font-bold text-gray-800 dark:text-white">FactoryOps</span>
+            <span className="lg:hidden font-bold text-gray-800 dark:text-white">Larch Analytics</span>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
