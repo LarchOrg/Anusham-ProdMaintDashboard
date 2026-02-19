@@ -263,13 +263,13 @@ useEffect(() => {
           <SidebarItem to="/analytics" icon={Factory} label="Production Analytics" active={location.pathname === '/analytics'} collapsed={isCollapsed} />
            <SidebarItem to="/maintenanceanalytics" icon={Gauge} label="Maintenance Analytics" active={location.pathname === '/maintenanceanalytics'} collapsed={isCollapsed} />
             <SidebarItem to="/mttrmtbf" icon={Timer} label="MTTR & MTBF" active={location.pathname === '/mttrmtbf'} collapsed={isCollapsed} />
-           <SidebarItem to="/Breakdownanalytics" icon={BarChart3 } label="Breakdown Analytics" active={location.pathname === '/Breakdownanalytics'} collapsed={isCollapsed} />
+           <SidebarItem to="/maintenance" icon={BarChart3 } label="Breakdown Analytics" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
             <SidebarItem to="/Qualitykpi" icon={ClipboardCheck} label="Quality KPI Data" active={location.pathname === '/Qualitykpi'} collapsed={isCollapsed} />
             <SidebarItem to="/SPCAnalysis" icon={LineChart} label="SPC Analysis" active={location.pathname === '/SPCAnalysis'} collapsed={isCollapsed} />
             <SidebarItem to="/ToolLifeAnalysis" icon={Cog } label="Tool Life Analysis" active={location.pathname === '/ToolLifeAnalysis'} collapsed={isCollapsed} />
             <SidebarItem to="/inventory" icon={Truck} label="Supplier KPI" active={location.pathname === '/inventory'} collapsed={isCollapsed} />
            <SidebarItem to="/Salesanalytics" icon={TrendingUp } label="Sales Analytics" active={location.pathname === '/Salesanalytics'} collapsed={isCollapsed} />
-          <SidebarItem to="/maintenance" icon={Wrench} label="Overall Trend Analysis" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
+          <SidebarItem to="/Breakdownanalytics" icon={Wrench} label="Overall Trend Analysis" active={location.pathname === '/Breakdownanalytics'} collapsed={isCollapsed} />
           
           <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
 
