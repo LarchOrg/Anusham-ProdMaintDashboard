@@ -153,7 +153,7 @@ export default function ProductionDashboard() {
         />
 
         <StatCard
-          title="Active Machines"
+          title="Running Machines"
           value={machineData.filter((m) => m.status === "A").length}
           subtext={`Total: ${machineData.length}`}
           icon={Activity}
@@ -166,7 +166,7 @@ export default function ProductionDashboard() {
         />
 
         <StatCard
-          title="Bottlenecks"
+          title="Breakdown"
           value={bottlenecks.length}
           subtext="Requires Attention"
           icon={AlertTriangle}
@@ -237,7 +237,7 @@ export default function ProductionDashboard() {
           <Card className="flex-1 shrink-0 flex flex-col shadow-md" noPadding>
             <div className="p-3 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/50">
               <h2 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1.5">
-                <AlertTriangle size={14} /> Bottlenecks
+                <AlertTriangle size={14} /> Breakdown
               </h2>
               <span className="flex items-center gap-1 text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 px-2 py-0.5 rounded-full border border-purple-100 dark:border-purple-800/50">
                 <Sparkles size={10} /> AI Insight
@@ -252,7 +252,7 @@ export default function ProductionDashboard() {
                 </>
               ) : bottlenecks.length === 0 ? (
                 <p className="text-xs text-gray-500 text-center">
-                  No bottlenecks detected
+                  No Breakdown detected
                 </p>
               ) : (
                 bottlenecks.slice(0, 10).map((item, idx) => (
