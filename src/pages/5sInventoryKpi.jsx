@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, CardHeader } from "../components/ui/Card";
 import { StatCard } from "../components/dashboard/StatCard";
 
-import { DollarSign, Boxes } from "lucide-react";
+import { IndianRupee , Boxes } from "lucide-react";
 
 import InventoryValueTrendChart from "../components/charts/InventoryValueTrendChart";
 import TurnoverDaysChart from "../components/charts/TurnoverDaysChart";
@@ -27,7 +27,7 @@ export default function InventoryKpi() {
     title="Inventory Value"
     value="20,068,577"
     subtext="Change: +1,076,296"
-    icon={DollarSign}
+    icon={IndianRupee }
     loading={loading}
     colorClass={{
       bg: "bg-emerald-100 dark:bg-emerald-900/30",
