@@ -566,4 +566,44 @@ export const fetchQualityKPIs = async () => {
   }
 };
 
+// 🔷 Inventory Value KPI
+export const fetchInventoryValueKPI = async () => {
+  try {
+    const res = await api.get("/FiveSInventoryKpi/InventoryValue");
 
+    const item = res.data?.[0];
+    if (!item) return null;
+
+    return {
+      inventoryValues: Number(item.inventoryValues),
+      stockAvailable: Number(item.stockAvailable),
+      turnoverRatio: Number(item.turnoverRatio),
+      inventoryToSalesRatio: Number(item.inventoryToSalesRatio),
+      avgInventoryDays: Number(item.avgInventoryDays),
+    };
+  } catch (err) {
+    console.error("❌ fetchInventoryValueKPI failed:", err);
+    return null;
+  }
+};
+
+// 🔷 Inventory Value KPI
+export const fetchInventoryValueOverTime = async () => {
+  try {
+    const res = await api.get("/FiveSInventoryKpi/InventoryValueOver");
+
+    const item = res.data?.[0];
+    if (!item) return null;
+
+    return {
+      moMValue: Number(item.moMValue),
+      inventoryValue: Number(item.inventoryValue),
+      year: Number(item.year),
+      month: Number(item.month),
+     
+    };
+  } catch (err) {
+    console.error("❌ fetchInventoryValueOverTime failed:", err);
+    return null;
+  }
+};
