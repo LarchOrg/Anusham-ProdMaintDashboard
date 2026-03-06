@@ -24,7 +24,8 @@ export const fetchMachineStatus = async () => {
       produced: Number(m.produced ?? 0),
       rejects: Number(m.rejects ?? 0),
       target: Number(m.targets ?? 0),   // frontend standard
-      targets: Number(m.targets ?? 0)   // keep original if needed
+      targets: Number(m.targets ?? 0),   // keep original if needed
+      oee: Number(m.oee ?? 0)
     }));
 
     return {
