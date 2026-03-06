@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+
 import { Card, CardHeader } from "../components/ui/Card";
 import { StatCard } from "../components/dashboard/StatCard";
 
 import { IndianRupee , Boxes } from "lucide-react";
-
+import React, { useState, useEffect } from "react";
 import InventoryValueTrendChart from "../components/charts/InventoryValueTrendChart";
 import TurnoverDaysChart from "../components/charts/TurnoverDaysChart";
 import TopItemsValueChart from "../components/charts/TopItemsValueChart";
@@ -11,9 +11,45 @@ import TopItemsQuantityChart from "../components/charts/TopItemsQuantityChart";
 import InventoryMovementChart from "../components/charts/InventoryMovementChart";
 import InventorySalesChart from "../components/charts/InventorySalesChart";
 import RatioGauge from "../components/charts/RatioGauge";
-
+import { fetchInventoryValueKPI,fetchInventoryValueOverTime} from "../services/dashboardApi";
 export default function InventoryKpi() {
-  const [loading, setLoading] = useState(false);
+const [inventoryValueKpi, setInventoryValueKpi] = useState([]);
+const [inventoryValueOverTime, setInventoryValueOverTime] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+     let intervalId;
+    const loadData = async () => {
+      try {
+        setLoading(true);
+  
+        const [
+         inventoryKpi,
+         inventoryOverTime
+        ] = await Promise.all([
+       fetchInventoryValueKPI(),
+       fetchInventoryValueOverTime()
+        ]);
+
+          setInventoryValueKpi(inventoryKpi);
+          setInventoryValueOverTime(inventoryOverTime);
+      } catch (err) {
+        console.error("Inventory Kpi error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+loadData();
+    intervalId = setInterval(() => {
+    loadData();
+  }, 60000); // 60 seconds
+
+  // 🧹 cleanup on unmount
+  return () => {
+    clearInterval(intervalId);
+  };
+}, []);
+
   const [topItemView, setTopItemView] = useState("value"); // 👈 NEW
 
   return (
@@ -25,7 +61,8 @@ export default function InventoryKpi() {
   <Card className="h-28">
   <StatCard
     title="Inventory Value"
-    value="20,068,577"
+    value={inventoryValueKpi?.inventoryValues?.toLocaleString()}
+    // value="20,068,577"
     subtext="Change: +1,076,296"
     icon={IndianRupee }
     loading={loading}
@@ -41,7 +78,7 @@ export default function InventoryKpi() {
  <Card className="h-28">
   <StatCard
     title="Stock Available"
-    value="3,790,813"
+    value={inventoryValueKpi?.stockAvailable?.toLocaleString()}
     subtext="Change: +58,778"
     icon={Boxes}
     loading={loading}
@@ -57,7 +94,7 @@ export default function InventoryKpi() {
 <Card className="h-28 flex items-center justify-center">
   <RatioGauge
     title="Turnover Ratio"
-    value={9.13}
+    value={inventoryValueKpi?.turnoverRatio}
     max={50}
     color="#22c55e"   // green – good turnover
   />
@@ -66,7 +103,7 @@ export default function InventoryKpi() {
 <Card className="h-28 flex items-center justify-center">
   <RatioGauge
     title="Inventory to Sales Ratio"
-    value={0.44}
+    value={inventoryValueKpi?.inventoryToSalesRatio}
     max={5}
     color="#3b82f6"   // blue – neutral ratio
   />
@@ -75,7 +112,7 @@ export default function InventoryKpi() {
 <Card className="h-28 flex items-center justify-center">
   <RatioGauge
     title="Avg Inventory Days"
-    value={39.98}
+    value={inventoryValueKpi?.avgInventoryDays}
     max={90}
     color="#f59e0b"   // amber – warning-style metric
   />
@@ -92,7 +129,7 @@ export default function InventoryKpi() {
         <div className="flex flex-col gap-4">
           <Card>
             <CardHeader title="Inventory Value Over Time" />
-            <InventoryValueTrendChart />
+            <InventoryValueTrendChart data={inventoryValueOverTime} />
           </Card>
 
           <Card>
