@@ -10,20 +10,20 @@ import {
 } from "recharts";
 
 /* ===== Dummy Data ===== */
-const data = [
-  { month: "Jan-25", value: 45 },
-  { month: "Feb-25", value: 42 },
-  { month: "Mar-25", value: 40 },
-  { month: "Apr-25", value: 36 },
-  { month: "May-25", value: 33 },
-  { month: "Jun-25", value: 35 },
-  { month: "Jul-25", value: 48 },
-  { month: "Aug-25", value: 52 },
-  { month: "Sep-25", value: 47 },
-  { month: "Oct-25", value: 42 },
-  { month: "Nov-25", value: 39 },
-  { month: "Dec-25", value: 38 },
-];
+// const data = [
+//   { month: "Jan-25", value: 45 },
+//   { month: "Feb-25", value: 42 },
+//   { month: "Mar-25", value: 40 },
+//   { month: "Apr-25", value: 36 },
+//   { month: "May-25", value: 33 },
+//   { month: "Jun-25", value: 35 },
+//   { month: "Jul-25", value: 48 },
+//   { month: "Aug-25", value: 52 },
+//   { month: "Sep-25", value: 47 },
+//   { month: "Oct-25", value: 42 },
+//   { month: "Nov-25", value: 39 },
+//   { month: "Dec-25", value: 38 },
+// ];
 
 /* ===== Month + Year Tick ===== */
 const MonthYearTick = ({ x, y, payload }) => {
@@ -46,7 +46,7 @@ const MonthYearTick = ({ x, y, payload }) => {
   );
 };
 
-export default function TurnoverDaysChart() {
+export default function TurnoverDaysChart({ data = [] }) {
   if (!data.length) {
     return (
       <div className="flex items-center justify-center h-64 text-xs text-muted-foreground">

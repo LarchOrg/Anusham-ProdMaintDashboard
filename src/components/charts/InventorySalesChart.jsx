@@ -10,16 +10,16 @@ import {
   Legend,
 } from "recharts";
 
-/* ===== DUMMY DATA ===== */
-const data = [
-  { month: "Jan-25", inventory: 20, sales: 4, ratio: 5 },
-  { month: "Feb-25", inventory: 19.5, sales: 4.2, ratio: 4.6 },
-  { month: "Mar-25", inventory: 20.1, sales: 4.5, ratio: 4.4 },
-  { month: "Apr-25", inventory: 19.8, sales: 4.8, ratio: 4.1 },
-  { month: "May-25", inventory: 20.4, sales: 5.2, ratio: 3.9 },
-  { month: "Jun-25", inventory: 20.2, sales: 5.5, ratio: 3.7 },
+// /* ===== DUMMY DATA ===== */
+// const data = [
+//   { month: "Jan-25", inventory: 20, sales: 4, ratio: 5 },
+//   { month: "Feb-25", inventory: 19.5, sales: 4.2, ratio: 4.6 },
+//   { month: "Mar-25", inventory: 20.1, sales: 4.5, ratio: 4.4 },
+//   { month: "Apr-25", inventory: 19.8, sales: 4.8, ratio: 4.1 },
+//   { month: "May-25", inventory: 20.4, sales: 5.2, ratio: 3.9 },
+//   { month: "Jun-25", inventory: 20.2, sales: 5.5, ratio: 3.7 },
 
-];
+// ];
 
 /* ===== Month + Year Tick ===== */
 const MonthYearTick = ({ x, y, payload }) => {
@@ -37,7 +37,7 @@ const MonthYearTick = ({ x, y, payload }) => {
   );
 };
 
-export default function InventorySalesChart() {
+export default function InventorySalesChart({ data = [] }) {
   return (
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">

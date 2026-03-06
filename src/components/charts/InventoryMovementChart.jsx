@@ -10,13 +10,13 @@ import {
 } from "recharts";
 
 /* ===== DUMMY DATA ===== */
-const data = [
-  { name: "Purchase", value: 12 },
-  { name: "Sale", value: -10 },
-  { name: "Total", value: 2 },
-];
+// const data = [
+//   { name: "Purchase", value: 12 },
+//   { name: "Sale", value: -10 },
+//   { name: "Total", value: 2 },
+// ];
 
-export default function InventoryMovementChart() {
+export default function InventoryMovementChart({ data = [] }) {
   return (
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
