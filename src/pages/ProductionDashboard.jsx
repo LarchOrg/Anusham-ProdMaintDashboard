@@ -94,6 +94,7 @@ export default function ProductionDashboard() {
       m.currentOrder,
       m.produced,
       m.targets,
+      m.oee,
       m.rejects,
     ]);
 
