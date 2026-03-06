@@ -11,11 +11,16 @@ import TopItemsQuantityChart from "../components/charts/TopItemsQuantityChart";
 import InventoryMovementChart from "../components/charts/InventoryMovementChart";
 import InventorySalesChart from "../components/charts/InventorySalesChart";
 import RatioGauge from "../components/charts/RatioGauge";
-import { fetchInventoryValueKPI,fetchInventoryValueOverTime} from "../services/dashboardApi";
+import { fetchInventoryValueKPI,fetchInventoryValueOverTime,fetchTurnOverDays,
+  fetchInventoryMovement,fetchInventorySales,fetchTop10ItemBasedValue,fetchTop10ItemBasedQuantity} from "../services/dashboardApi";
 export default function InventoryKpi() {
 const [inventoryValueKpi, setInventoryValueKpi] = useState([]);
 const [inventoryValueOverTime, setInventoryValueOverTime] = useState([]);
-
+  const [turnoverDays, setTurnoverDays] = useState([]);
+const [inventoryMovement, setInventoryMovement] = useState([]);
+const [inventorySales, setInventorySales] = useState([]);
+const [top10Items, setTop10Items] = useState([]);
+const [top10Quantity, setTop10Quantity] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
      let intervalId;
@@ -25,14 +30,29 @@ const [inventoryValueOverTime, setInventoryValueOverTime] = useState([]);
   
         const [
          inventoryKpi,
-         inventoryOverTime
+         inventoryOverTime,
+          turnoverDays,
+          inventoryMovementData,
+          inventorySalesData,
+          top10ItemsData,
+          top10QuantityData
         ] = await Promise.all([
        fetchInventoryValueKPI(),
-       fetchInventoryValueOverTime()
+       fetchInventoryValueOverTime(),
+        fetchTurnOverDays(),
+        fetchInventoryMovement(),
+        fetchInventorySales(),
+        fetchTop10ItemBasedValue(),
+        fetchTop10ItemBasedQuantity()
         ]);
 
           setInventoryValueKpi(inventoryKpi);
           setInventoryValueOverTime(inventoryOverTime);
+          setTurnoverDays(turnoverDays);
+          setInventoryMovement(inventoryMovementData);
+          setInventorySales(inventorySalesData);
+          setTop10Items(top10ItemsData);
+          setTop10Quantity(top10QuantityData);
       } catch (err) {
         console.error("Inventory Kpi error:", err);
       } finally {
@@ -63,7 +83,7 @@ loadData();
     title="Inventory Value"
     value={inventoryValueKpi?.inventoryValues?.toLocaleString()}
     // value="20,068,577"
-    subtext="Change: +1,076,296"
+    // subtext="Change: +1,076,296"
     icon={IndianRupee }
     loading={loading}
     colorClass={{
@@ -79,7 +99,7 @@ loadData();
   <StatCard
     title="Stock Available"
     value={inventoryValueKpi?.stockAvailable?.toLocaleString()}
-    subtext="Change: +58,778"
+    // subtext="Change: +58,778"
     icon={Boxes}
     loading={loading}
     colorClass={{
@@ -134,7 +154,7 @@ loadData();
 
           <Card>
             <CardHeader title="Inventory Movement" />
-            <InventoryMovementChart />
+            <InventoryMovementChart data={inventoryMovement} />
           </Card>
         </div>
 
@@ -142,12 +162,12 @@ loadData();
         <div className="flex flex-col gap-4">
           <Card>
             <CardHeader title="Turnover (Days) by Month" />
-            <TurnoverDaysChart />
+            <TurnoverDaysChart data={turnoverDays} />
           </Card>
 
           <Card>
             <CardHeader title="Inventory to Sales Analysis" />
-            <InventorySalesChart />
+            <InventorySalesChart data={inventorySales}/>
           </Card>
         </div>
 
@@ -167,9 +187,9 @@ loadData();
     {/* 👇 slightly reduced height */}
     <div className="h-[450px]">
       {topItemView === "value" ? (
-        <TopItemsValueChart />
+        <TopItemsValueChart data={top10Items} />
       ) : (
-        <TopItemsQuantityChart />
+        <TopItemsQuantityChart data={top10Quantity} />
       )}
     </div>
   </div>
