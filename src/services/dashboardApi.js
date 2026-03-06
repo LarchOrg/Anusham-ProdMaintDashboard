@@ -24,7 +24,8 @@ export const fetchMachineStatus = async () => {
       produced: Number(m.produced ?? 0),
       rejects: Number(m.rejects ?? 0),
       target: Number(m.targets ?? 0),   // frontend standard
-      targets: Number(m.targets ?? 0)   // keep original if needed
+      targets: Number(m.targets ?? 0),   // keep original if needed
+      oee: Number(m.oee ?? 0)
     }));
 
     return {
@@ -587,23 +588,97 @@ export const fetchInventoryValueKPI = async () => {
   }
 };
 
-// 🔷 Inventory Value KPI
+
+ // 🔷 Inventory Value KPI
 export const fetchInventoryValueOverTime = async () => {
   try {
-    const res = await api.get("/FiveSInventoryKpi/InventoryValueOver");
+   const res = await api.get("/FiveSInventoryKpi/InventoryValueOver");
 
-    const item = res.data?.[0];
-    if (!item) return null;
-
-    return {
-      moMValue: Number(item.moMValue),
-      inventoryValue: Number(item.inventoryValue),
-      year: Number(item.year),
-      month: Number(item.month),
-     
-    };
+    return (res.data || []).map(item => ({
+      month: item.monthYear,             // "Jan-25"
+      change: Number(item.moMValue),
+      value: Number(item.inventoryValue),
+    }));
   } catch (err) {
-    console.error("❌ fetchInventoryValueOverTime failed:", err);
-    return null;
+    console.error("❌ fetchMonthlyPerformance failed:", err);
+    return [];
+  }
+};
+
+export const fetchTurnOverDays = async () => {
+  try {
+    const res = await api.get("/FiveSInventoryKpi/TurnOverByMonth");
+
+    // Map API response to chart format
+    return (res.data || []).map((item) => ({
+      month: item.monthYear,
+      value: Number(item.turnoverDays),
+    }));
+  } catch (err) {
+    console.error("❌ fetchTurnOverDays failed:", err);
+    return [];
+  }
+};
+
+
+export const fetchInventoryMovement = async () => {
+  try {
+    const res = await api.get("/FiveSInventoryKpi/InventoryMovement");
+
+    // Map API response to chart format
+    return (res.data || []).map((item) => ({
+      name: item.typeName,
+      value: Number(item.value),
+    }));
+  } catch (err) {
+    console.error("❌ fetchInventoryMovement failed:", err);
+    return [];
+  }
+};
+
+export const fetchInventorySales = async () => {
+  try {
+    const res = await api.get("/FiveSInventoryKpi/InventoryToSales");
+
+    // Map API response to chart format
+    return (res.data || []).map((item) => ({
+      month: item.monthYear,
+      inventory: Number(item.inventoryValues),
+      sales: Number(item.salesValues),
+      ratio: Number(item.ratioValues),
+    }));
+  } catch (err) {
+    console.error("❌ fetchInventorySales failed:", err);
+    return [];
+  }
+};
+
+export const fetchTop10ItemBasedValue = async () => {
+  try {
+    const res = await api.get("/FiveSInventoryKpi/ItemBasedValue");
+
+    // Map API response to chart format
+    return (res.data || []).map((item) => ({
+      name: item.partName,
+      value: Number(item.values),
+    }));
+  } catch (err) {
+    console.error("❌ fetchTop10ItemBasedValue failed:", err);
+    return [];
+  }
+};
+
+export const fetchTop10ItemBasedQuantity = async () => {
+  try {
+    const res = await api.get("/FiveSInventoryKpi/ItemBasedQuantity");
+
+    // Map API response to chart format
+    return (res.data || []).map((item) => ({
+      name: item.partName,
+      value: Number(item.values),
+    }));
+  } catch (err) {
+    console.error("❌ fetchTop10ItemBasedQuantity failed:", err);
+    return [];
   }
 };
