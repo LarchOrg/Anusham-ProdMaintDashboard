@@ -79,6 +79,7 @@ export function MachineTable({ data, loading, onExport, refreshRate }) {
               <th className="px-4 py-2 bg-white dark:bg-gray-900">Machine / Order</th>
               <th className="px-4 py-2 bg-white dark:bg-gray-900">Status</th>
               <th className="px-4 py-2 bg-white dark:bg-gray-900 w-1/3">Production Progress</th>
+              <th className="px-4 py-2 bg-white dark:bg-gray-900">Oee</th>
               <th className="px-4 py-2 bg-white dark:bg-gray-900 text-right">Rejects</th>
             </tr>
           </thead>
@@ -121,6 +122,18 @@ export function MachineTable({ data, loading, onExport, refreshRate }) {
                   <td className="px-4 py-3">
                     <ProgressBar current={machine.produced} total={machine.target} status={machine.status} />
                   </td>
+ <td className="px-4 py-3 text-left">
+  <span className={clsx(
+    "text-sm font-bold",
+    machine.oee >= 85
+      ? "text-green-600 dark:text-green-400"
+      : machine.oee >= 60
+      ? "text-amber-500"
+      : "text-red-500"
+  )}>
+    {machine.oee}%
+  </span>
+</td>
                   <td className="px-4 py-3 text-right rounded-r-lg">
                     <div className="flex items-center justify-end gap-2">
                       <span className={clsx(
