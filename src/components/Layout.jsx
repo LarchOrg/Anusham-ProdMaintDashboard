@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSettings } from '../context/SettingsContext';
+import { Outlet } from "react-router-dom";
 import logo from "../assets/favicon.ico";
 import logoDark from "../assets/ERPIcon_White.png"
 
@@ -136,6 +137,18 @@ useEffect(() => {
     const nextTheme = settings.theme === 'light' ? 'dark' : settings.theme === 'dark' ? 'system' : 'light';
     updateSettings({ theme: nextTheme });
   };
+  const handleLogout = () => {
+
+  // Clear stored authentication
+  localStorage.removeItem("token");
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("companyId");
+
+  // Redirect to login
+  navigate("/login");
+
+};
 
   const toggleFullscreen = async () => {
     if (!document.fullscreenEnabled) {
@@ -447,15 +460,15 @@ useEffect(() => {
 
             <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block" />
 
-            <button className="hidden sm:flex items-center gap-2 text-gray-500 hover:text-red-600 transition-colors" title="Logout">
-              <LogOut size={20} />
-            </button>
+            <button onClick={handleLogout}className="hidden sm:flex items-center gap-2 text-gray-500 hover:text-red-600 transition-colors"title="Logout">
+           <LogOut size={20} />
+          </button>
           </div>
         </header>
 
         {/* Content Area */}
         <main className="flex-1 overflow-hidden p-3 lg:p-4 bg-gray-100/50 dark:bg-gray-950 relative">
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>
