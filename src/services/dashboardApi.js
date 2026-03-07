@@ -1,4 +1,5 @@
 // src/services/dashboardApi.js
+// src/services/dashboardApi.js
 import axios from "axios";
 
 const api = axios.create({
@@ -8,10 +9,49 @@ const api = axios.create({
   }
 });
 
+
+// Attach JWT token automatically
+api.interceptors.request.use((config) => {
+
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+
+}, (error) => {
+  return Promise.reject(error);
+});
+
+
+// 🚨 Handle expired token automatically
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+
+    const isLoginRequest = error.config?.url?.includes("/Auth/Login");
+
+    if (error.response && error.response.status === 401 && !isLoginRequest) {
+
+      console.warn("Token expired. Logging out...");
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("companyId");
+
+      window.location.href = "/login";
+    }
+
+    return Promise.reject(error);
+  }
+);
 // Fetch Production / Machine Status
 export const fetchMachineStatus = async () => {
   try {
-    const res = await axios.get(`${api.defaults.baseURL}/production`);
+    const res = await api.get("/production");
 
     const machines = (res.data?.machines || []).map(m => ({
       id: m.id,
@@ -680,5 +720,24 @@ export const fetchTop10ItemBasedQuantity = async () => {
   } catch (err) {
     console.error("❌ fetchTop10ItemBasedQuantity failed:", err);
     return [];
+  }
+};
+
+// Login API
+export const loginUser = async (userName, password) => {
+  try {
+
+    const response = await api.post("/Auth/Login", {
+      username: userName,
+      password: password
+    });
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Login API Error:", error);
+    throw error;
+
   }
 };
