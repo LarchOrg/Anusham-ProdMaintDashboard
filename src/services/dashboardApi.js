@@ -118,7 +118,7 @@ export const fetchFPYChart = async () => {
 
     // Map API response to chart format
     return (res.data || []).map((item) => ({
-      month: item.monthYear.split("-")[0],      // "Feb-25" → "Feb"
+      month: item.monthYear,      // "Feb-25" → "Feb"
       value: Number(item.percentage.replace("%", "")), // "78%" → 78
     }));
   } catch (err) {
@@ -134,7 +134,7 @@ export const fetchScrapChart = async () => {
 
     // Map API response to chart format
     return (res.data || []).map((item) => ({
-      month: item.monthYear.split("-")[0],           // "Feb-25" → "Feb"
+      month: item.monthYear,          // "Feb-25" → "Feb"
       value: Number(item.percentage.replace("%", "")), // "1.2%" → 1.2
     }));
   } catch (err) {
@@ -165,7 +165,7 @@ export const fetchProductionChart = async () => {
     const res = await api.get("/chart/ProductionOutput");
 
     return (res.data || []).map((item) => ({
-      month: item.monthYear.split("-")[0],  // "Feb-25" → "Feb"
+      month: item.monthYear,  // "Feb-25" → "Feb"
       value: Number(item.percentage),       // "110" → 110
     }));
   } catch (err) {
@@ -178,15 +178,11 @@ export const fetchCustomerComplaintsChart = async () => {
   try {
     const res = await api.get("/chart/CustomerComplain");
 
-    return (res.data || []).map((item) => {
-      const [month, year] = item.monthYear.split("-");
-      return {
-        month,
-        year,
-        fullMonth: item.monthYear,
-        value: Number(item.percentage.replace("%", "")),
-      };
-    });
+    return (res.data || []).map((item) => ({
+      month: item.monthYear,   // keep "Feb-25"
+      value: Number(String(item.percentage).replace("%", "")),
+    }));
+
   } catch (err) {
     console.error("❌ fetchCustomerComplaintsChart failed:", err);
     return [];

@@ -4,7 +4,7 @@ import { Link, useLocation,useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Wrench, Menu, X, Bell, User, Clock, 
   ChevronLeft, ChevronRight, Settings as SettingsIcon, LogOut, 
-  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity,BarChart3,TrendingUp,Boxes,Gauge,Timer,ClipboardCheck,LineChart,Truck,Cog,Play, Pause
+  Check, Moon, Sun, Maximize, Minimize, AlertCircle, Monitor,Factory,Activity,BarChart3,TrendingUp,Boxes,Gauge,Timer,ClipboardCheck,LineChart,Truck,Cog,Play, Pause, ChevronUp,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import clsx from 'clsx';
@@ -77,8 +77,11 @@ const currentLogo = isDarkTheme ? logoDark : logo;
   const [fullscreenError, setFullscreenError] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const location = useLocation();
+  const companyName = localStorage.getItem("userName");
     const [isAutoRotate, setIsAutoRotate] = useState(true); // ▶️ default ON
+
   const autoRotateRoutes = [
   '/',
   '/5sInventoryKpi',
@@ -299,20 +302,88 @@ useEffect(() => {
         </div>
 
         {/* User Profile */}
-        <div className="p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-900/50 backdrop-blur-sm">
-          <div className={clsx("flex items-center gap-3", isCollapsed && "justify-center")}>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 shrink-0 relative shadow-sm">
-              <User size={18} />
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-gray-900 rounded-full"></span>
-            </div>
-            {!isCollapsed && (
-              <div className="overflow-hidden">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">Supervisor</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">Shift A • Online</p>
-              </div>
-            )}
-          </div>
-        </div>
+{/* User Profile */}
+<div className="relative p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-900/50 backdrop-blur-sm group">
+
+  <button
+    onClick={() => setShowProfileMenu(!showProfileMenu)}
+    className="flex items-center gap-3 w-full text-left hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 transition"
+  >
+
+    {/* Avatar (UNCHANGED) */}
+    <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 shrink-0 relative shadow-sm">
+      <User size={18} />
+
+      {/* GREEN ONLINE DOT (UNCHANGED) */}
+      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-gray-900 rounded-full"></span>
+    </div>
+
+    {/* User Info */}
+    <div className="overflow-hidden flex-1">
+      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+  {companyName || "User"}
+</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+        Shift A • Online
+      </p>
+    </div>
+
+    {/* Arrow Added */}
+    <ChevronUp
+      size={16}
+      className={`text-gray-400 transition-transform ${
+        showProfileMenu ? "rotate-180" : ""
+      }`}
+    />
+
+  </button>
+
+  {/* DROP-UP MENU */}
+  <AnimatePresence>
+    {showProfileMenu && (
+<motion.div
+  initial={{ opacity: 0, y: 8 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.15 }}
+  className={`absolute bottom-full mb-2
+  opacity-0 invisible
+  group-hover:opacity-100 group-hover:visible
+  transition-all duration-200
+  bg-white dark:bg-gray-800
+  border border-gray-200 dark:border-gray-700
+  rounded-xl shadow-lg overflow-hidden z-50
+  ${isCollapsed ? "left-2 w-14" : "left-4 right-4"}`}
+>
+
+  {/* Profile Settings */}
+<button
+  onClick={() => navigate("/profile")}
+  className={`flex items-center gap-3 w-full px-4 py-3 text-sm
+  text-gray-700 dark:text-gray-200
+  hover:bg-gray-100 dark:hover:bg-gray-700 transition
+  ${isCollapsed ? "justify-center px-0" : ""}`}
+>
+  <User size={16} />
+  {!isCollapsed && "Profile Settings"}
+</button>
+
+  {/* Logout */}
+<button
+  onClick={handleLogout}
+  className={`flex items-center gap-3 w-full px-4 py-3 text-sm
+  text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition
+  ${isCollapsed ? "justify-center px-0" : ""}`}
+>
+  <LogOut size={16} />
+  {!isCollapsed && "Logout"}
+</button>
+
+</motion.div>
+    )}
+  </AnimatePresence>
+
+
+</div>
       </aside>
 
       {/* Main Content */}
@@ -467,7 +538,7 @@ useEffect(() => {
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-hidden p-3 lg:p-4 bg-gray-100/50 dark:bg-gray-950 relative">
+       <main className="flex-1 overflow-y-auto p-3 lg:p-4 bg-gray-100/50 dark:bg-gray-950 relative">
           <Outlet />
         </main>
       </div>

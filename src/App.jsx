@@ -16,6 +16,7 @@ import MTTRMTBF from './pages/MTTR&MTBF';
 import QualityKpi from './pages/QualityKpi';
 import SPCAnalysis from './pages/SPCAnalysis';
 import ToolLifeAnalysis from './pages/ToolAnalysis';
+import ProfileSettings from "./pages/ProfileSettings";
 import Settings from './pages/Settings';
 
 import { SettingsProvider } from './context/SettingsContext';
@@ -52,6 +53,7 @@ function App() {
             <Route path="/SPCAnalysis" element={<SPCAnalysis />} />
             <Route path="/ToolLifeAnalysis" element={<ToolLifeAnalysis />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/profile" element={<ProfileSettings />} />
 
           </Route>
 
