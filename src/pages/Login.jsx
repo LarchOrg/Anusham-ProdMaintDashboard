@@ -160,25 +160,22 @@ export default function Login() {
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
               />
 
-              <input
-                type="text"
-                autoFocus
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                  setLoginError("");
-                }}
-                className={`w-full pl-10 pr-3 py-2.5 rounded-xl border text-sm
-                ${errors.username ? "border-red-400" : "border-gray-300"}
-                focus:outline-none focus:ring-2
-                ${
-                  errors.username
-                    ? "focus:ring-red-400"
-                    : "focus:ring-blue-500"
-                }
-                transition`}
-                placeholder="Enter username"
-              />
+             <input
+  type="text"
+  autoFocus
+  value={username}
+  onChange={(e) => {
+    setUsername(e.target.value);
+    setLoginError("");
+  }}
+  className={`w-full pl-10 pr-3 py-2.5 rounded-xl border text-sm
+  text-gray-900 bg-white placeholder-gray-400
+  ${errors.username ? "border-red-400" : "border-gray-300"}
+  focus:outline-none focus:ring-2
+  ${errors.username ? "focus:ring-red-400" : "focus:ring-blue-500"}
+  transition`}
+  placeholder="Enter username"
+/>
             </div>
 
             {errors.username && (
@@ -199,23 +196,20 @@ export default function Login() {
               />
 
               <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setLoginError("");
-                }}
-                className={`w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm
-                ${errors.password ? "border-red-400" : "border-gray-300"}
-                focus:outline-none focus:ring-2
-                ${
-                  errors.password
-                    ? "focus:ring-red-400"
-                    : "focus:ring-blue-500"
-                }
-                transition`}
-                placeholder="Enter password"
-              />
+  type={showPassword ? "text" : "password"}
+  value={password}
+  onChange={(e) => {
+    setPassword(e.target.value);
+    setLoginError("");
+  }}
+  className={`w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm
+  text-gray-900 bg-white placeholder-gray-400
+  ${errors.password ? "border-red-400" : "border-gray-300"}
+  focus:outline-none focus:ring-2
+  ${errors.password ? "focus:ring-red-400" : "focus:ring-blue-500"}
+  transition`}
+  placeholder="Enter password"
+/>
 
               <button
                 type="button"
