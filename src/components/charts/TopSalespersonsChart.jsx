@@ -39,13 +39,17 @@ const renderLabel = ({
 };
 
 export default function TopSalespersonsChart({ data = [] }) {
-  if (!data.length) {
-    return (
-      <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
-        No salesperson data available
-      </div>
-    );
-  }
+if (!data || data.length === 0) {
+  return (
+    <div
+      className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
+      bg-[#f0f0f0] text-black
+      dark:bg-gray-800 dark:text-gray-200"
+    >
+      No Data Available
+    </div>
+  );
+}
 
   return (
     <ResponsiveContainer width="100%" height="100%">
