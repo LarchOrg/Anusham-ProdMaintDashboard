@@ -81,7 +81,7 @@ loadData();
   <Card className="h-28">
   <StatCard
     title="Inventory Value"
-    value={inventoryValueKpi?.inventoryValues?.toLocaleString()}
+    value={inventoryValueKpi?.inventoryValues?.toLocaleString()??"0"}
     // value="20,068,577"
     // subtext="Change: +1,076,296"
     icon={IndianRupee }
@@ -98,7 +98,7 @@ loadData();
  <Card className="h-28">
   <StatCard
     title="Stock Available"
-    value={inventoryValueKpi?.stockAvailable?.toLocaleString()}
+    value={inventoryValueKpi?.stockAvailable?.toLocaleString()??"0"}
     // subtext="Change: +58,778"
     icon={Boxes}
     loading={loading}
@@ -114,7 +114,7 @@ loadData();
 <Card className="h-28 flex items-center justify-center">
   <RatioGauge
     title="Turnover Ratio"
-    value={inventoryValueKpi?.turnoverRatio}
+    value={inventoryValueKpi?.turnoverRatio ?? 0}
     max={50}
     color="#22c55e"   // green – good turnover
   />
@@ -123,7 +123,7 @@ loadData();
 <Card className="h-28 flex items-center justify-center">
   <RatioGauge
     title="Inventory to Sales Ratio"
-    value={inventoryValueKpi?.inventoryToSalesRatio}
+    value={inventoryValueKpi?.inventoryToSalesRatio ?? 0}
     max={5}
     color="#3b82f6"   // blue – neutral ratio
   />
@@ -132,7 +132,7 @@ loadData();
 <Card className="h-28 flex items-center justify-center">
   <RatioGauge
     title="Avg Inventory Days"
-    value={inventoryValueKpi?.avgInventoryDays}
+    value={inventoryValueKpi?.avgInventoryDays ?? 0}
     max={90}
     color="#f59e0b"   // amber – warning-style metric
   />

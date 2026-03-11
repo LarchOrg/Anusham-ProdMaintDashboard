@@ -11,6 +11,17 @@ import {
 } from "recharts";
 
 export default function TopCustomersChart({ data = [] }) {
+  if (!data || data.length === 0) {
+  return (
+    <div
+      className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
+      bg-[#f0f0f0] text-black
+      dark:bg-gray-800 dark:text-gray-200"
+    >
+      No Data Available
+    </div>
+  );
+}
   /* 🔹 Dark mode tracking */
   const [isDark, setIsDark] = useState(
     document.documentElement.classList.contains("dark")

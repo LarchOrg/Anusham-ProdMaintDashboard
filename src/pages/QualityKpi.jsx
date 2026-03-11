@@ -165,7 +165,25 @@ useEffect(() => {
         </Card>
 
         {/* KPI cards usually fixed height */}
-        <QualityKPICards data={qualityKpis} />
+       <Card className="flex flex-col">
+  <CardHeader title="Quality KPI Summary" />
+
+  <div className="flex-1 min-h-[250px]">
+    {loading ? (
+      <Skeleton className="h-full w-full" />
+    ) : !qualityKpis ? (
+      <div
+        className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
+        bg-[#f0f0f0] text-black
+        dark:bg-gray-800 dark:text-gray-200"
+      >
+        No Data Available
+      </div>
+    ) : (
+      <QualityKPICards data={qualityKpis} />
+    )}
+  </div>
+</Card>
 
       </div>
 

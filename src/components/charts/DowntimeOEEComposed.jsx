@@ -18,22 +18,12 @@ import {
 // ];
 
 export default function DowntimeOEEComposed({ data = [] }) {
-  if (!data || data.length === 0) {
+if (!data || data.length === 0) {
   return (
     <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "14px",
-        color: "#000",
-        backgroundColor: "#f0f0f0", // light grey chart background
-        borderRadius: "6px",
-        fontWeight: 500,
-        letterSpacing: "0.3px"
-      }}
+      className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
+      bg-[#f0f0f0] text-black
+      dark:bg-gray-800 dark:text-gray-200"
     >
       No Data Available
     </div>
