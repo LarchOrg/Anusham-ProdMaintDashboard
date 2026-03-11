@@ -159,6 +159,23 @@ export const fetchLTIRChart = async () => {
   }
 };
 
+// 🔷 Downtime vs OEE Chart
+export const fetchDowntimeVsOeeChart = async () => {
+  try {
+    const res = await api.get("/chart/DownTimevsOee");
+
+    return (res.data || []).map((item) => ({
+      machine: item.machine,
+      downTime: Number(item.downTime), 
+      oee: Number(item.oee),           
+    }));
+
+  } catch (err) {
+    console.error("❌ fetchDowntimeVsOeeChart failed:", err);
+    return [];
+  }
+};
+
 // Fetch Production Output Chart
 export const fetchProductionChart = async () => {
   try {

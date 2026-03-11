@@ -1,7 +1,7 @@
 
 import React,{ useEffect, useState } from "react";
 import { Card, CardHeader } from "../components/ui/Card";
-
+import { Skeleton } from "../components/ui/Skeleton";
 import DefectRateChart from "../components/charts/DefectRateChart";
 import ScrapRateChart from "../components/charts/ScrapRateChart2";
 import ReworkRateChart from "../components/charts/ReworkRateChart";
@@ -86,13 +86,13 @@ useEffect(() => {
 }, []);
 
 
-  if (loading) {
-    return (
-      <div className="p-4 text-sm text-muted-foreground">
-        Loading quality KPIs...
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="p-4 text-sm text-muted-foreground">
+  //       Loading quality KPIs...
+  //     </div>
+  //   );
+  // }
   return (
     /* ✅ SAME scroll + spacing as AnalyticsDashboard2 */
     <div className="h-full w-full overflow-y-auto p-2 space-y-2">
@@ -102,14 +102,14 @@ useEffect(() => {
         <Card className="flex flex-col">
           <CardHeader title="Defect Rate (%)" />
           <div className="flex-1 min-h-[220px]">
-              <DefectRateChart data={defectRate} />
+              {loading ? <Skeleton className="h-full" />: <DefectRateChart data={defectRate} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Scrap Rate (%)" />
           <div className="flex-1 min-h-[220px]">
-         <ScrapRateChart data={scrapRate} />
+         {loading ? <Skeleton className="h-full" />:  <ScrapRateChart data={scrapRate} />}
 
           </div>
         </Card>
@@ -117,7 +117,7 @@ useEffect(() => {
         <Card className="flex flex-col">
           <CardHeader title="Rework Rate (%)" />
           <div className="flex-1 min-h-[230px]">
-          <ReworkRateChart data={reworkRate} />
+          {loading ? <Skeleton className="h-full" />:  <ReworkRateChart data={reworkRate} />}
 
           </div>
         </Card>
@@ -128,21 +128,21 @@ useEffect(() => {
         <Card className="flex flex-col">
           <CardHeader title="Customer Complaint Rate (%)" />
           <div className="flex-1 min-h-[220px]">
-            <CustomerComplaintChart data={customerComplaintData} />
+             {loading ? <Skeleton className="h-full" />: <CustomerComplaintChart data={customerComplaintData} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Customer Return Rate (%)" />
           <div className="flex-1 min-h-[220px]">
-           <CustomerReturnChart data={customerReturnData} />
+            {loading ? <Skeleton className="h-full" />: <CustomerReturnChart data={customerReturnData} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Yield Rate (%)" />
           <div className="flex-1 min-h-[220px]">
-            <YieldRateChart data={yieldRateData} />
+            {loading ? <Skeleton className="h-full" />:  <YieldRateChart data={yieldRateData} />}
           </div>
         </Card>
       </div>
@@ -152,14 +152,14 @@ useEffect(() => {
         <Card className="flex flex-col">
           <CardHeader title="Product Audit Closure (Days)" />
           <div className="flex-1 min-h-[250px]">
-                <ProductAuditClosureChart data={productAuditData} />
+                {loading ? <Skeleton className="h-full" />:  <ProductAuditClosureChart data={productAuditData} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Process Audit Closure (Days)" />
           <div className="flex-1 min-h-[250px]">
-           <ProcessAuditClosureChart data={processAuditData} />
+           {loading ? <Skeleton className="h-full" />:  <ProcessAuditClosureChart data={processAuditData} />}
 
           </div>
         </Card>
