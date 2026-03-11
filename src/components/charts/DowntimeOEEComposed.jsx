@@ -10,14 +10,35 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { machine: "M-01", downtime: 220, oee: 82 },
-  { machine: "M-02", downtime: 180, oee: 88 },
-  { machine: "M-03", downtime: 150, oee: 85 },
-  { machine: "M-04", downtime: 95, oee: 90 },
-];
+// const data = [
+//   { machine: "M-01", downtime: 220, oee: 82 },
+//   { machine: "M-02", downtime: 180, oee: 88 },
+//   { machine: "M-03", downtime: 150, oee: 85 },
+//   { machine: "M-04", downtime: 95, oee: 90 },
+// ];
 
-export default function DowntimeOEEComposed() {
+export default function DowntimeOEEComposed({ data = [] }) {
+  if (!data || data.length === 0) {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "14px",
+        color: "#000",
+        backgroundColor: "#f0f0f0", // light grey chart background
+        borderRadius: "6px",
+        fontWeight: 500,
+        letterSpacing: "0.3px"
+      }}
+    >
+      No Data Available
+    </div>
+  );
+}
   const [isDark, setIsDark] = useState(false);
 
   /* Detect theme (same pattern as your dashboard) */
@@ -97,7 +118,7 @@ export default function DowntimeOEEComposed() {
 
         <Bar
           yAxisId="left"
-          dataKey="downtime"
+          dataKey="downTime"
           fill="#f97316"
           barSize={26}
           radius={[4, 4, 0, 0]}

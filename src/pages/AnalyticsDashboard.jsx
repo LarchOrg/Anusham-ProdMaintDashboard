@@ -18,7 +18,8 @@ import {
   fetchScrapChart,
   fetchLTIRChart,
   fetchProductionChart,
-  fetchCustomerComplaintsChart
+  fetchCustomerComplaintsChart,
+  fetchDowntimeVsOeeChart,
 } from "../services/dashboardApi";
 
 export default function AnalyticsDashboard() {
@@ -29,6 +30,7 @@ export default function AnalyticsDashboard() {
   const [ltirData, setLtirData] = useState([]);
   const [productionData, setProductionData] = useState([]);
   const [customerComplaintData, setCustomerComplaintData] = useState([]);
+  const [downtimeVsOeeData, setDowntimeVsOeeData] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -46,14 +48,16 @@ export default function AnalyticsDashboard() {
           scrap,
           ltir,
           production,
-          complaints
+          complaints,
+          downtimeOee
         ] = await Promise.all([
           fetchOEEChart(),
           fetchFPYChart(),
           fetchScrapChart(),
           fetchLTIRChart(),
           fetchProductionChart(),
-          fetchCustomerComplaintsChart()
+          fetchCustomerComplaintsChart(),
+          fetchDowntimeVsOeeChart()
         ]);
 
         setOeeData(oee);
@@ -62,6 +66,7 @@ export default function AnalyticsDashboard() {
         setLtirData(ltir);
         setProductionData(production);
         setCustomerComplaintData(complaints);
+        setDowntimeVsOeeData(downtimeOee);
 
       } catch (err) {
         console.error("Analytics dashboard error:", err);
@@ -143,7 +148,7 @@ export default function AnalyticsDashboard() {
         <Card className="h-full flex flex-col">
           <CardHeader title="Downtime vs OEE" icon={BarChart3} />
           <div className="flex-1 min-h-0">
-            <DowntimeOEEComposed />
+             {loading ? <Skeleton className="h-full" /> : <DowntimeOEEComposed data={downtimeVsOeeData} />}
           </div>
         </Card>
 

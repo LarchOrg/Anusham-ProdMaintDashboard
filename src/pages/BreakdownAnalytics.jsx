@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "../components/ui/Card";
-
+import { Skeleton } from "../components/ui/Skeleton";
 import BreakdownMonthlyTable from "../components/tables/BreakdownMonthlyTable";
 import BreakdownHrsChart from "../components/charts/BreakdownHrsChart";
 import ActualMTTRChart from "../components/charts/ActualMTTRChart";
@@ -48,39 +48,79 @@ export default function BreakdownAnalytics() {
       }
     };
 
-    // 🔹 Initial load
     loadData();
 
-    // 🔹 Auto refresh every 1 min
     const interval = setInterval(loadData, 60000);
-
     return () => clearInterval(interval);
   }, []);
 
   if (loading) {
     return (
-      <div className="p-4 text-sm">
-        Loading breakdown analytics...
+      <div className="h-full overflow-y-auto flex flex-col gap-6 p-2">
+
+        {/* TABLE SKELETON */}
+        <Card className="p-4 min-h-[420px]">
+
+          {/* Table Header */}
+          <div className="grid grid-cols-6 gap-4 mb-3">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+
+          {/* Table Rows */}
+          <div className="space-y-3">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="grid grid-cols-6 gap-4">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+              </div>
+            ))}
+          </div>
+
+        </Card>
+
+        {/* CHART SKELETONS */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+          {[1, 2, 3].map((i) => (
+            <Card key={i} className="p-3 h-[360px] flex flex-col">
+
+              {/* Chart Title */}
+              <Skeleton className="h-5 w-32 mb-4" />
+
+              {/* Chart Area */}
+              <div className="flex-1">
+                <Skeleton className="h-full w-full rounded-lg" />
+              </div>
+
+            </Card>
+          ))}
+
+        </div>
+
       </div>
     );
   }
 
   return (
-    // ✅ Scrollable page
     <div className="h-full overflow-y-auto flex flex-col gap-6 p-2">
 
-      {/* ================= TABLE ================= */}
-      <Card
-        className="flex flex-col min-h-[420px]"
-        noPadding
-      >
+      {/* TABLE */}
+      <Card className="flex flex-col min-h-[420px]" noPadding>
         <BreakdownMonthlyTable data={tableData} />
       </Card>
 
-      {/* ================= CHARTS ================= */}
+      {/* CHARTS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-        {/* Breakdown Hrs */}
         <Card className="p-3 h-[360px]">
           <h3 className="text-sm font-bold mb-2 text-red-600">
             Breakdown Hrs
@@ -88,7 +128,6 @@ export default function BreakdownAnalytics() {
           <BreakdownHrsChart data={breakdownHrs} />
         </Card>
 
-        {/* MTTR */}
         <Card className="p-3 h-[360px]">
           <h3 className="text-sm font-bold mb-2 text-blue-600">
             Actual MTTR (Hrs)
@@ -96,7 +135,6 @@ export default function BreakdownAnalytics() {
           <ActualMTTRChart data={mttrData} />
         </Card>
 
-        {/* MTBF */}
         <Card className="p-3 h-[360px]">
           <h3 className="text-sm font-bold mb-2 text-green-600">
             Actual MTBF (Hrs)
@@ -105,6 +143,7 @@ export default function BreakdownAnalytics() {
         </Card>
 
       </div>
+
     </div>
   );
 }

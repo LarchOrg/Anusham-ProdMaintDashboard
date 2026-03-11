@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Skeleton } from "../components/ui/Skeleton";
 import MaintenanceCostChart from "../components/charts/MaintenanceCostChart";
 import CompletedVsScheduledChart from "../components/charts/CompletedVsScheduledChart";
 import PMBMManhourChart from "../components/charts/PMBMManhourChart";
@@ -80,14 +80,14 @@ export default function AnalyticsDashboard2() {
         <Card className="flex flex-col">
           <CardHeader title="Maintenance Cost" />
           <div className="flex-1 min-h-[250px]">
-            {loading ? "Loading..." : <MaintenanceCostChart data={maintenanceCost} />}
+            {loading ? <Skeleton className="h-full" />: <MaintenanceCostChart data={maintenanceCost} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Completed vs Scheduled Maintenance (Summary)" />
           <div className="flex-1 min-h-[220px]">
-            {loading ? "Loading..." : (
+            {loading ? <Skeleton className="h-full" /> : (
               <CompletedVsScheduledChart
                 data={completedVsScheduled?.chartData || []}
                 totalPlans={completedVsScheduled?.totalPlans || 0}
@@ -99,7 +99,7 @@ export default function AnalyticsDashboard2() {
         <Card className="flex flex-col">
           <CardHeader title="PM & BM Manhour Monthly Trend" />
           <div className="flex-1 min-h-[220px]">
-            {loading ? "Loading..." : <PMBMManhourChart data={pmBmData} />}
+            {loading ? <Skeleton className="h-full" /> : <PMBMManhourChart data={pmBmData} />}
           </div>
         </Card>
       </div>
@@ -109,21 +109,21 @@ export default function AnalyticsDashboard2() {
         <Card className="flex flex-col">
           <CardHeader title="Power Cost" />
           <div className="flex-1 min-h-[250px]">
-            {loading ? "Loading..." : <PowerCostChart data={powerCost} />}
+            {loading ? <Skeleton className="h-full" /> : <PowerCostChart data={powerCost} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Downtime Contribution" />
           <div className="flex-1 min-h-[220px]">
-            {loading ? "Loading..." : <DowntimeContributionChart data={downtimeContribution} />}
+            {loading ? <Skeleton className="h-full" /> : <DowntimeContributionChart data={downtimeContribution} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
           <CardHeader title="Failure Status" />
           <div className="flex-1 min-h-[220px]">
-            {loading ? "Loading..." : <FailureStatusChart data={failureStatus} />}
+            {loading ? <Skeleton className="h-full" /> : <FailureStatusChart data={failureStatus} />}
           </div>
         </Card>
       </div>
@@ -133,7 +133,7 @@ export default function AnalyticsDashboard2() {
         <Card className="flex flex-col">
           <CardHeader title="Completed vs Scheduled Maintenance (Detailed)" />
           <div className="flex-1 min-h-[250px]">
-            {loading ? "Loading..." : (
+            {loading ? <Skeleton className="h-full" /> : (
               <CompletedVsScheduledBarChart data={completedVsScheduledBar} />
             )}
           </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BarChart3, TrendingUp, Users, UserCheck, Package } from "lucide-react";
-
+import { Skeleton } from "../components/ui/Skeleton";
 import { Card, CardHeader } from "../components/ui/Card";
 import MonthlySalesTrend from "../components/charts/MonthlySalesTrend";
 import MonthlyPerformance from "../components/charts/MonthlyPerformance";
@@ -62,9 +62,9 @@ useEffect(() => {
 }, []);
 
 
-  if (loading) {
-    return <div className="p-4 text-sm">Loading sales analytics...</div>;
-  }
+  // if (loading) {
+  //   return <div className="p-4 text-sm">Loading sales analytics...</div>;
+  // }
 
   return (
     <div className="h-full flex flex-col gap-4">
@@ -74,14 +74,14 @@ useEffect(() => {
         <Card className="flex flex-col">
           <CardHeader title="Monthly Sales Trend" icon={TrendingUp} />
           <div className="flex-1 min-h-0 relative">
-            <MonthlySalesTrend data={monthlySales} />
+             {loading ? <Skeleton className="h-full" />:<MonthlySalesTrend data={monthlySales} />}
           </div>
         </Card>
 
        <Card className="flex flex-col">
   <CardHeader title="Monthly Performance" icon={BarChart3} />
   <div className="flex-1 min-h-0">
-    <MonthlyPerformance data={monthlyPerformance} />
+     {loading ? <Skeleton className="h-full" />:<MonthlyPerformance data={monthlyPerformance} />}
   </div>
 </Card>
 
@@ -92,7 +92,7 @@ useEffect(() => {
 <Card className="flex flex-col overflow-hidden">
   <CardHeader title="Top 5 Customers by Sales" icon={Users} />
   <div className="flex-1 min-h-0">
-    <TopCustomersChart data={topCustomers} />
+     {loading ? <Skeleton className="h-full" />:<TopCustomersChart data={topCustomers} />}
   </div>
 </Card>
 
@@ -100,7 +100,7 @@ useEffect(() => {
         <Card className="flex flex-col overflow-hidden">
           <CardHeader title="Top 5 Salespersons by Sales" icon={UserCheck} />
           <div className="flex-1 min-h-0">
-           <TopSalespersonsChart data={topSalespersons} />
+            {loading ? <Skeleton className="h-full" />:<TopSalespersonsChart data={topSalespersons} />}
 
           </div>
         </Card>
@@ -109,7 +109,7 @@ useEffect(() => {
           <CardHeader title="Top 5 Items by Sales" icon={Package} />
           <div className="flex-1 min-h-0">
            
-            <TopItemsChart data={topItems} />
+            {loading ? <Skeleton className="h-full" />: <TopItemsChart data={topItems} />}
 
           </div>
         </Card>

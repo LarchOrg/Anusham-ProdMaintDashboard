@@ -3,6 +3,27 @@ import React, { useState, useEffect } from "react";
 const ROWS_PER_PAGE = 12;
 
 export default function BreakdownMonthlyTable({ data = [] }) {
+    if (!data || data.length === 0) {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "14px",
+        color: "#000",
+        backgroundColor: "#f0f0f0", // light grey chart background
+        borderRadius: "6px",
+        fontWeight: 500,
+        letterSpacing: "0.3px"
+      }}
+    >
+      No Data Available
+    </div>
+  );
+}
   const [page, setPage] = useState(1);
 
   // Reset to page 1 when new data comes

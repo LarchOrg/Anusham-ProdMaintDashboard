@@ -73,7 +73,7 @@ export default function Login() {
 
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log("Login Failed:", error);
 

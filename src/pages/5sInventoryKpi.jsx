@@ -1,7 +1,7 @@
 
 import { Card, CardHeader } from "../components/ui/Card";
 import { StatCard } from "../components/dashboard/StatCard";
-
+import { Skeleton } from "../components/ui/Skeleton";
 import { IndianRupee , Boxes } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import InventoryValueTrendChart from "../components/charts/InventoryValueTrendChart";
@@ -147,14 +147,18 @@ loadData();
 
         {/* ===== LEFT COLUMN ===== */}
         <div className="flex flex-col gap-4">
-          <Card>
-            <CardHeader title="Inventory Value Over Time" />
-            <InventoryValueTrendChart data={inventoryValueOverTime} />
-          </Card>
+    <Card className="flex flex-col">
+   <CardHeader title="Inventory Value Over Time" />
+   <div className="min-h-[260px]">
+    {loading ? (<Skeleton className="h-full w-full" />) : (<InventoryValueTrendChart data={inventoryValueOverTime} />)}
+  </div>
+   </Card>
 
           <Card>
             <CardHeader title="Inventory Movement" />
-            <InventoryMovementChart data={inventoryMovement} />
+             <div className="min-h-[260px]">
+             {loading ? <Skeleton className="h-full" />:<InventoryMovementChart data={inventoryMovement} />}
+            </div>
           </Card>
         </div>
 
@@ -162,12 +166,16 @@ loadData();
         <div className="flex flex-col gap-4">
           <Card>
             <CardHeader title="Turnover (Days) by Month" />
-            <TurnoverDaysChart data={turnoverDays} />
+             <div className="min-h-[260px]">
+             {loading ? <Skeleton className="h-full" />:<TurnoverDaysChart data={turnoverDays} />}
+            </div>
           </Card>
 
           <Card>
             <CardHeader title="Inventory to Sales Analysis" />
-            <InventorySalesChart data={inventorySales}/>
+            <div className="min-h-[260px]">
+             {loading ? <Skeleton className="h-full" />:<InventorySalesChart data={inventorySales}/>}
+            </div>
           </Card>
         </div>
 
@@ -186,7 +194,9 @@ loadData();
   <div className="flex-1 px-4">
     {/* 👇 slightly reduced height */}
     <div className="h-[450px]">
-      {topItemView === "value" ? (
+      {loading ? (
+        <Skeleton className="h-full w-full" />
+      ) : topItemView === "value" ? (
         <TopItemsValueChart data={top10Items} />
       ) : (
         <TopItemsQuantityChart data={top10Quantity} />

@@ -11,6 +11,27 @@ import {
 } from "recharts";
 
 export default function PMBMManhourChart({ data = [] }) {
+    if (!data || data.length === 0) {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "14px",
+        color: "#000",
+        backgroundColor: "#f0f0f0", // light grey chart background
+        borderRadius: "6px",
+        fontWeight: 500,
+        letterSpacing: "0.3px"
+      }}
+    >
+      No Data Available
+    </div>
+  );
+}
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart

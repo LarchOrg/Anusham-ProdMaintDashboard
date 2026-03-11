@@ -14,6 +14,7 @@ import {
   Shield
 } from "lucide-react";
 import { useSettings } from "../context/SettingsContext";
+import clsx from "clsx";
 import Profile from "../assets/Larch_logo.jpeg";
 import noImg from "../assets/No_Image.jpg";
 
@@ -93,7 +94,9 @@ export default function ProfileSettings() {
   const changeTheme = (theme) => {
     updateSettings({ theme });
   };
-
+ const changeAccentColor = (colorTheme) => {
+  updateSettings({ colorTheme });
+};
   const toggleNotification = (type) => {
     setNotifications((prev) => ({
       ...prev,
@@ -255,50 +258,86 @@ const EditableInput = ({ label, name, value, icon }) => {
 
       {/* THEME SETTINGS */}
 
-      <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow border">
+  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow border">
 
-        <h2 className="text-lg font-semibold mb-4">
-          Theme Preference
-        </h2>
+  <h2 className="text-lg font-semibold mb-4">
+    Theme Preference
+  </h2>
 
-        <div className="flex gap-3">
+  {/* Theme Buttons */}
+  <div className="flex gap-3 mb-6">
 
-          <button
-            onClick={() => changeTheme("light")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-              settings.theme === "light"
-                ? "border-primary-600 bg-primary-50 dark:bg-primary-900/40 dark:border-primary-400"
-                : "border-gray-300 dark:border-gray-700"
-            }`}
-          >
-            <Sun size={16}/> Light
-          </button>
+    <button
+      onClick={() => changeTheme("light")}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
+        settings.theme === "light"
+          ? "border-primary-600 bg-primary-50 dark:bg-primary-900/40"
+          : "border-gray-300 dark:border-gray-700"
+      }`}
+    >
+      <Sun size={16}/> Light
+    </button>
 
-          <button
-            onClick={() => changeTheme("dark")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-              settings.theme === "dark"
-                ? "border-primary-600 bg-primary-50 dark:bg-primary-900/40 dark:border-primary-400"
-                : "border-gray-300 dark:border-gray-700"
-            }`}
-          >
-            <Moon size={16}/> Dark
-          </button>
+    <button
+      onClick={() => changeTheme("dark")}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
+        settings.theme === "dark"
+          ? "border-primary-600 bg-primary-50 dark:bg-primary-900/40"
+          : "border-gray-300 dark:border-gray-700"
+      }`}
+    >
+      <Moon size={16}/> Dark
+    </button>
 
-          <button
-            onClick={() => changeTheme("system")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-              settings.theme === "system"
-                ? "border-primary-600 bg-primary-50 dark:bg-primary-900/40 dark:border-primary-400"
-                : "border-gray-300 dark:border-gray-700"
-            }`}
-          >
-            <Monitor size={16}/> System
-          </button>
+    <button
+      onClick={() => changeTheme("system")}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
+        settings.theme === "system"
+          ? "border-primary-600 bg-primary-50 dark:bg-primary-900/40"
+          : "border-gray-300 dark:border-gray-700"
+      }`}
+    >
+      <Monitor size={16}/> System
+    </button>
 
-        </div>
+  </div>
 
-      </div>
+  {/* Accent Color */}
+  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+    Accent Color
+  </h3>
+
+  <div className="flex gap-3">
+
+    <button
+      onClick={() => changeAccentColor("blue")}
+      className={clsx(
+        "flex-1 p-2.5 rounded-lg border flex items-center justify-center gap-2 transition-all",
+        settings.colorTheme === "blue"
+          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 ring-1 ring-blue-500"
+          : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+      )}
+    >
+      <div className="w-4 h-4 rounded-full bg-blue-600"></div>
+      <span className="text-sm font-medium">Blue</span>
+    </button>
+
+    <button
+      onClick={() => changeAccentColor("teal")}
+      className={clsx(
+        "flex-1 p-2.5 rounded-lg border flex items-center justify-center gap-2 transition-all",
+        settings.colorTheme === "teal"
+          ? "border-teal-500 bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 ring-1 ring-teal-500"
+          : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+      )}
+    >
+      <div className="w-4 h-4 rounded-full bg-teal-600"></div>
+      <span className="text-sm font-medium">Teal</span>
+    </button>
+
+  </div>
+
+</div>
 
       {/* PASSWORD CHANGE */}
 
