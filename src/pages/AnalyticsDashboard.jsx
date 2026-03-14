@@ -133,19 +133,25 @@ export default function AnalyticsDashboard() {
           </div>
         </Card>
 
-        <Card className="flex flex-col">
+        {/* <Card className="flex flex-col">
           <CardHeader title="Lost Time Incident Rate" icon={Activity} />
           <div className="flex-1 min-h-0">
             {loading ? <Skeleton className="h-full" /> : <LTIRChart data={ltirData} />}
+          </div>
+        </Card> */}
+                <Card className="h-full flex flex-col">
+          <CardHeader title="Downtime vs OEE" icon={BarChart3} />
+          <div className="flex-1 min-h-0">
+             {loading ? <Skeleton className="h-full" /> : <DowntimeOEEComposed data={downtimeVsOeeData} />}
           </div>
         </Card>
 
       </div>
 
       {/* ===== ROW 3 ===== */}
-      <div className="grid grid-cols-3 gap-2">
+      {/* <div className="grid grid-cols-3 gap-2">
 
-        <Card className="h-full flex flex-col">
+                <Card className="h-full flex flex-col">
           <CardHeader title="Downtime vs OEE" icon={BarChart3} />
           <div className="flex-1 min-h-0">
              {loading ? <Skeleton className="h-full" /> : <DowntimeOEEComposed data={downtimeVsOeeData} />}
@@ -155,7 +161,7 @@ export default function AnalyticsDashboard() {
         <div />
         <div />
 
-      </div>
+      </div> */}
 
     </div>
   );

@@ -143,7 +143,7 @@ export function MachineTable({ data, loading, onExport, refreshRate }) {
                         {machine.rejects}
                       </span>
                       {machine.rejects > 2 && (
-                        <AlertCircle size={16} className="text-red-500 animate-pulse" />
+                        <XCircle  size={16} className="text-red-500 animate-pulse" />
                       )}
                       {machine.rejects === 0 && (
                         <CheckCircle2 size={16} className="text-green-500/30" />
