@@ -64,7 +64,7 @@ loadData();
     loadData();
   }, 60000); // 60 seconds
 
-  // 🧹 cleanup on unmount
+
   return () => {
     clearInterval(intervalId);
   };
@@ -78,14 +78,13 @@ loadData();
      {/* ================= KPI CARDS ================= */}
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
-  <Card className="h-28">
+<Card className="h-28">
   <StatCard
     title="Inventory Value"
-    value={inventoryValueKpi?.inventoryValues?.toLocaleString()??"0"}
-    // value="20,068,577"
-    // subtext="Change: +1,076,296"
-    icon={IndianRupee }
+    value={inventoryValueKpi?.inventoryValues?.toLocaleString() ?? "0"}
+    icon={IndianRupee}
     loading={loading}
+    smallValue
     colorClass={{
       bg: "bg-emerald-100 dark:bg-emerald-900/30",
       text: "text-emerald-700 dark:text-emerald-400",
@@ -95,13 +94,13 @@ loadData();
 </Card>
 
 
- <Card className="h-28">
+<Card className="h-28">
   <StatCard
     title="Stock Available"
-    value={inventoryValueKpi?.stockAvailable?.toLocaleString()??"0"}
-    // subtext="Change: +58,778"
+    value={inventoryValueKpi?.stockAvailable?.toLocaleString() ?? "0"}
     icon={Boxes}
     loading={loading}
+    smallValue
     colorClass={{
       bg: "bg-indigo-100 dark:bg-indigo-900/30",
       text: "text-indigo-700 dark:text-indigo-400",
@@ -116,7 +115,7 @@ loadData();
     title="Turnover Ratio"
     value={inventoryValueKpi?.turnoverRatio ?? 0}
     max={50}
-    color="#22c55e"   // green – good turnover
+    color="#22c55e"  
   />
 </Card>
 
@@ -125,7 +124,7 @@ loadData();
     title="Inventory to Sales Ratio"
     value={inventoryValueKpi?.inventoryToSalesRatio ?? 0}
     max={5}
-    color="#3b82f6"   // blue – neutral ratio
+    color="#3b82f6"   
   />
 </Card>
 
@@ -134,7 +133,7 @@ loadData();
     title="Avg Inventory Days"
     value={inventoryValueKpi?.avgInventoryDays ?? 0}
     max={90}
-    color="#f59e0b"   // amber – warning-style metric
+    color="#f59e0b"  
   />
 </Card>
 
@@ -180,7 +179,6 @@ loadData();
         </div>
 
         {/* ===== RIGHT COLUMN ===== */}
-        {/* ===== RIGHT COLUMN ===== */}
 <Card className="h-full flex flex-col">
   <CardHeader
     title={
@@ -192,7 +190,6 @@ loadData();
 
   {/* Chart */}
   <div className="flex-1 px-4">
-    {/* 👇 slightly reduced height */}
     <div className="h-[450px]">
       {loading ? (
         <Skeleton className="h-full w-full" />
