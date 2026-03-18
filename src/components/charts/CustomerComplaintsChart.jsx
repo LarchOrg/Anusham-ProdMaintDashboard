@@ -66,7 +66,7 @@ if (!data || data.length === 0) {
           tick={<MonthYearTick />}
         />
         <YAxis tick={{ fontSize: 10, fill: "currentColor" }} width={30} axisLine={false} tickLine={false} />
-        <Tooltip formatter={(v) => [`${v}%`, "Complaints"]} labelStyle={{ fontWeight: 600 }} />
+        <Tooltip formatter={(v) => [`${v}`, "Complaints"]} labelStyle={{ fontWeight: 600 }} />
         <Line
           type="monotone"
           dataKey="value"

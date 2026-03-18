@@ -85,7 +85,7 @@ export default function AnalyticsDashboard2() {
         </Card>
 
         <Card className="flex flex-col">
-          <CardHeader title="Completed vs Scheduled Maintenance (Summary)" />
+          <CardHeader title="Completed vs Scheduled Maintenance (2026)" />
           <div className="flex-1 min-h-[220px]">
             {loading ? <Skeleton className="h-full" /> : (
               <CompletedVsScheduledChart
@@ -114,7 +114,7 @@ export default function AnalyticsDashboard2() {
         </Card>
 
         <Card className="flex flex-col">
-          <CardHeader title="Downtime Contribution" />
+          <CardHeader title="Downtime Contribution(2026)" />
           <div className="flex-1 min-h-[220px]">
             {loading ? <Skeleton className="h-full" /> : <DowntimeContributionChart data={downtimeContribution} />}
           </div>

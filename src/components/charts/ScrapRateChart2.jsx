@@ -66,7 +66,7 @@ if (!data || data.length === 0) {
             width={30}
           />
 
-          <Tooltip formatter={(v) => [`${v}%`, "Scrap Rate"]} />
+          <Tooltip formatter={(v) => [`${v}`, "Scrap Rate"]} />
 
           <Bar
             dataKey="value"

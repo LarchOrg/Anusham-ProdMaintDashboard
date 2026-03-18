@@ -58,14 +58,16 @@ if (!data || data.length === 0) {
             tick={<MonthYearTick />}
           />
 
-          <YAxis
-            tick={{ fontSize: 10, fill: "currentColor" }}
-            width={30}
-            axisLine={false}
-            tickLine={false}
-          />
+        <YAxis
+  domain={[0, "dataMax"]}
+  allowDecimals={false}
+  tick={{ fontSize: 10, fill: "currentColor" }}
+  width={40}
+  axisLine={false}
+  tickLine={false}
+/>
 
-          <Tooltip formatter={(v) => [`${v}%`, "Complaint Rate"]} />
+          <Tooltip formatter={(v) => [`${v}`, "Complaint Rate"]} />
 
           <Line
             type="monotone"

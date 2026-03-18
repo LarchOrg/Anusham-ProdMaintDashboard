@@ -154,7 +154,7 @@ loadData();
    </Card>
 
           <Card>
-            <CardHeader title="Inventory Movement" />
+            <CardHeader title="Inventory Movement(2025 -2026)" />
              <div className="min-h-[260px]">
              {loading ? <Skeleton className="h-full" />:<InventoryMovementChart data={inventoryMovement} />}
             </div>
@@ -183,8 +183,8 @@ loadData();
   <CardHeader
     title={
       topItemView === "value"
-        ? "Top 10 Items Based on Value"
-        : "Top 10 Items Based on Quantity"
+        ? "Top 10 Items Based on Value(2025-2026)"
+        : "Top 10 Items Based on Quantity(2025-2026)"
     }
   />
 
