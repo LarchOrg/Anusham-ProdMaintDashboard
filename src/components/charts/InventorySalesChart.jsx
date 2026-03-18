@@ -10,27 +10,22 @@ import {
   Legend,
 } from "recharts";
 
-// /* ===== DUMMY DATA ===== */
-// const data = [
-//   { month: "Jan-25", inventory: 20, sales: 4, ratio: 5 },
-//   { month: "Feb-25", inventory: 19.5, sales: 4.2, ratio: 4.6 },
-//   { month: "Mar-25", inventory: 20.1, sales: 4.5, ratio: 4.4 },
-//   { month: "Apr-25", inventory: 19.8, sales: 4.8, ratio: 4.1 },
-//   { month: "May-25", inventory: 20.4, sales: 5.2, ratio: 3.9 },
-//   { month: "Jun-25", inventory: 20.2, sales: 5.5, ratio: 3.7 },
-
-// ];
-
 /* ===== Month + Year Tick ===== */
 const MonthYearTick = ({ x, y, payload }) => {
   const [month, year] = payload.value.split("-");
 
   return (
     <g transform={`translate(${x},${y})`}>
-      <text dy={12} textAnchor="middle" fontSize={12} fill="#64748b">
+      <text dy={12} textAnchor="middle" fontSize={12} fill="currentColor">
         {month}
       </text>
-      <text dy={26} textAnchor="middle" fontSize={10} fill="#94a3b8">
+      <text
+        dy={26}
+        textAnchor="middle"
+        fontSize={10}
+        fill="currentColor"
+        opacity={0.7}
+      >
         {year}
       </text>
     </g>
@@ -38,19 +33,20 @@ const MonthYearTick = ({ x, y, payload }) => {
 };
 
 export default function InventorySalesChart({ data = [] }) {
-if (!data || data.length === 0) {
+  if (!data || data.length === 0) {
+    return (
+      <div
+        className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
+        bg-[#f0f0f0] text-black
+        dark:bg-gray-800 dark:text-gray-200"
+      >
+        No Data Available
+      </div>
+    );
+  }
+
   return (
-    <div
-      className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
-      bg-[#f0f0f0] text-black
-      dark:bg-gray-800 dark:text-gray-200"
-    >
-      No Data Available
-    </div>
-  );
-}
-  return (
-    <div className="h-64 w-full">
+    <div className="h-64 w-full text-gray-900 dark:text-white">
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           data={data}
@@ -73,24 +69,25 @@ if (!data || data.length === 0) {
             yAxisId="left"
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 11, fill: "#64748b" }}
+            tick={{ fontSize: 11, fill: "currentColor" }}
           />
           <YAxis
             yAxisId="right"
             orientation="right"
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 11, fill: "#64748b" }}
+            tick={{ fontSize: 11, fill: "currentColor" }}
           />
 
-          {/* Smaller Legend */}
+          {/* Legend */}
           <Legend
             verticalAlign="top"
             height={22}
             iconType="circle"
-            wrapperStyle={{ fontSize: "11px" }}
+            wrapperStyle={{ fontSize: "11px", color: "currentColor" }}
           />
 
+          {/* Tooltip */}
           <Tooltip
             contentStyle={{
               borderRadius: 8,
@@ -100,20 +97,20 @@ if (!data || data.length === 0) {
             }}
           />
 
-          {/* Thicker Bars */}
+          {/* Bars */}
           <Bar
             yAxisId="left"
             dataKey="inventory"
             fill="#22c55e"
             radius={[5, 5, 0, 0]}
-            barSize={38}     // 👈 increased
+            barSize={38}
           />
           <Bar
             yAxisId="left"
             dataKey="sales"
             fill="#facc15"
             radius={[8, 8, 0, 0]}
-            barSize={38}     // 👈 increased
+            barSize={38}
           />
 
           {/* Line */}

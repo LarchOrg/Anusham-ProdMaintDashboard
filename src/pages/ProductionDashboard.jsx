@@ -41,7 +41,7 @@ export default function ProductionDashboard() {
     return () => observer.disconnect();
   }, []);
 
-  /* ================= DATA FETCH ================= */
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -180,9 +180,9 @@ export default function ProductionDashboard() {
         />
       </div>
 
-      {/* ================= MAIN CONTENT ================= */}
+      {/* MAIN CONTENT */}
       <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* ================= MACHINE TABLE ================= */}
+        {/*  MACHINE TABLE  */}
         <Card
           className="lg:col-span-2 flex flex-col min-h-0 p-0 shadow-lg border-0 relative"
           noPadding
@@ -207,9 +207,9 @@ export default function ProductionDashboard() {
           )}
         </Card>
 
-        {/* ================= RIGHT COLUMN ================= */}
+        {/* RIGHT COLUMN  */}
         <div className="flex flex-col gap-4 min-h-0">
-          {/* ================= OEE ================= */}
+          {/*OEE */}
           <Card className="h-44 shrink-0 flex flex-col shadow-md">
             <CardHeader title="OEE Metrics" icon={TrendingUp} />
             <div className="flex-1 grid grid-cols-3 gap-2 px-2 pb-2">
@@ -234,7 +234,7 @@ export default function ProductionDashboard() {
             </div>
           </Card>
 
-          {/* ================= BOTTLENECKS ================= */}
+          {/*  BOTTLENECKS */}
           <Card className="flex-1 shrink-0 flex flex-col shadow-md" noPadding>
             <div className="p-3 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/50">
               <h2 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1.5">

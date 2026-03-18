@@ -72,7 +72,7 @@ export default function AnalyticsDashboard2() {
   }, []);
 
   return (
-    /* ✅ Zoom-proof scroll container */
+
     <div className="h-full w-full overflow-y-auto p-2 space-y-2">
 
       {/* ===== ROW 1 ===== */}

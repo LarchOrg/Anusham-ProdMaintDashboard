@@ -71,7 +71,7 @@ if (!data || data.length === 0) {
           />
 
           <YAxis
-            domain={[0, 100]}
+            // domain={[0, 100]}
             tick={{ fontSize: 10, fill: "currentColor" }} // match Customer Complaints
             width={30}
             axisLine={false}

@@ -53,9 +53,9 @@ useEffect(() => {
   loadData();
     intervalId = setInterval(() => {
     loadData();
-  }, 60000); // 60 seconds
+  }, 60000); 
 
-  // 🧹 cleanup on unmount
+  // cleanup on unmount
   return () => {
     clearInterval(intervalId);
   };
