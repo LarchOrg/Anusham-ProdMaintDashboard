@@ -107,7 +107,7 @@ useEffect(() => {
         </Card>
 
         <Card className="flex flex-col">
-          <CardHeader title="Scrap Rate (%)" />
+          <CardHeader title="Scrap Rate" />
           <div className="flex-1 min-h-[220px]">
          {loading ? <Skeleton className="h-full" />:  <ScrapRateChart data={scrapRate} />}
 
@@ -126,7 +126,7 @@ useEffect(() => {
       {/* ===== ROW 2 ===== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         <Card className="flex flex-col">
-          <CardHeader title="Customer Complaint Rate (%)" />
+          <CardHeader title="Customer Complaint Rate" />
           <div className="flex-1 min-h-[220px]">
              {loading ? <Skeleton className="h-full" />: <CustomerComplaintChart data={customerComplaintData} />}
           </div>
