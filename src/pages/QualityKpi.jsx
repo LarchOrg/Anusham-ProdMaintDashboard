@@ -107,7 +107,7 @@ useEffect(() => {
         </Card>
 
         <Card className="flex flex-col">
-          <CardHeader title="Scrap Rate " />
+          <CardHeader title="Scrap Rate" />
           <div className="flex-1 min-h-[220px]">
          {loading ? <Skeleton className="h-full" />:  <ScrapRateChart data={scrapRate} />}
 
