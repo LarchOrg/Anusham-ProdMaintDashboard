@@ -10,28 +10,54 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// const data = [
-//   { machine: "M-01", downtime: 220, oee: 82 },
-//   { machine: "M-02", downtime: 180, oee: 88 },
-//   { machine: "M-03", downtime: 150, oee: 85 },
-//   { machine: "M-04", downtime: 95, oee: 90 },
-// ];
+/* Month + Year Tick with dynamic color */
+const MonthYearTick = ({ x, y, payload, isDark }) => {
+  const [month, year] = payload.value.split("-");
+  const textColor = isDark ? "#e5e7eb" : "#374151"; // light / dark text
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={0}
+        dy={10}
+        textAnchor="middle"
+        fontSize={11}
+        fill={textColor}
+      >
+        {month}
+      </text>
+      <text
+        x={0}
+        y={0}
+        dy={24}
+        textAnchor="middle"
+        fontSize={10}
+        fill={textColor}
+        opacity={0.7}
+      >
+        {year}
+      </text>
+    </g>
+  );
+};
 
 export default function DowntimeOEEComposed({ data = [] }) {
-if (!data || data.length === 0) {
-  return (
-    <div
-      className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
-      bg-[#f0f0f0] text-black
-      dark:bg-gray-800 dark:text-gray-200"
-    >
-      No Data Available
-    </div>
-  );
-}
+  if (!data || data.length === 0) {
+    return (
+      <div
+        className="w-full h-full flex items-center justify-center text-[14px] font-medium tracking-wide rounded-md
+        bg-[#f0f0f0] text-black
+        dark:bg-gray-800 dark:text-gray-200"
+      >
+        No Data Available
+      </div>
+    );
+  }
+
   const [isDark, setIsDark] = useState(false);
 
-  /* Detect theme (same pattern as your dashboard) */
+  /* Detect theme */
   useEffect(() => {
     const checkTheme = () =>
       setIsDark(document.documentElement.classList.contains("dark"));
@@ -46,15 +72,16 @@ if (!data || data.length === 0) {
     return () => observer.disconnect();
   }, []);
 
-  /* Axis colors (matches your other charts) */
-  const axisColor = isDark ? "#9ca3af" : "#6b7280"; // gray-400 / gray-500
-  const gridColor = isDark ? "#374151" : "#e5e7eb"; // gray-700 / gray-200
+  /* Colors */
+  const axisColor = isDark ? "#9ca3af" : "#6b7280";
+  const gridColor = isDark ? "#374151" : "#e5e7eb";
+  const textColor = isDark ? "#e5e7eb" : "#374151";
 
   return (
     <ResponsiveContainer width="100%" height={220}>
       <ComposedChart
         data={data}
-        margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+        margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
       >
         <CartesianGrid
           strokeDasharray="3 3"
@@ -63,23 +90,17 @@ if (!data || data.length === 0) {
         />
 
         <XAxis
-          dataKey="machine"
+          dataKey="month"
           axisLine={{ stroke: axisColor }}
           tickLine={false}
-          tick={{ fontSize: 11, fill: axisColor }}
+          tick={(props) => <MonthYearTick {...props} isDark={isDark} />}
         />
 
         <YAxis
           yAxisId="left"
           axisLine={{ stroke: axisColor }}
           tickLine={false}
-          tick={{ fontSize: 11, fill: axisColor }}
-          label={{
-            angle: -90,
-            position: "insideLeft",
-            fontSize: 11,
-            fill: axisColor,
-          }}
+          tick={{ fontSize: 11, fill: textColor }}
         />
 
         <YAxis
@@ -88,17 +109,16 @@ if (!data || data.length === 0) {
           domain={[0, 100]}
           axisLine={{ stroke: axisColor }}
           tickLine={false}
-          tick={{ fontSize: 11, fill: axisColor }}
-          label={{
-            angle: -90,
-            position: "insideRight",
-            fontSize: 11,
-            fill: axisColor,
-          }}
+          tick={{ fontSize: 11, fill: textColor }}
         />
 
         <Tooltip
-          contentStyle={{ fontSize: 12 }}
+          contentStyle={{
+            fontSize: 12,
+            backgroundColor: isDark ? "#1f2937" : "#ffffff",
+            color: textColor,
+            border: "none",
+          }}
           formatter={(value, name) =>
             name === "oee"
               ? [`${value}%`, "OEE"]

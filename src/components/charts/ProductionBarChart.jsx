@@ -61,7 +61,7 @@ if (!data || data.length === 0) {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
-          margin={{ top: 8, right: 8, left: 0, bottom: 12 }} // match Customer Complaints
+          margin={{ top: 8, right: 0, left: 16, bottom: 12 }} // match Customer Complaints
         >
           <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
 

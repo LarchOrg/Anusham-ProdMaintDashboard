@@ -51,7 +51,7 @@ if (!data || data.length === 0) {
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           data={data}
-          margin={{ top: 8, right: 8, left: 0, bottom: 12 }}
+          margin={{ top: 8, right: 8, left: 10, bottom: 12 }}
         >
           <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
 

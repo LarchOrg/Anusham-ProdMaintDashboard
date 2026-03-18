@@ -57,7 +57,7 @@ if (!data || data.length === 0) {
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
         data={data}
-        margin={{ top: 6, right: 8, left: 0, bottom: 10 }}
+        margin={{ top: 6, right: 10, left: 10, bottom: 10 }}
       >
         <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
 

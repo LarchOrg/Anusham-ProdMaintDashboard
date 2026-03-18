@@ -74,12 +74,12 @@ useEffect(() => {
   // 🔹 initial load
   loadData();
 
-  // 🔁 auto refresh every 1 minute
+  //auto refresh 
   intervalId = setInterval(() => {
     loadData();
-  }, 60000); // 60 seconds
+  }, 60000); 
 
-  // 🧹 cleanup on unmount
+  
   return () => {
     clearInterval(intervalId);
   };
@@ -94,7 +94,7 @@ useEffect(() => {
   //   );
   // }
   return (
-    /* ✅ SAME scroll + spacing as AnalyticsDashboard2 */
+
     <div className="h-full w-full overflow-y-auto p-2 space-y-2">
 
       {/* ===== ROW 1 ===== */}

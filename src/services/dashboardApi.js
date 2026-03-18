@@ -26,7 +26,7 @@ api.interceptors.request.use((config) => {
 });
 
 
-// 🚨 Handle expired token automatically
+// Handle expired token automatically
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -48,7 +48,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-// Fetch Production / Machine Status
+
 export const fetchMachineStatus = async () => {
   try {
     const res = await api.get("/production");
@@ -63,8 +63,8 @@ export const fetchMachineStatus = async () => {
       // 🔥 Normalized fields
       produced: Number(m.produced ?? 0),
       rejects: Number(m.rejects ?? 0),
-      target: Number(m.targets ?? 0),   // frontend standard
-      targets: Number(m.targets ?? 0),   // keep original if needed
+      target: Number(m.targets ?? 0),   
+      targets: Number(m.targets ?? 0),   
       oee: Number(m.oee ?? 0)
     }));
 
@@ -100,7 +100,7 @@ export const fetchOEEChart = async () => {
   try {
     const res = await api.get("/chart/oee");
 
-    // Map API response to chart format
+
     return (res.data || []).map((item) => ({
       month: item.monthYear,
       value: Number(item.percentage.replace("%", "")),
@@ -116,7 +116,7 @@ export const fetchFPYChart = async () => {
   try {
     const res = await api.get("/chart/fpy");
 
-    // Map API response to chart format
+
     return (res.data || []).map((item) => ({
       month: item.monthYear,      // "Feb-25" → "Feb"
       value: Number(item.percentage.replace("%", "")), // "78%" → 78
@@ -134,8 +134,8 @@ export const fetchScrapChart = async () => {
 
     // Map API response to chart format
     return (res.data || []).map((item) => ({
-      month: item.monthYear,          // "Feb-25" → "Feb"
-      value: Number(item.percentage.replace("%", "")), // "1.2%" → 1.2
+      month: item.monthYear,         
+      value: Number(item.percentage.replace("%", "")), 
     }));
   } catch (err) {
     console.error("❌ fetchScrapChart failed:", err);
@@ -150,8 +150,8 @@ export const fetchLTIRChart = async () => {
 
     // Map API response to chart format
     return (res.data || []).map((item) => ({
-      month: item.monthYear,                      // keep "Feb-25" for tooltip
-      value: Number(item.percentage.replace("%", "")), // "2.3%" → 2.3
+      month: item.monthYear,                      
+      value: Number(item.percentage.replace("%", "")), 
     }));
   } catch (err) {
     console.error("❌ fetchLTIRChart failed:", err);
@@ -165,7 +165,7 @@ export const fetchDowntimeVsOeeChart = async () => {
     const res = await api.get("/chart/DownTimevsOee");
 
     return (res.data || []).map((item) => ({
-      machine: item.machine,
+      month: item.monthYear,  
       downTime: Number(item.downTime), 
       oee: Number(item.oee),           
     }));
@@ -182,8 +182,8 @@ export const fetchProductionChart = async () => {
     const res = await api.get("/chart/ProductionOutput");
 
     return (res.data || []).map((item) => ({
-      month: item.monthYear,  // "Feb-25" → "Feb"
-      value: Number(item.percentage),       // "110" → 110
+      month: item.monthYear,  
+      value: Number(item.percentage),      
     }));
   } catch (err) {
     console.error("❌ fetchProductionChart failed:", err);
@@ -196,7 +196,7 @@ export const fetchCustomerComplaintsChart = async () => {
     const res = await api.get("/chart/CustomerComplain");
 
     return (res.data || []).map((item) => ({
-      month: item.monthYear,   // keep "Feb-25"
+      month: item.monthYear,   
       value: Number(String(item.percentage).replace("%", "")),
     }));
 
@@ -237,8 +237,8 @@ export const fetchMaintenanceCost = async () => {
       const [month, year] = item.monthYear.split("-");
 
       return {
-        month,                 // Feb
-        year,                  // 25 / 26
+        month,                 
+        year,                  
         maintenanceCost: Number(item.percentage),
         budgetCost: 250000,
       };
@@ -254,12 +254,12 @@ export const fetchPMBMChart = async () => {
   try {
     const res = await api.get("/Breakdown/PMandBMChart");
 
-    // Map API response to chart-friendly format
+  
     return (res.data || []).map((item) => {
       const [month, year] = item.monthYear.split("-");
       return {
-        month,           // "Feb"
-        year,            // "25"
+        month,           
+        year,            
         pmHours: Number(item.pmValue),
         bmHours: Number(item.bmValue),
       };
@@ -279,9 +279,9 @@ export const fetchPowerCostChart = async () => {
       const [month, year] = item.monthYear.split("-");
 
       return {
-        month,                 // Feb
-        year,                  // 25
-        powerCost: Number(item.percentage) // 245000
+        month,                 
+        year,                  
+        powerCost: Number(item.percentage) 
       };
     });
   } catch (err) {
@@ -313,8 +313,7 @@ export const fetchFailureStatus = async () => {
       const [month, year] = item.monthYear.split("-");
 
       return {
-        month,                 // "Feb"
-        // year: `20${year}`,     // "2025"
+        month,                       
         year,
         count: Number(item.percentage),
       };
@@ -328,9 +327,9 @@ export const fetchFailureStatus = async () => {
 // Completed vs Scheduled Maintenance Chart
 export const fetchCompletedVsScheduledBar = async () => {
   try {
-    const res = await api.get("/Breakdown/CompletedStatus"); // your endpoint
+    const res = await api.get("/Breakdown/CompletedStatus"); 
 
-    // API returns an array of { pmFreq, scheduled, completed }
+
     if (!Array.isArray(res.data)) return [];
 
     return res.data.map(item => ({
@@ -344,12 +343,11 @@ export const fetchCompletedVsScheduledBar = async () => {
   }
 };
 
-// 🔷 Breakdown Monthly MTTR / MTBF Table
+//  Breakdown Monthly MTTR / MTBF Table
 export const fetchMttrMtbfTable = async () => {
   try {
     const res = await api.get("/Breakdown/MttrMtbf");
 
-    // API returns array directly
     return Array.isArray(res.data) ? res.data : [];
 
   } catch (err) {
@@ -358,7 +356,7 @@ export const fetchMttrMtbfTable = async () => {
   }
 };
 
-// 🔴 Breakdown Hours Chart
+// Breakdown Hours Chart
 export const fetchBreakdownHrsChart = async () => {
   try {
     const res = await api.get("/Breakdown/BreakDownHrs");
@@ -374,14 +372,14 @@ export const fetchBreakdownHrsChart = async () => {
   }
 };
 
-// 🔵 Actual MTTR Chart
+// Actual MTTR Chart
 export const fetchActualMTTRChart = async () => {
   try {
     const res = await api.get("/Breakdown/ActualMttrHrs");
 
     return (res.data || []).map(item => ({
-      month: item.monthYear,                 // "Jan-25"
-      actualMTTR: Number(item.percentage),   // 0.65
+      month: item.monthYear,                 
+      actualMTTR: Number(item.percentage),   
     }));
   } catch (err) {
     console.error("❌ fetchActualMTTRChart failed:", err);
@@ -389,7 +387,7 @@ export const fetchActualMTTRChart = async () => {
   }
 };
 
-// 🟢 Actual MTBF Chart
+// Actual MTBF Chart
 export const fetchActualMTBFChart = async () => {
   try {
     const res = await api.get("/Breakdown/ActualMtbfHrs");
@@ -410,8 +408,8 @@ export const fetchMonthlySales = async () => {
     const res = await api.get("/Sales/MonthlySales");
 
     return (res.data || []).map(item => ({
-      month: item.monthYear,          // "Jan-25"
-      sales: Number(item.percentage), // "3.2" → 3.2
+      month: item.monthYear,          
+      sales: Number(item.percentage), 
     }));
   } catch (err) {
     console.error("❌ fetchMonthlySales failed:", err);
@@ -425,10 +423,10 @@ export const fetchMonthlyPerformance = async () => {
     const res = await api.get("/Sales/MonthlyPerformance");
 
     return (res.data || []).map(item => ({
-      month: item.monthYear,             // "Jan-25"
-      sales: Number(item.sales),          // "4.2" → 4.2
-      profit: Number(item.profit),        // "1.1" → 1.1
-      overallProfit: Number(item.overallProfit) // 19.8
+      month: item.monthYear,             
+      sales: Number(item.sales),         
+      profit: Number(item.profit),       
+      overallProfit: Number(item.overallProfit) 
     }));
   } catch (err) {
     console.error("❌ fetchMonthlyPerformance failed:", err);
@@ -442,8 +440,8 @@ export const fetchTopCustomers = async () => {
     const res = await api.get("/Sales/TopCustomer");
 
     return (res.data || []).map(item => ({
-      name: item.companyName,       // Y-axis
-      value: Number(item.sales),    // Bar value
+      name: item.companyName,       
+      value: Number(item.sales),    
     }));
 
   } catch (err) {
@@ -488,8 +486,8 @@ export const fetchDefectRateChart = async () => {
     const res = await api.get("/Quality/DefectRate");
 
     return (res.data || []).map(item => ({
-      month: item.monthYear,           // "Apr-25"
-      value: Number(item.percentage),  // "5" → 5
+      month: item.monthYear,           
+      value: Number(item.percentage),  
     }));
   } catch (err) {
     console.error("❌ fetchDefectRateChart failed:", err);
@@ -503,8 +501,8 @@ export const fetchScrapRateChart = async () => {
   const res = await api.get("/Quality/ScrapRate");
 
   return (res.data || []).map(item => ({
-    month: item.monthYear,                 // "Apr-25"
-    value: Number(item.percentage),         // "3" → 3
+    month: item.monthYear,                 
+    value: Number(item.percentage),         
   }));
 }catch(err){
   console.error("❌ fetchScrapRateChart failed:", err);
@@ -518,8 +516,8 @@ export const fetchReworkRateChart = async () => {
   const res = await api.get("/Quality/ReworkRate");
 
   return (res.data || []).map(item => ({
-    month: item.monthYear,          // "Apr-25"
-    value: Number(item.percentage), // "2" → 2
+    month: item.monthYear,          
+    value: Number(item.percentage), 
   }));
 }catch(err){
   console.error("❌ fetchReworkRateChart failed:", err);
@@ -546,8 +544,8 @@ export const fetchCustomerReturnChart = async () => {
     const res = await api.get("/Quality/customerreturns");
 
     return (res.data || []).map(item => ({
-      month: item.monthYear,          // "Apr-25"
-      value: Number(item.percentage), // "7" → 7
+      month: item.monthYear,          
+      value: Number(item.percentage), 
     }));
   } catch (err) {
     console.error("❌ fetchCustomerReturnChart failed:", err);
@@ -561,8 +559,8 @@ export const fetchYieldRateChart = async () => {
     const res = await api.get("/quality/YieldRate");
 
     return (res.data || []).map(item => ({
-      month: item.monthYear,          // "Apr-25"
-      value: Number(item.percentage), // "84" → 84
+      month: item.monthYear,          
+      value: Number(item.percentage), 
     }));
   } catch (err) {
     console.error("❌ fetchYieldRateChart failed:", err);
@@ -648,7 +646,7 @@ export const fetchInventoryValueOverTime = async () => {
    const res = await api.get("/FiveSInventoryKpi/InventoryValueOver");
 
     return (res.data || []).map(item => ({
-      month: item.monthYear,             // "Jan-25"
+      month: item.monthYear,             
       change: Number(item.moMValue),
       value: Number(item.inventoryValue),
     }));
