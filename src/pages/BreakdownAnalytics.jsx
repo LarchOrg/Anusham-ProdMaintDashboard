@@ -126,20 +126,20 @@ export default function BreakdownAnalytics() {
             Breakdown Hrs
           </h3>
           <BreakdownHrsChart data={breakdownHrs} />
-        </Card>
-
-        <Card className="p-3 h-[360px]">
-          <h3 className="text-sm font-bold mb-2 text-blue-600">
-            Actual MTTR (Hrs)
-          </h3>
-          <ActualMTTRChart data={mttrData} />
-        </Card>
+        </Card>      
 
         <Card className="p-3 h-[360px]">
           <h3 className="text-sm font-bold mb-2 text-green-600">
             Actual MTBF (Hrs)
           </h3>
           <ActualMTBFChart data={mtbfData} />
+        </Card>
+
+         <Card className="p-3 h-[360px]">
+          <h3 className="text-sm font-bold mb-2 text-blue-600">
+            Actual MTTR (Hrs)
+          </h3>
+          <ActualMTTRChart data={mttrData} />
         </Card>
 
       </div>
