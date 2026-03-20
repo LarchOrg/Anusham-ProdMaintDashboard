@@ -285,9 +285,9 @@ useEffect(() => {
             <SidebarItem to="/ToolLifeAnalysis" icon={Cog } label="Tool Life Analysis" active={location.pathname === '/ToolLifeAnalysis'} collapsed={isCollapsed} />
             <SidebarItem to="/inventory" icon={Truck} label="Supplier KPI" active={location.pathname === '/inventory'} collapsed={isCollapsed} />
            <SidebarItem to="/Salesanalytics" icon={TrendingUp } label="Sales Analytics" active={location.pathname === '/Salesanalytics'} collapsed={isCollapsed} />
-          <SidebarItem to="/Breakdownanalytics" icon={Wrench} label="Overall Trend Analysis" active={location.pathname === '/Breakdownanalytics'} collapsed={isCollapsed} />
+          {/* <SidebarItem to="/Breakdownanalytics" icon={Wrench} label="Overall Trend Analysis" active={location.pathname === '/Breakdownanalytics'} collapsed={isCollapsed} /> */}
           
-          <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} />
+          {/* <SidebarItem to="/settings" icon={SettingsIcon} label="Settings" active={location.pathname === '/settings'} collapsed={isCollapsed} /> */}
 
         </nav>
 
@@ -403,7 +403,28 @@ useEffect(() => {
                : location.pathname === '/analytics' ? 'Production Analytics'
                : location.pathname === '/analytics2' ? 'Maintenance Analytics'
                 : location.pathname === '/Breakdownanalytics' ? 'Breakdown Analytics'
-                : location.pathname === '/maintenanceanalytics' ? 'Maintenance Analytics'
+: location.pathname === '/maintenanceanalytics' ? (
+  <span className="flex items-center gap-2">
+    
+    {/* Keep original text unchanged */}
+    <span>Maintenance Analytics </span>
+
+    {/* Theme-aware badge */}
+    <span className="flex items-center gap-2 px-3 py-1 text-sm font-semibold rounded-full
+      bg-gradient-to-r 
+      from-blue-400 to-emerald-400 text-gray-800
+      dark:from-blue-900/40 dark:to-emerald-900/40 dark:text-gray-200
+      shadow-sm">
+
+      {/* Dot */}
+      <span className="w-2 h-2 rounded-full 
+        bg-blue-600 dark:bg-emerald-400"></span>
+
+      Machine & Mould
+    </span>
+    
+  </span>
+)
                 : location.pathname === '/Qualitykpi' ? 'Quality KPI Data'
                 : location.pathname === '/SPCAnalysis' ? 'SPC Analysis'
                 : location.pathname === '/ToolLifeAnalysis' ? 'Tool Life Analysis'
@@ -454,6 +475,20 @@ useEffect(() => {
                settings.theme === 'light' ? <Sun size={20} className="text-amber-500" /> :
                <Monitor size={20} />}
             </button>
+
+            {/* Settings Button */}
+<button
+  onClick={() => navigate("/settings")}
+  className={clsx(
+  "p-2 rounded-full transition-colors",
+  location.pathname === "/settings"
+    ? "bg-primary-100 text-primary-600 dark:bg-primary-900/30"
+    : "text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
+)}
+  title="Settings"
+>
+  <SettingsIcon size={20} />
+</button>
 
             {/* Clock */}
             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800/50 rounded-full border border-gray-200 dark:border-gray-700/50">

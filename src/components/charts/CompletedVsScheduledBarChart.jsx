@@ -63,7 +63,7 @@ if (!data || data.length === 0) {
         <XAxis
           dataKey="pmFreq"
           tick={{ fontSize: 12, fill: axisColor }}
-          axisLine={{ stroke: axisColor }}
+          axisLine={{ stroke: axisColor }}  
           tickLine={false}
         />
 
@@ -88,8 +88,8 @@ if (!data || data.length === 0) {
           iconType="circle"
         />
 
-        <Bar dataKey="scheduled" fill="#8884d8" barSize={20} radius={[4,4,0,0]} />
-        <Bar dataKey="completed" fill="#82ca9d" barSize={20} radius={[4,4,0,0]} />
+        <Bar dataKey="scheduled" fill="#2563eb" barSize={20} radius={[4,4,0,0]} />
+        <Bar dataKey="completed" fill="#10b981" barSize={20} radius={[4,4,0,0]} />
       </BarChart>
     </ResponsiveContainer>
   );

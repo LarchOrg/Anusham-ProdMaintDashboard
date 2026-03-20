@@ -131,7 +131,7 @@ export function MachineTable({ data, loading, onExport, refreshRate }) {
       ? "text-amber-500"
       : "text-red-500"
   )}>
-    {machine.oee}%
+     {Math.min(machine.oee, 100)}%
   </span>
 </td>
                   <td className="px-4 py-3 text-right rounded-r-lg">

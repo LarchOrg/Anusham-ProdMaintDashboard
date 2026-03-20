@@ -120,7 +120,7 @@ export default function ProductionDashboard() {
       {/* ================= KPI CARDS ================= */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
         <StatCard
-          title="Total Output"
+          title="Total Output (Qty)"
           value={Number(kpiData?.totalProduced) || 0}
           subtext={`Target: ${Number(kpiData?.target) || 0}`}
           icon={CheckCircle}
@@ -133,7 +133,7 @@ export default function ProductionDashboard() {
         />
 
         <StatCard
-          title="Rejects (NG)"
+          title="Rejects (NG) (Qty)"
           value={Number(kpiData?.totalRejects) || 0}
           subtext={`Rate: ${
             kpiData?.totalProduced
@@ -155,8 +155,9 @@ export default function ProductionDashboard() {
 
         <StatCard
           title="Running Machines"
-          value={machineData.filter((m) => m.status === "A").length}
-          subtext={`Total: ${machineData.length}`}
+          
+          value={Number(kpiData?.runningMachine) || 0}
+           subtext={`Total: ${Number(kpiData?.machineCount) || 0}`}
           icon={Activity}
           colorClass={{
             text: "text-gray-800 dark:text-white",
