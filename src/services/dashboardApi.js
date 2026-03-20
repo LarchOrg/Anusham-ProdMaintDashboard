@@ -64,8 +64,11 @@ export const fetchMachineStatus = async () => {
       produced: Number(m.produced ?? 0),
       rejects: Number(m.rejects ?? 0),
       target: Number(m.targets ?? 0),   
-      targets: Number(m.targets ?? 0),   
-      oee: Number(m.oee ?? 0)
+      targets: Number(m.targets ?? 0),  
+      machineCount: Number(m.machineCount ?? 0), 
+      runningMachine: Number(m.runningMachine ?? 0), 
+      oee: Number(m.oee ?? 0),
+
     }));
 
     return {

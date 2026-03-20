@@ -108,7 +108,7 @@ export default function AnalyticsDashboard() {
         </Card>
 
         <Card className="flex flex-col">
-          <CardHeader title="Production Output" icon={BarChart3} />
+          <CardHeader title="Production Output (Qty)" icon={BarChart3} />
           <div className="flex-1 min-h-0">
             {loading ? <Skeleton className="h-full" /> : <ProductionBarChart data={productionData} />}
           </div>
@@ -127,7 +127,7 @@ export default function AnalyticsDashboard() {
         </Card>
 
         <Card className="flex flex-col">
-          <CardHeader title="Scrap Rate (%)" icon={Activity} />
+          <CardHeader title="Scrap Rate (Qty)" icon={Activity} />
           <div className="flex-1 min-h-0">
             {loading ? <Skeleton className="h-full" /> : <ScrapRateChart data={scrapData} />}
           </div>

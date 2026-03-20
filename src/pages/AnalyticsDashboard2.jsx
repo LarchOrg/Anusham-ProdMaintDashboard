@@ -128,9 +128,7 @@ export default function AnalyticsDashboard2() {
         </Card>
       </div>
 
-      {/* ===== ROW 3 ===== */}
-
-      
+      {/* ===== ROW 3 ===== */}  
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         <Card className="flex flex-col">
           <CardHeader title="Completed vs Scheduled Maintenance (Detailed)" />

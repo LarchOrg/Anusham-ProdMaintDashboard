@@ -100,14 +100,14 @@ useEffect(() => {
       {/* ===== ROW 1 ===== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         <Card className="flex flex-col">
-          <CardHeader title="Defect Rate (%)" />
+          <CardHeader title="Defect Rate (Qty)" />
           <div className="flex-1 min-h-[220px]">
               {loading ? <Skeleton className="h-full" />: <DefectRateChart data={defectRate} />}
           </div>
         </Card>
 
         <Card className="flex flex-col">
-          <CardHeader title="Scrap Rate" />
+          <CardHeader title="Scrap Rate (Qty)" />
           <div className="flex-1 min-h-[220px]">
          {loading ? <Skeleton className="h-full" />:  <ScrapRateChart data={scrapRate} />}
 

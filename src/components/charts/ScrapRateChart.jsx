@@ -80,7 +80,7 @@ if (!data || data.length === 0) {
         />
 
         <Tooltip
-          formatter={(v) => [`${v}%`, "Scrap Rate"]}
+          formatter={(v) => [`${v}`, "Scrap Rate"]}
           labelStyle={{ fontWeight: 600 }}
         />
 
