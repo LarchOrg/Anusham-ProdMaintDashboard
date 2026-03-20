@@ -278,7 +278,7 @@ useEffect(() => {
            <SidebarItem to="/5sInventoryKpi  " icon={Boxes} label="5S Inventory KPI" active={location.pathname === '/5sInventoryKpi'} collapsed={isCollapsed} />
           <SidebarItem to="/analytics" icon={Factory} label="Production Analytics" active={location.pathname === '/analytics'} collapsed={isCollapsed} />
            <SidebarItem to="/maintenanceanalytics" icon={Gauge} label="Maintenance Analytics" active={location.pathname === '/maintenanceanalytics'} collapsed={isCollapsed} />
-            <SidebarItem to="/mttrmtbf" icon={Timer} label="MTTR & MTBF" active={location.pathname === '/mttrmtbf'} collapsed={isCollapsed} />
+            <SidebarItem to="/mttrmtbf" icon={Timer} label="MTBF & MTTR" active={location.pathname === '/mttrmtbf'} collapsed={isCollapsed} />
            <SidebarItem to="/maintenance" icon={BarChart3 } label="Breakdown Analytics" active={location.pathname === '/maintenance'} collapsed={isCollapsed} />
             <SidebarItem to="/Qualitykpi" icon={ClipboardCheck} label="Quality KPI Data" active={location.pathname === '/Qualitykpi'} collapsed={isCollapsed} />
             <SidebarItem to="/SPCAnalysis" icon={LineChart} label="SPC Analysis" active={location.pathname === '/SPCAnalysis'} collapsed={isCollapsed} />
@@ -428,7 +428,7 @@ useEffect(() => {
                 : location.pathname === '/Qualitykpi' ? 'Quality KPI Data'
                 : location.pathname === '/SPCAnalysis' ? 'SPC Analysis'
                 : location.pathname === '/ToolLifeAnalysis' ? 'Tool Life Analysis'
-                : location.pathname === '/mttrmtbf' ? 'MTTR & MTBF'
+                : location.pathname === '/mttrmtbf' ? '  MTBF & MTTR'
                 : location.pathname === '/5sInventoryKpi' ? '5S Inventory KPI'
                 : location.pathname === '/inventory' ? 'Supplier KPI'
                 : location.pathname === '/Salesanalytics' ? 'Sales Analytics'

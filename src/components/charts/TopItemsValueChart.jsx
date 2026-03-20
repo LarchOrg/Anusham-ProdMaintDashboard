@@ -27,14 +27,14 @@ if (!data || data.length === 0) {
       <BarChart
         data={data}
         layout="vertical"
-        margin={{ top: 10, right: 50, left: 10, bottom: 10 }}
+        margin={{ top: 10, right: 90, left: 10, bottom: 10 }}
       >
         <XAxis type="number" hide />
 
         <YAxis
           type="category"
           dataKey="name"
-          width={160}
+          width={130}
           fontSize={11}
           tick={{ fill: "currentColor" }}
         />
@@ -52,7 +52,7 @@ if (!data || data.length === 0) {
           <LabelList
             dataKey="value"
             position="right"
-            offset={8}
+            offset={4}
             fill="currentColor"
             fontSize={12}
             fontWeight={600}
